@@ -26,6 +26,7 @@ const Index = () => {
       <HybridPlatformSection />
       <ArtistToolsSection />
       <UserTypeSolutions />
+      <PlatformShowcase />
       <TestimonialsSection />
       <FaqSection />
       <FinalCta />
