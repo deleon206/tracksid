@@ -67,11 +67,11 @@ const Navbar = () => {
           <div className="container py-6 flex flex-col gap-4">
             {navLinks.map((link) => (
               <a
-                key={link}
-                href="#"
+                key={link.label}
+                href={link.href}
                 className="font-heading text-sm font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors"
               >
-                {link}
+                {link.label}
               </a>
             ))}
             <a
