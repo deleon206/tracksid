@@ -20,37 +20,37 @@ const CircleGraphic = () => (
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex flex-col pt-20 overflow-hidden">
+    <section className="relative h-screen flex flex-col overflow-hidden">
       {/* Dot pattern background */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: "radial-gradient(hsl(var(--foreground)) 1px, transparent 1px)",
         backgroundSize: "32px 32px"
       }} aria-hidden="true" />
 
-      <div className="container relative z-10 flex flex-col flex-1">
-        {/* Top right: tagline + circle graphic */}
+      <div className="relative z-10 flex flex-col flex-1 h-full">
+        {/* Top area: tagline + circles aligned right */}
         <motion.div
-          className="flex justify-end items-start pt-4"
+          className="px-6 md:px-12 lg:px-16 pt-24 flex justify-end"
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <div className="flex flex-col items-end gap-2">
-            <p className="font-heading text-[10px] tracking-[0.2em] text-muted-foreground text-right">
+            <p className="font-heading text-[10px] tracking-[0.2em] text-muted-foreground">
               // YOU SEE A NODE. WE SEE A NEXUS.
             </p>
             <CircleGraphic />
           </div>
         </motion.div>
 
-        {/* Main headline — large, filling the middle */}
+        {/* Headline — pushed to bottom left */}
         <motion.div
-          className="flex-1 flex items-center"
+          className="flex-1 flex items-end px-6 md:px-12 lg:px-16 pb-0"
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 className="text-5xl md:text-7xl lg:text-[6.5rem] xl:text-[8rem] font-heading font-black leading-[0.9] tracking-tight text-foreground">
+          <h1 className="text-[clamp(3rem,10vw,9rem)] font-heading font-black leading-[0.88] tracking-tighter text-foreground">
             MUSIC
             <br />
             DISTRIBUTION
@@ -63,41 +63,13 @@ const HeroSection = () => {
 
         {/* Bottom bar */}
         <motion.div
-          className="mt-auto flex flex-col lg:flex-row items-stretch border-t border-border"
+          className="mt-4 flex flex-col sm:flex-row items-stretch border-t border-border"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
-          {/* Right side: description + error-log style text */}
-          <div className="p-6 lg:p-8 lg:flex-1 flex flex-col justify-center gap-4">
-            <p className="font-heading text-[10px] tracking-[0.2em] text-muted-foreground">
-              ERROR LOGS: 0
-            </p>
-            <p className="font-body text-sm md:text-base text-muted-foreground max-w-lg leading-relaxed">
-              Launch, monetize, and scale your catalog with a platform built for
-              artists, labels, and electronic music projects that need more than a basic aggregator.
-            </p>
-          </div>
-
-          {/* CTA button area */}
-          <div className="flex items-center gap-4 p-6 lg:p-8">
-            <a
-              href="#plans"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-heading text-xs font-bold tracking-wider px-8 py-4 hover:opacity-90 transition-all duration-200"
-            >
-              VIEW PLANS <span>→</span>
-            </a>
-          </div>
-        </motion.div>
-
-        {/* Bottom strip with logo mark + service description */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-stretch border-t border-border"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-        >
-          <div className="bg-primary text-primary-foreground p-4 lg:p-6 flex items-center gap-4">
+          {/* Green strip with logo + tagline */}
+          <div className="bg-primary text-primary-foreground px-6 md:px-12 lg:px-16 py-4 flex items-center gap-4 sm:max-w-[55%]">
             <div className="w-8 h-8 border-2 border-primary-foreground rounded-full flex items-center justify-center shrink-0">
               <span className="font-heading text-xs font-bold">T/</span>
             </div>
@@ -105,12 +77,17 @@ const HeroSection = () => {
               Music infrastructure to distribute, monetize, and grow your catalog
             </p>
           </div>
-          <div className="p-4 lg:p-6 flex items-center flex-1">
-            <div className="flex flex-wrap gap-2">
+
+          {/* Description + chips */}
+          <div className="flex-1 px-6 md:px-12 lg:px-8 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 border-l border-border">
+            <p className="font-body text-xs text-muted-foreground max-w-sm leading-relaxed">
+              Launch, monetize, and scale your catalog with a platform built for artists, labels, and electronic music projects.
+            </p>
+            <div className="flex flex-wrap gap-1.5">
               {serviceChips.map((chip) => (
                 <span
                   key={chip}
-                  className="font-heading text-[10px] tracking-wider text-muted-foreground border border-border px-3 py-1.5"
+                  className="font-heading text-[9px] tracking-wider text-muted-foreground border border-border px-2.5 py-1"
                 >
                   {chip}
                 </span>
