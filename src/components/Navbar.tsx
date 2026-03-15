@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 const navLinks = [
-  { label: "SERVICES", href: "#services" },
-  { label: "ARTISTS", href: "#plans" },
-  { label: "LABELS", href: "#plans" },
-  { label: "MAG", href: "/mag" },
-  { label: "ABOUT", href: "#" },
+  { label: "PRODUCT", href: "#services", hasDropdown: true },
+  { label: "INDUSTRIES", href: "#plans", hasDropdown: true },
+  { label: "WHO WE ARE", href: "#", hasDropdown: true },
+  { label: "MAG", href: "/mag", accent: true },
+  { label: "RESOURCES", href: "#", hasDropdown: true, accent: true },
 ];
 
 const Navbar = () => {
@@ -17,32 +18,49 @@ const Navbar = () => {
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/90 backdrop-blur-md"
+      className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-xl border-b border-border/40"
     >
-      <div className="container flex items-center justify-between py-4">
-        <a href="/" className="font-heading text-sm font-bold tracking-widest text-foreground uppercase">
+      <div className="container flex items-center justify-between py-3">
+        {/* Logo */}
+        <a href="/" className="flex items-center gap-2 font-heading text-sm font-bold tracking-widest text-foreground uppercase">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none" className="shrink-0">
+            <circle cx="20" cy="20" r="18" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
+            <circle cx="20" cy="20" r="6" stroke="hsl(var(--primary))" strokeWidth="1.2" fill="none" />
+            <line x1="20" y1="2" x2="20" y2="14" stroke="hsl(var(--primary))" strokeWidth="1" />
+            <line x1="20" y1="26" x2="20" y2="38" stroke="hsl(var(--primary))" strokeWidth="1" />
+          </svg>
           TRACKS/ID
         </a>
 
-        <nav className="hidden lg:flex items-center gap-8">
+        {/* Center nav */}
+        <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="font-heading text-xs font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-200"
+              className={`flex items-center gap-1 font-heading text-[11px] font-semibold tracking-[0.15em] px-4 py-2 transition-colors duration-200 ${
+                link.accent
+                  ? "text-primary hover:text-primary/80"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
               {link.label}
+              {link.hasDropdown && (
+                <ChevronDown className="w-3 h-3 opacity-60" />
+              )}
             </a>
           ))}
         </nav>
 
+        {/* CTA */}
         <a
           href="#plans"
-          className="hidden lg:inline-flex items-center gap-2 bg-primary text-primary-foreground font-heading text-xs font-bold tracking-wider px-6 py-3 hover:brightness-110 transition-all duration-200"
+          className="hidden lg:inline-flex items-center gap-2 border border-foreground/80 text-foreground font-heading text-[11px] font-bold tracking-[0.15em] px-6 py-2.5 hover:bg-foreground hover:text-background transition-all duration-200"
         >
           VIEW PLANS <span>→</span>
         </a>
 
+        {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className="lg:hidden text-foreground"
@@ -58,7 +76,7 @@ const Navbar = () => {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
-          className="lg:hidden border-t border-border bg-background"
+          className="lg:hidden border-t border-border/40 bg-background/80 backdrop-blur-xl"
         >
           <div className="container py-6 flex flex-col gap-4">
             {navLinks.map((link) => (
@@ -66,15 +84,20 @@ const Navbar = () => {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="font-heading text-sm font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+                className={`flex items-center gap-1 font-heading text-sm font-semibold tracking-wider transition-colors ${
+                  link.accent
+                    ? "text-primary hover:text-primary/80"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
               >
                 {link.label}
+                {link.hasDropdown && <ChevronDown className="w-3.5 h-3.5 opacity-60" />}
               </a>
             ))}
             <a
               href="#plans"
               onClick={() => setMobileOpen(false)}
-              className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-heading text-xs font-bold tracking-wider px-6 py-3 mt-2"
+              className="inline-flex items-center justify-center gap-2 border border-foreground/80 text-foreground font-heading text-[11px] font-bold tracking-[0.15em] px-6 py-2.5 mt-2 hover:bg-foreground hover:text-background transition-all"
             >
               VIEW PLANS <span>→</span>
             </a>
