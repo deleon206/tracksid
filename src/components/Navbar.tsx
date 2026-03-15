@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 
 const navLinks = [
-  { label: "LABEL", href: "#" },
-  { label: "INDUSTRIES", href: "#" },
-  { label: "WHO WE ARE", href: "#" },
+  { label: "SERVICES", href: "#services" },
+  { label: "ARTISTS", href: "#plans" },
+  { label: "LABELS", href: "#plans" },
   { label: "MAG", href: "/mag" },
-  { label: "RESOURCES", href: "#" },
+  { label: "ABOUT", href: "#" },
 ];
 
 const Navbar = () => {
@@ -37,10 +37,10 @@ const Navbar = () => {
         </nav>
 
         <a
-          href="#"
+          href="#plans"
           className="hidden lg:inline-flex items-center gap-2 bg-primary text-primary-foreground font-heading text-xs font-bold tracking-wider px-6 py-3 hover:brightness-110 transition-all duration-200"
         >
-          BOOK A DEMO <span>→</span>
+          VIEW PLANS <span>→</span>
         </a>
 
         <button
@@ -65,16 +65,18 @@ const Navbar = () => {
               <a
                 key={link.label}
                 href={link.href}
+                onClick={() => setMobileOpen(false)}
                 className="font-heading text-sm font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
               </a>
             ))}
             <a
-              href="#"
+              href="#plans"
+              onClick={() => setMobileOpen(false)}
               className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-heading text-xs font-bold tracking-wider px-6 py-3 mt-2"
             >
-              DISTRIBUTION <span>→</span>
+              VIEW PLANS <span>→</span>
             </a>
           </div>
         </motion.div>
