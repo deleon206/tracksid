@@ -41,11 +41,17 @@ const EventsSection = () => {
           <p className="font-heading text-[10px] tracking-[0.3em] text-muted-foreground mb-4">
             // UPCOMING EVENTS
           </p>
-          <h2 className="text-4xl md:text-6xl font-heading font-black text-foreground mb-16">
+          <h2 className="text-4xl md:text-6xl font-heading font-black text-foreground mb-8">
             LET'S CHAT
             <br />
             IN PERSON!
           </h2>
+          <Link
+            to="/mag"
+            className="inline-flex items-center gap-2 font-heading text-xs font-bold tracking-wider text-primary hover:brightness-110 transition-all mb-16"
+          >
+            VIEW ALL IN THE MAG <span>→</span>
+          </Link>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-px bg-border">

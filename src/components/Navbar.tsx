@@ -1,7 +1,13 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-const navLinks = ["PRODUCT", "INDUSTRIES", "WHO WE ARE", "CASE STUDIES", "RESOURCES"];
+const navLinks = [
+  { label: "PRODUCT", href: "#" },
+  { label: "INDUSTRIES", href: "#" },
+  { label: "WHO WE ARE", href: "#" },
+  { label: "MAG", href: "/mag" },
+  { label: "RESOURCES", href: "#" },
+];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
