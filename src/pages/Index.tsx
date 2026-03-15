@@ -12,6 +12,7 @@ import FinalCta from "@/components/FinalCta";
 import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
 
+// Artist & Label Tools section removed
 const Index = () => {
   const [loading, setLoading] = useState(true);
 
