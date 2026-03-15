@@ -29,8 +29,13 @@ const FaqSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   useEffect(() => {
+    // Remove any existing script first to avoid duplicates
+    const existing = document.getElementById("faq-schema");
+    if (existing) existing.parentNode?.removeChild(existing);
+    
     const script = document.createElement("script");
     script.type = "application/ld+json";
+    script.id = "faq-schema";
     script.text = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -40,9 +45,13 @@ const FaqSection = () => {
         acceptedAnswer: { "@type": "Answer", text: f.a },
       })),
     });
-    script.id = "faq-schema";
     document.head.appendChild(script);
-    return () => { document.getElementById("faq-schema")?.remove(); };
+    return () => {
+      const el = document.getElementById("faq-schema");
+      if (el && el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    };
   }, []);
 
   return (
