@@ -1,67 +1,237 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 
-const HybridPlatformSection = () => (
-  <section className="py-24 border-t border-border">
-    <div className="container">
-      <div className="grid lg:grid-cols-2 min-h-[500px]">
-        <motion.div
-          className="flex flex-col justify-between p-8 lg:p-12"
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <div>
-            <p className="font-heading text-[10px] tracking-[0.3em] text-muted-foreground mb-6">
-              // BEYOND AGGREGATION
-            </p>
-            <h2 className="text-4xl md:text-6xl font-heading font-black leading-[0.9] text-foreground mb-8">
-              A HYBRID
-              <br />
-              PLATFORM FOR
-              <br />
-              ARTISTS AND
-              <br />
-              LABELS
-            </h2>
-          </div>
-          <a
-            href="#plans"
-            className="inline-flex items-center gap-2 font-heading text-xs font-bold tracking-wider text-primary hover:brightness-110 transition-all"
-          >
-            VIEW PLANS <span>→</span>
-          </a>
-        </motion.div>
+const services = [
+  {
+    id: "distribution",
+    tag: "// NEXT-GEN DISTRIBUTION",
+    title: "DISTRIBUTION",
+    description:
+      "Deliver your music to 150+ platforms worldwide. Real-time analytics, release scheduling, and automated delivery — built to scale without chaos.",
+    color: "hsl(var(--primary))",
+    graphic: (
+      <svg width="280" height="280" viewBox="0 0 280 280" fill="none" className="w-full h-full max-w-[280px]">
+        <rect x="60" y="60" width="70" height="70" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <rect x="120" y="120" width="100" height="100" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <rect x="90" y="90" width="80" height="80" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <line x1="60" y1="60" x2="90" y2="90" stroke="currentColor" strokeWidth="1" />
+        <line x1="130" y1="60" x2="170" y2="90" stroke="currentColor" strokeWidth="1" />
+        <line x1="130" y1="130" x2="220" y2="220" stroke="currentColor" strokeWidth="1" />
+        <circle cx="60" cy="60" r="4" fill="currentColor" />
+        <circle cx="130" cy="130" r="4" fill="currentColor" />
+        <circle cx="220" cy="220" r="4" fill="currentColor" />
+        <circle cx="170" cy="90" r="4" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    id: "licensing",
+    tag: "// NEXT-GEN LICENSING",
+    title: "LICENSING",
+    description:
+      "Streamlined, scalable licensing — complete control, faster placements, audit-ready always. Sync opportunities across film, TV, ads, and gaming.",
+    color: "hsl(280, 80%, 60%)",
+    graphic: (
+      <svg width="280" height="280" viewBox="0 0 280 280" fill="none" className="w-full h-full max-w-[280px]">
+        <circle cx="140" cy="140" r="110" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <rect x="70" y="70" width="140" height="140" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <line x1="70" y1="70" x2="210" y2="210" stroke="currentColor" strokeWidth="1" />
+        <line x1="210" y1="70" x2="70" y2="210" stroke="currentColor" strokeWidth="1" />
+        <line x1="140" y1="30" x2="140" y2="250" stroke="currentColor" strokeWidth="1" />
+        <line x1="30" y1="140" x2="250" y2="140" stroke="currentColor" strokeWidth="1" />
+        <circle cx="140" cy="30" r="4" fill="currentColor" />
+        <circle cx="140" cy="250" r="4" fill="currentColor" />
+        <circle cx="70" cy="70" r="4" fill="currentColor" />
+        <circle cx="210" cy="70" r="4" fill="currentColor" />
+        <circle cx="70" cy="210" r="4" fill="currentColor" />
+        <circle cx="210" cy="210" r="4" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    id: "copyright",
+    tag: "// NEXT-GEN COPYRIGHT",
+    title: "COPYRIGHT\n& CONTENT ID",
+    description:
+      "Every track has a trail. Every claim has an answer. Every 'what happened?' has a receipt. Full protection across YouTube, Spotify, and all major platforms.",
+    color: "hsl(200, 90%, 55%)",
+    graphic: (
+      <svg width="280" height="280" viewBox="0 0 280 280" fill="none" className="w-full h-full max-w-[280px]">
+        <circle cx="140" cy="140" r="30" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <circle cx="140" cy="140" r="55" stroke="currentColor" strokeWidth="1" fill="none" />
+        <circle cx="140" cy="140" r="80" stroke="currentColor" strokeWidth="1" fill="none" />
+        <circle cx="140" cy="140" r="105" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <circle cx="140" cy="140" r="4" fill="currentColor" />
+        <circle cx="195" cy="140" r="4" fill="currentColor" />
+        <circle cx="140" cy="60" r="4" fill="currentColor" />
+        <circle cx="85" cy="185" r="4" fill="currentColor" />
+        <circle cx="220" cy="100" r="4" fill="currentColor" />
+        <circle cx="60" cy="120" r="4" fill="currentColor" />
+        <circle cx="200" cy="200" r="4" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    id: "promotion",
+    tag: "// NEXT-GEN PROMOTION",
+    title: "PLANNING\n& PROMOTION",
+    description:
+      "Plan smarter and stay ahead — real-time campaign tools, playlist pitching, and marketing automation built to flex with your release strategy.",
+    color: "hsl(152, 100%, 50%)",
+    graphic: (
+      <svg width="280" height="280" viewBox="0 0 280 280" fill="none" className="w-full h-full max-w-[280px]">
+        <ellipse cx="140" cy="140" rx="100" ry="60" stroke="currentColor" strokeWidth="1.5" fill="none" transform="rotate(-30 140 140)" />
+        <ellipse cx="140" cy="140" rx="100" ry="60" stroke="currentColor" strokeWidth="1.5" fill="none" transform="rotate(30 140 140)" />
+        <ellipse cx="140" cy="140" rx="100" ry="60" stroke="currentColor" strokeWidth="1.5" fill="none" transform="rotate(90 140 140)" />
+        <circle cx="140" cy="50" r="4" fill="currentColor" />
+        <circle cx="80" cy="200" r="4" fill="currentColor" />
+        <circle cx="200" cy="200" r="4" fill="currentColor" />
+        <circle cx="140" cy="140" r="4" fill="currentColor" />
+      </svg>
+    ),
+  },
+];
 
-        <motion.div
-          className="bg-primary text-primary-foreground p-8 lg:p-12 flex flex-col justify-between"
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        >
-          <div className="flex justify-between items-start">
-            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" className="opacity-40" aria-hidden="true">
-              <circle cx="35" cy="50" r="30" stroke="currentColor" strokeWidth="1.5" />
-              <circle cx="65" cy="50" r="30" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-            <span className="font-heading text-6xl font-black opacity-20">∞</span>
+const navLetters = [
+  { letter: "D", color: "hsl(var(--primary))" },
+  { letter: "L", color: "hsl(280, 80%, 60%)" },
+  { letter: "C", color: "hsl(200, 90%, 55%)" },
+  { letter: "P", color: "hsl(152, 100%, 50%)" },
+];
+
+const HybridPlatformSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (v) => {
+      const idx = Math.min(Math.floor(v * services.length), services.length - 1);
+      setActiveIndex(idx);
+    });
+    return unsubscribe;
+  }, [scrollYProgress]);
+
+  const activeService = services[activeIndex];
+
+  return (
+    <section ref={sectionRef} className="relative border-t border-border" style={{ height: `${services.length * 100}vh` }}>
+      <div className="sticky top-0 h-screen overflow-hidden">
+        <div className="grid lg:grid-cols-2 h-full">
+          {/* Left side - fixed text */}
+          <div className="flex flex-col justify-between p-8 lg:p-12 xl:p-16 bg-background relative">
+            <div>
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={activeService.tag}
+                  className="font-heading text-[10px] tracking-[0.3em] text-primary mb-6 border border-primary/40 inline-block px-3 py-1"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {activeService.tag}
+                </motion.p>
+              </AnimatePresence>
+
+              <div className="relative mt-4">
+                <div className="absolute -left-2 top-0 bottom-0 w-[1px] bg-border" />
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black leading-[0.9] text-foreground pl-6">
+                  BUILT FOR
+                  <br />
+                  MODERN
+                  <br />
+                  ARTISTS
+                </h2>
+              </div>
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.a
+                key={activeService.id}
+                href="#plans"
+                className="inline-flex items-center gap-2 font-heading text-[11px] font-bold tracking-[0.15em] px-6 py-3 border transition-all duration-200 mt-8 self-start"
+                style={{
+                  borderColor: activeService.color,
+                  color: activeService.color,
+                }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ backgroundColor: activeService.color, color: "hsl(0,0%,0%)" }}
+              >
+                LEARN MORE ABOUT {activeService.title.split("\n")[0]} <span>→</span>
+              </motion.a>
+            </AnimatePresence>
+
+            {/* Bottom nav letters */}
+            <div className="flex items-center gap-8 mt-8">
+              {navLetters.map((item, i) => (
+                <button
+                  key={item.letter}
+                  onClick={() => {
+                    if (!sectionRef.current) return;
+                    const sectionTop = sectionRef.current.offsetTop;
+                    const sectionHeight = sectionRef.current.offsetHeight;
+                    const targetScroll = sectionTop + (sectionHeight * i) / services.length + 10;
+                    window.scrollTo({ top: targetScroll, behavior: "smooth" });
+                  }}
+                  className="relative flex items-center justify-center w-10 h-10 rounded-full border-2 font-heading text-xs font-bold tracking-wider transition-all duration-300"
+                  style={{
+                    borderColor: i === activeIndex ? item.color : "hsl(var(--border))",
+                    color: i === activeIndex ? item.color : "hsl(var(--muted-foreground))",
+                    backgroundColor: i === activeIndex ? `${item.color}15` : "transparent",
+                  }}
+                >
+                  {item.letter}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-auto">
-            <h3 className="font-heading text-xl md:text-2xl font-black mb-4 uppercase">
-              Connected Infrastructure
-            </h3>
-            <p className="font-body text-sm leading-relaxed opacity-80 max-w-sm">
-              This is not a simple upload-and-deliver service. It is a connected infrastructure
-              for releasing music, managing rights, activating monetization, and supporting growth
-              across distribution, promo, licensing, and industry access.
-            </p>
+          {/* Right side - animated card */}
+          <div className="relative overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeService.id}
+                className="absolute inset-0 flex flex-col justify-between p-8 lg:p-12 xl:p-16"
+                style={{ backgroundColor: activeService.color, color: "hsl(0, 0%, 0%)" }}
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: "-100%", opacity: 0 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {/* Graphic */}
+                <div className="flex justify-center items-center flex-1 opacity-30">
+                  {activeService.graphic}
+                </div>
+
+                {/* Info */}
+                <motion.div
+                  className="mt-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                >
+                  <h3 className="font-heading text-2xl md:text-3xl lg:text-4xl font-black uppercase whitespace-pre-line mb-4">
+                    {activeService.title}
+                  </h3>
+                  <p className="font-body text-sm md:text-base leading-relaxed opacity-70 max-w-md">
+                    {activeService.description}
+                  </p>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
           </div>
-        </motion.div>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default HybridPlatformSection;
