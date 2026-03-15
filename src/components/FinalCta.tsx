@@ -1,44 +1,101 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { articles } from "@/data/articles";
 
-const FinalCta = () => (
-  <section id="plans" className="py-24 border-t border-border">
-    <div className="container">
-      <motion.div
-        className="bg-primary text-primary-foreground p-10 md:p-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-      >
-        <div>
-          <h2 className="text-3xl md:text-5xl font-heading font-black leading-[0.9] mb-4">
-            READY TO RELEASE
-            <br />
-            WITH MORE THAN
-            <br />
-            JUST DISTRIBUTION?
-          </h2>
-          <p className="font-body text-sm opacity-80 max-w-md leading-relaxed">
-            Join artists and labels building their careers with real infrastructure — distribution, licensing, promo, tools, and industry support.
+const FinalCta = () => {
+  const sorted = [...articles].reverse();
+
+  return (
+    <section className="py-24 border-t border-border">
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <p className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground mb-4">
+            // THE MAG — LATEST
           </p>
+          <h2 className="text-4xl md:text-6xl font-heading font-black text-foreground leading-[0.9]">
+            LET'S CHAT
+            <br />
+            IN PERSON!
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border">
+          {sorted.map((article, i) => (
+            <motion.div
+              key={article.slug}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+            >
+              <Link
+                to={`/mag/${article.slug}`}
+                className="group flex gap-5 p-6 bg-background hover:bg-card/80 transition-colors duration-300 h-full"
+              >
+                {/* Date column */}
+                <div className="flex flex-col items-start shrink-0 w-28">
+                  <span className="inline-block bg-primary text-primary-foreground font-mono text-[9px] font-bold tracking-wider px-2 py-0.5 mb-3">
+                    {article.category}
+                  </span>
+                  <p className="font-heading text-xl font-black text-foreground leading-none">
+                    {article.date}
+                  </p>
+                </div>
+
+                {/* Thumbnail */}
+                <div className="relative overflow-hidden w-28 h-20 shrink-0">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    loading="lazy"
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none opacity-20"
+                    style={{
+                      backgroundImage:
+                        "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)",
+                    }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col justify-center min-w-0">
+                  <h3 className="font-heading text-sm md:text-base font-bold text-foreground group-hover:text-primary transition-colors duration-300 leading-tight mb-1 line-clamp-2">
+                    {article.title}
+                  </h3>
+                  <p className="font-body text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                    {article.excerpt}
+                  </p>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
         </div>
-        <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 bg-primary-foreground text-primary font-heading text-xs font-bold tracking-wider px-8 py-4 hover:opacity-90 transition-all duration-200"
+
+        <motion.div
+          className="mt-10 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+        >
+          <Link
+            to="/mag"
+            className="inline-flex items-center gap-2 border border-border text-foreground font-heading text-xs font-bold tracking-wider px-8 py-4 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
           >
-            VIEW PLANS <span>→</span>
-          </a>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 border-2 border-primary-foreground text-primary-foreground font-heading text-xs font-bold tracking-wider px-8 py-4 hover:bg-primary-foreground hover:text-primary transition-all duration-200"
-          >
-            TALK TO THE TEAM
-          </a>
-        </div>
-      </motion.div>
-    </div>
-  </section>
-);
+            VIEW ALL ARTICLES <span>→</span>
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 export default FinalCta;
