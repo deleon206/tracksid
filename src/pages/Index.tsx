@@ -23,7 +23,6 @@ const Index = () => {
       <TrustBar />
       <CapabilitiesSection />
       <HybridPlatformSection />
-      <ArtistToolsSection />
       <UserTypeSolutions />
       <PlatformShowcase />
       <TestimonialsSection />
