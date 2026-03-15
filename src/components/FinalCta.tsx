@@ -16,12 +16,10 @@ const FinalCta = () => {
           className="text-center mb-16"
         >
           <p className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground mb-4">
-            // THE MAG — LATEST
+            // EDM — LATEST NEWS
           </p>
           <h2 className="text-4xl md:text-6xl font-heading font-black text-foreground leading-[0.9]">
-            LET'S CHAT
-            <br />
-            IN PERSON!
+            MAG
           </h2>
         </motion.div>
 
