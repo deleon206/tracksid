@@ -1,7 +1,13 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-const navLinks = ["PRODUCT", "INDUSTRIES", "WHO WE ARE", "CASE STUDIES", "RESOURCES"];
+const navLinks = [
+  { label: "PRODUCT", href: "#" },
+  { label: "INDUSTRIES", href: "#" },
+  { label: "WHO WE ARE", href: "#" },
+  { label: "MAG", href: "/mag" },
+  { label: "RESOURCES", href: "#" },
+];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -21,11 +27,11 @@ const Navbar = () => {
         <nav className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
-              key={link}
-              href="#"
+              key={link.label}
+              href={link.href}
               className="font-heading text-xs font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-200"
             >
-              {link}
+              {link.label}
             </a>
           ))}
         </nav>
@@ -61,11 +67,11 @@ const Navbar = () => {
           <div className="container py-6 flex flex-col gap-4">
             {navLinks.map((link) => (
               <a
-                key={link}
-                href="#"
+                key={link.label}
+                href={link.href}
                 className="font-heading text-sm font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors"
               >
-                {link}
+                {link.label}
               </a>
             ))}
             <a
