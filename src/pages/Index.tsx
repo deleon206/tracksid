@@ -1,7 +1,13 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import FeaturedSection from "@/components/FeaturedSection";
-import EventsSection from "@/components/EventsSection";
+import TrustBar from "@/components/TrustBar";
+import CapabilitiesSection from "@/components/CapabilitiesSection";
+import HybridPlatformSection from "@/components/HybridPlatformSection";
+import ArtistToolsSection from "@/components/ArtistToolsSection";
+import UserTypeSolutions from "@/components/UserTypeSolutions";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import FaqSection from "@/components/FaqSection";
+import FinalCta from "@/components/FinalCta";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -9,8 +15,14 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <HeroSection />
-      <FeaturedSection />
-      <EventsSection />
+      <TrustBar />
+      <CapabilitiesSection />
+      <HybridPlatformSection />
+      <ArtistToolsSection />
+      <UserTypeSolutions />
+      <TestimonialsSection />
+      <FaqSection />
+      <FinalCta />
       <Footer />
     </div>
   );
