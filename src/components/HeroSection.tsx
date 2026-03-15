@@ -44,7 +44,7 @@ const HeroSection = () => {
 
           {/* Headline at bottom-left */}
           <motion.h1
-            className="text-[clamp(3rem,10vw,9rem)] font-heading font-black leading-[0.88] tracking-tighter text-foreground pb-4"
+            className="text-[clamp(2.5rem,7vw,6rem)] font-heading font-black leading-[0.9] tracking-tighter text-foreground pb-4"
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
