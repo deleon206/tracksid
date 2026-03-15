@@ -57,9 +57,9 @@ const CapabilitiesSection = () => (
           // CAPABILITIES
         </p>
         <h2 className="text-4xl md:text-6xl font-heading font-black text-foreground mb-6">
-          MORE THAN
+          MORE THAN JUST ANOTHER
           <br />
-          DISTRIBUTION
+          LABEL OR DISTRIBUTOR
         </h2>
         <p className="font-body text-base text-muted-foreground max-w-lg leading-relaxed">
           Built for artists, labels, and teams that need distribution as the starting point — not the limit.
