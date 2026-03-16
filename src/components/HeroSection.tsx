@@ -22,9 +22,9 @@ const serviceChips = [
 /* ═══════════════════════════════════════════════════════════
    TRON DOT GRID CANVAS — dots connect when cursor is near
    ═══════════════════════════════════════════════════════════ */
-const TronGridCanvas = () => {
+const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y: number }> }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouse = useRef({ x: -1000, y: -1000 });
+  const animId = useRef(0);
   const animId = useRef(0);
 
   useEffect(() => {
