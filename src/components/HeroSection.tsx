@@ -120,22 +120,9 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
 
     draw();
 
-    const handleMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    };
-    const handleLeave = () => {
-      mouse.current = { x: -1000, y: -1000 };
-    };
-
-    canvas.addEventListener("mousemove", handleMove);
-    canvas.addEventListener("mouseleave", handleLeave);
-
     return () => {
       cancelAnimationFrame(animId.current);
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousemove", handleMove);
-      canvas.removeEventListener("mouseleave", handleLeave);
     };
   }, []);
 
