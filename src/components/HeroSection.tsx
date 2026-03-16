@@ -49,8 +49,8 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
       const h = canvas.offsetHeight;
       ctx.clearRect(0, 0, w, h);
 
-      const mx = mouse.current.x;
-      const my = mouse.current.y;
+      const mx = mousePos.current.x;
+      const my = mousePos.current.y;
 
       // Compute grid columns/rows
       const cols = Math.ceil(w / GAP) + 1;
