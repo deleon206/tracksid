@@ -325,7 +325,7 @@ const HeroSection = () => {
               transition={{ delay: 0.15, duration: 0.4 }}
             >
               <span className="font-heading text-[10px] font-bold tracking-[0.15em] text-primary-foreground italic">
-                // BUILT FOR THE BOLD
+                // THE WORLD'S FIRST HYBRID LABEL SOLUTION
               </span>
             </motion.div>
 
