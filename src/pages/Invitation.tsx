@@ -197,10 +197,75 @@ const LockScreen = ({
 };
 
 /* ═══════════════════════════════════════════════════════════
+   TYPEWRITER HOOK
+   ═══════════════════════════════════════════════════════════ */
+const useTypewriter = (text: string, speed = 18, delay = 0) => {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    let i = 0;
+    const timeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) {
+          clearInterval(interval);
+          setDone(true);
+        }
+      }, speed);
+      return () => clearInterval(interval);
+    }, delay);
+    return () => clearTimeout(timeout);
+  }, [text, speed, delay]);
+  return { displayed, done };
+};
+
+/* ═══════════════════════════════════════════════════════════
+   BENEFIT ITEM
+   ═══════════════════════════════════════════════════════════ */
+const BenefitItem = ({ title, desc, index }: { title: string; desc: string; index: number }) => (
+  <motion.li
+    className="flex gap-3 items-start"
+    initial={{ opacity: 0, x: -10 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ delay: 2.4 + index * 0.08 }}
+  >
+    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+    <p className="font-body text-sm leading-relaxed text-muted-foreground">
+      <strong className="text-foreground font-semibold transition-colors duration-300 hover:text-primary">{title}:</strong>{" "}
+      <span dangerouslySetInnerHTML={{ __html: desc }} />
+    </p>
+  </motion.li>
+);
+
+/* ═══════════════════════════════════════════════════════════
    THE ELEGANT CARTA — Part 2: The Unlocked Proposal
    ═══════════════════════════════════════════════════════════ */
 const ProposalCarta = ({ artistAlias }: { artistAlias: string }) => {
   const displayName = artistAlias.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+  const introText = `Our A&R team has recently discovered your work, and we were truly impressed by the exceptional production quality and unique sound design displayed in your latest tracks. Your artistic identity aligns perfectly with the high standards of our ecosystem, which is why you have been hand-picked for this exclusive invitation.`;
+  const intro2Text = `We want to formally invite you to sign your music under DENAR RCRDS. By joining our roster of over 1,000 artists worldwide, you gain access to a hybrid infrastructure designed to take your career to the next level.`;
+
+  const { displayed: intro1, done: intro1Done } = useTypewriter(introText, 12, 1800);
+  const { displayed: intro2, done: intro2Done } = useTypewriter(intro2Text, 12, intro1Done ? 0 : 99999);
+
+  // Re-trigger intro2 when intro1 finishes
+  const [startIntro2, setStartIntro2] = useState(false);
+  useEffect(() => { if (intro1Done) setStartIntro2(true); }, [intro1Done]);
+
+  const benefits = [
+    { title: "Premium Royalties", desc: 'You will retain <span class="text-primary font-semibold">65%</span> of all royalties, with the opportunity to increase to <span class="text-primary font-semibold">70%</span> based on your continued activity and future releases within the label.' },
+    { title: "Full Protection", desc: "Professional Licensing and Copyright protection for your work." },
+    { title: "Monetization", desc: "Dedicated Content ID licensing for YouTube and SoundCloud." },
+    { title: "Editorial Pitching", desc: 'Direct pitching to editorial teams at <span class="text-primary font-semibold">Spotify</span>, <span class="text-primary font-semibold">Beatport</span>, and <span class="text-primary font-semibold">iTunes</span> (subject to store approval).' },
+    { title: "Press & Exposure", desc: 'Opportunities for press articles and features under <span class="text-primary font-semibold">DJMAG</span>, <span class="text-primary font-semibold">Mixmag</span>, or <span class="text-primary font-semibold">We Rave You</span> (subject to approval).' },
+    { title: "A&R Network Feedback", desc: "Constructive feedback and networking with our extended circle of partner labels." },
+    { title: "Marketing & Curation", desc: "Strategic promotion focused on specialized playlists and top-tier curators." },
+    { title: "Professional Design", desc: "Custom artwork and promotional assets tailored specifically for your release." },
+    { title: "Artist Portal Access", desc: "100% free access to our proprietary dashboard, including statistics management, support ticketing, and exclusive release tools." },
+    { title: "Live Opportunities", desc: "Eligibility for our global artist roster, with the possibility of participating in future events, festivals, and international venues." },
+  ];
 
   return (
     <motion.div
@@ -242,93 +307,122 @@ const ProposalCarta = ({ artistAlias }: { artistAlias: string }) => {
           </motion.div>
 
           {/* Green ribbon line */}
-          <div className="w-12 h-[1px] bg-primary mx-auto mb-10" />
+          <div className="w-12 h-[1px] bg-primary mx-auto mb-6" />
 
-          {/* Greeting */}
+          {/* Title */}
           <motion.h1
-            className="font-heading text-2xl sm:text-3xl font-black tracking-tight text-foreground text-center mb-2"
+            className="font-heading text-lg sm:text-xl font-black tracking-[0.15em] text-primary text-center mb-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4 }}
+            transition={{ delay: 1.3 }}
           >
-            DEAR {displayName.toUpperCase()},
+            DENAR RCRDS: RELEASE PROPOSAL
           </motion.h1>
 
-          <motion.p
-            className="font-body text-[10px] tracking-[0.2em] text-muted-foreground text-center mb-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-          >
-            A PRIVATE INVITATION TO THE HYBRID ECOSYSTEM
-          </motion.p>
+          <div className="w-8 h-[1px] bg-border/40 mx-auto mb-8" />
 
-          {/* Body */}
-          <motion.div
-            className="space-y-5 mb-12"
+          {/* Greeting */}
+          <motion.h2
+            className="font-heading text-2xl sm:text-3xl font-black tracking-tight text-foreground text-center mb-8"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5 }}
+          >
+            DEAR {displayName.toUpperCase()},
+          </motion.h2>
+
+          {/* Typewriter intro */}
+          <motion.div
+            className="space-y-5 mb-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 1.7 }}
           >
-            <p className="font-body text-sm leading-relaxed text-muted-foreground [&_strong]:text-foreground [&_strong]:font-semibold hover:[&_strong]:text-primary [&_strong]:transition-colors [&_strong]:duration-300">
-              You have been selected to join an exclusive network founded on the{" "}
-              <strong>strategic merge with DENAR RCRDS</strong>. TRACKS/ID is the industry's first{" "}
-              <strong>hybrid distribution network</strong>, unifying the legacy of a powerhouse label—
-              <strong>backed by DJ Mag and Beatport</strong>—with a next-generation, all-in-one digital music
-              infrastructure.
+            <p className="font-body text-sm leading-relaxed text-muted-foreground">
+              {intro1}
+              {!intro1Done && <span className="inline-block w-[2px] h-4 bg-primary ml-0.5 animate-pulse align-middle" />}
             </p>
-
-            <p className="font-body text-sm leading-relaxed text-muted-foreground [&_strong]:text-foreground [&_strong]:font-semibold hover:[&_strong]:text-primary [&_strong]:transition-colors [&_strong]:duration-300">
-              Whether you choose a <strong>conventional label deal</strong> or prefer to{" "}
-              <strong>distribute independently</strong>, you maintain{" "}
-              <strong>full control of your catalog</strong>—monetizing, protecting, and promoting your music on your
-              terms.
-            </p>
-
-            <p className="font-body text-sm leading-relaxed text-muted-foreground [&_strong]:text-foreground [&_strong]:font-semibold hover:[&_strong]:text-primary [&_strong]:transition-colors [&_strong]:duration-300">
-              Join a community of <strong>+10,000 artists</strong> already scaling their vision through our{" "}
-              <strong>hybrid model</strong>.
-            </p>
+            {startIntro2 && (
+              <TypewriterParagraph text={intro2Text} speed={12} />
+            )}
           </motion.div>
 
-          {/* Proposition bullets */}
+          {/* Section: THE OFFER & BENEFITS */}
           <motion.div
-            className="grid grid-cols-3 gap-4 mb-12"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
+            animate={{ opacity: intro1Done ? 1 : 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
           >
-            {[
-              { label: "MONETIZE", desc: "Revenue streams optimized" },
-              { label: "PROTECT", desc: "Copyright & catalog secured" },
-              { label: "PROMOTE", desc: "Global reach amplified" },
-            ].map((item) => (
-              <div key={item.label} className="text-center border border-border/30 py-4 px-2 group hover:border-primary/50 transition-colors duration-300">
-                <p className="font-heading text-[10px] tracking-[0.2em] text-primary mb-1 font-bold">
-                  {item.label}
-                </p>
-                <p className="font-body text-[10px] text-muted-foreground">{item.desc}</p>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Signature area */}
-          <motion.div
-            className="flex items-end justify-between mb-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.2 }}
-          >
-            <div>
-              <p className="font-body text-xs text-muted-foreground mb-1">Best regards,</p>
-              <p className="font-heading text-sm font-bold text-foreground">TRACKS/ID Team</p>
-              <p className="font-body text-[10px] text-muted-foreground">powered by DENAR RCRDS</p>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-[1px] flex-1 bg-border/30" />
+              <h3 className="font-heading text-xs tracking-[0.3em] text-primary font-bold">THE OFFER & BENEFITS</h3>
+              <div className="h-[1px] flex-1 bg-border/30" />
             </div>
-            <div className="text-right">
-              <p className="font-heading text-[9px] tracking-[0.15em] text-muted-foreground">
-                tracksid.com
+
+            <ul className="space-y-3 mb-10">
+              {benefits.map((b, i) => (
+                <BenefitItem key={b.title} title={b.title} desc={b.desc} index={i} />
+              ))}
+            </ul>
+
+            {/* Section: NEXT STEPS */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-[1px] flex-1 bg-border/30" />
+              <h3 className="font-heading text-xs tracking-[0.3em] text-primary font-bold">NEXT STEPS</h3>
+              <div className="h-[1px] flex-1 bg-border/30" />
+            </div>
+
+            <motion.div
+              className="space-y-4 mb-10"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 3.2 }}
+            >
+              <p className="font-body text-sm leading-relaxed text-muted-foreground italic">
+                We don't want you to just lose control; we want you to <strong className="text-foreground not-italic font-semibold">gain infrastructure</strong>. If you are ready to be part of the next generation of artists redefining the industry, please follow these steps:
               </p>
-            </div>
+
+              <ol className="space-y-3 pl-1">
+                <li className="flex gap-3 items-start">
+                  <span className="font-heading text-primary font-bold text-sm mt-0.5">1.</span>
+                  <p className="font-body text-sm text-muted-foreground">
+                    Notify your assigned A&R on the <strong className="text-foreground font-semibold">LabelRadar</strong> platform to confirm your interest.
+                  </p>
+                </li>
+                <li className="flex gap-3 items-start">
+                  <span className="font-heading text-primary font-bold text-sm mt-0.5">2.</span>
+                  <p className="font-body text-sm text-muted-foreground">
+                    Share your email through the chat so we can send the formal contract and legal proposal directly to your inbox.
+                  </p>
+                </li>
+              </ol>
+            </motion.div>
+
+            {/* Excitement line */}
+            <motion.p
+              className="font-heading text-center text-sm tracking-[0.2em] text-foreground font-bold mb-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 3.5 }}
+            >
+              WE ARE EXCITED TO WORK WITH YOU.
+            </motion.p>
+
+            {/* Signature area */}
+            <motion.div
+              className="flex items-end justify-between mb-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 3.6 }}
+            >
+              <div>
+                <p className="font-body text-[10px] text-muted-foreground mb-1">— THE</p>
+                <p className="font-heading text-sm font-bold text-foreground">DENAR RCRDS & TRACKS/ID TEAM</p>
+              </div>
+              <div className="text-right">
+                <p className="font-heading text-[9px] tracking-[0.15em] text-muted-foreground">tracksid.com</p>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -336,14 +430,16 @@ const ProposalCarta = ({ artistAlias }: { artistAlias: string }) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.4 }}
+          transition={{ delay: 3.8 }}
         >
           <a
-            href="/#plans"
+            href="https://www.labelradar.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="block w-full bg-primary py-5 text-center group hover:brightness-110 transition-all duration-300"
           >
             <span className="font-heading text-sm font-black tracking-[0.2em] text-primary-foreground">
-              SEND YOUR DEMO →
+              GO TO LABELRADAR TO CONFIRM →
             </span>
           </a>
           <div className="py-3 text-center">
@@ -360,7 +456,7 @@ const ProposalCarta = ({ artistAlias }: { artistAlias: string }) => {
           className="border-t border-border/30 px-8 sm:px-14 py-4 flex items-center justify-center gap-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2.6 }}
+          transition={{ delay: 4 }}
         >
           <span className="font-heading text-[9px] tracking-[0.15em] text-muted-foreground/40 font-bold">DJ MAG</span>
           <span className="font-heading text-[9px] tracking-[0.15em] text-muted-foreground/40 font-bold">BEATPORT</span>
@@ -368,6 +464,29 @@ const ProposalCarta = ({ artistAlias }: { artistAlias: string }) => {
         </motion.div>
       </motion.article>
     </motion.div>
+  );
+};
+
+/* ═══════════════════════════════════════════════════════════
+   TYPEWRITER PARAGRAPH (standalone, triggers on mount)
+   ═══════════════════════════════════════════════════════════ */
+const TypewriterParagraph = ({ text, speed = 12 }: { text: string; speed?: number }) => {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) { clearInterval(interval); setDone(true); }
+    }, speed);
+    return () => clearInterval(interval);
+  }, [text, speed]);
+  return (
+    <p className="font-body text-sm leading-relaxed text-muted-foreground">
+      {displayed}
+      {!done && <span className="inline-block w-[2px] h-4 bg-primary ml-0.5 animate-pulse align-middle" />}
+    </p>
   );
 };
 
