@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useCallback, useRef, useState } from "react";
 import heroBg from "@/assets/hero-bg.png";
 
 const serviceChips = [
@@ -20,12 +21,48 @@ const CircleGraphic = () => (
 );
 
 const HeroSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    setMousePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  }, []);
+
   return (
-    <section className="relative h-screen flex flex-col overflow-hidden">
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      className="relative h-screen flex flex-col overflow-hidden"
+    >
+      {/* Background image */}
       <div className="absolute inset-0">
         <img src={heroBg} alt="" className="w-full h-full object-cover" aria-hidden="true" />
         <div className="absolute inset-0 bg-background/60" />
       </div>
+
+      {/* Reactive mouse glow */}
+      <div
+        className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, hsl(152 100% 50% / 0.07), transparent 60%)`,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Grid dots that brighten near cursor */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-30"
+        style={{
+          backgroundImage: `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, hsl(152 100% 50% / 0.15) 0%, transparent 50%), radial-gradient(hsl(var(--primary) / 0.12) 1px, transparent 1px)`,
+          backgroundSize: `100% 100%, 32px 32px`,
+        }}
+        aria-hidden="true"
+      />
 
       <div className="relative z-10 flex flex-col flex-1 h-full px-6 md:px-12 lg:px-16">
         {/* Main content area — headline left, circles top-right */}
