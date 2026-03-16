@@ -387,7 +387,7 @@ const HeroSection = () => {
             </p>
             {/* Micro-copy urgency */}
             <p className="hidden lg:block font-body text-[10px] text-muted-foreground ml-auto shrink-0">
-              Join <span className="text-foreground font-medium">+1,200 labels</span> today. No credit card required.
+              Join <span className="text-foreground font-medium">+1,200 labels & 10,000 artists</span> today. No credit card required.
             </p>
             {/* Shimmer line across the bar */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
