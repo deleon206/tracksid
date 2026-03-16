@@ -25,7 +25,6 @@ const serviceChips = [
 const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y: number }> }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animId = useRef(0);
-  const animId = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
