@@ -64,7 +64,7 @@ const HeroSection = () => {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 flex flex-col flex-1 h-full px-6 md:px-12 lg:px-16">
+      <div className="relative z-10 flex flex-col flex-1 h-full container">
         {/* Main content area — headline left, circles top-right */}
         <div className="flex-1 flex items-end relative pt-20">
           {/* Circles positioned absolute top-right */}
@@ -81,30 +81,49 @@ const HeroSection = () => {
           </motion.div>
 
           {/* Headline at bottom-left */}
-          <motion.h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-heading font-black leading-[0.9] tracking-tighter text-foreground pb-4"
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            MUSIC
-            <br />
-            DISTRIBUTION
-            <br />
-            FOR ARTISTS
-            <br />
-            <span className="text-primary">&amp; LABELS</span>
-          </motion.h1>
+          <div className="flex flex-col gap-6 pb-4">
+            <motion.h1
+              className="text-[clamp(2.5rem,7vw,6rem)] font-heading font-black leading-[0.9] tracking-tighter text-foreground"
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              MUSIC
+              <br />
+              DISTRIBUTION
+              <br />
+              FOR ARTISTS
+              <br />
+              <span className="text-primary">&amp; LABELS</span>
+            </motion.h1>
+
+            <motion.div
+              className="flex flex-col gap-4 max-w-md"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
+              <p className="font-body text-sm text-muted-foreground leading-relaxed">
+                Launch, monetize, and scale your catalog with a platform built for artists, labels, and electronic music projects.
+              </p>
+              <a
+                href="#plans"
+                className="inline-flex items-center justify-center bg-primary text-primary-foreground font-heading text-sm font-bold uppercase tracking-wider px-8 py-4 rounded-md hover:bg-primary/90 transition-colors w-fit"
+              >
+                DISTRIBUIR MI MÚSICA
+              </a>
+            </motion.div>
+          </div>
         </div>
 
         {/* Bottom bar */}
         <motion.div
-          className="flex flex-col sm:flex-row items-stretch border-t border-border -mx-6 md:-mx-12 lg:-mx-16"
+          className="flex flex-col sm:flex-row items-stretch border-t border-border -mx-4 md:-mx-8"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
-          <div className="bg-primary text-primary-foreground px-6 md:px-12 lg:px-16 py-4 flex items-center gap-4 sm:max-w-[55%]">
+          <div className="bg-primary text-primary-foreground px-6 md:px-8 py-4 flex items-center gap-4 sm:max-w-[55%]">
             <div className="w-8 h-8 border-2 border-primary-foreground rounded-full flex items-center justify-center shrink-0">
               <span className="font-heading text-xs font-bold">T/</span>
             </div>
@@ -114,9 +133,6 @@ const HeroSection = () => {
           </div>
 
           <div className="flex-1 px-6 md:px-8 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 border-l border-border bg-background">
-            <p className="font-body text-xs text-muted-foreground max-w-sm leading-relaxed">
-              Launch, monetize, and scale your catalog with a platform built for artists, labels, and electronic music projects.
-            </p>
             <div className="flex flex-wrap gap-1.5">
               {serviceChips.map((chip) => (
                 <span
