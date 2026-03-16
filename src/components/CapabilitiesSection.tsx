@@ -1,27 +1,271 @@
 import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 
+/* ═══════════════════════════════════════════════════════════
+   FUSION HEXAGON CANVAS — two clusters merging into one
+   ═══════════════════════════════════════════════════════════ */
+const FusionHexagonGraphic = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animId = useRef(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const hoverRef = useRef(false);
+
+  useEffect(() => {
+    hoverRef.current = isHovered;
+  }, [isHovered]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d")!;
+    const dpr = window.devicePixelRatio || 1;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    let t = 0;
+
+    const drawHex = (
+      cx: number, cy: number, r: number,
+      strokeColor: string, fillColor: string,
+      lineWidth: number, dashArray?: number[]
+    ) => {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i - Math.PI / 2;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      if (fillColor) {
+        ctx.fillStyle = fillColor;
+        ctx.fill();
+      }
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = lineWidth;
+      if (dashArray) ctx.setLineDash(dashArray);
+      else ctx.setLineDash([]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    };
+
+    const drawNode = (x: number, y: number, r: number, color: string) => {
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+    };
+
+    const drawLine = (x1: number, y1: number, x2: number, y2: number, color: string, width: number) => {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.stroke();
+    };
+
+    const draw = () => {
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = w / 2;
+      const cy = h / 2;
+      const baseR = Math.min(w, h) * 0.14;
+      const hover = hoverRef.current;
+
+      // Pulse factor for "alive" system
+      const pulse = 0.85 + 0.15 * Math.sin(t * 1.5);
+      const glowPulse = hover ? 0.7 + 0.3 * Math.sin(t * 2) : 0.4 + 0.2 * Math.sin(t * 1.5);
+
+      // === LEFT CLUSTER (DENAR RCRDS) — faded ===
+      const lx = cx - baseR * 2.8;
+      const ly = cy - baseR * 0.3;
+      const denarAlpha = 0.2 + 0.05 * Math.sin(t * 0.8);
+
+      // Outer dashed hex
+      drawHex(lx, ly, baseR * 1.3, `rgba(128,128,128,${denarAlpha})`, "", 0.8, [4, 4]);
+      // Inner hex
+      drawHex(lx, ly, baseR * 0.8, `rgba(128,128,128,${denarAlpha + 0.1})`, "", 1);
+      // Small satellite hexes
+      drawHex(lx - baseR * 1.1, ly + baseR * 0.9, baseR * 0.45, `rgba(128,128,128,${denarAlpha})`, "", 0.6);
+      drawHex(lx + baseR * 0.2, ly - baseR * 1.3, baseR * 0.4, `rgba(128,128,128,${denarAlpha})`, "", 0.6);
+
+      // Nodes
+      drawNode(lx, ly, 3, `rgba(128,128,128,${denarAlpha + 0.2})`);
+      drawNode(lx - baseR * 1.1, ly + baseR * 0.9, 2, `rgba(128,128,128,${denarAlpha + 0.1})`);
+
+      // Label
+      ctx.font = `bold ${Math.max(8, baseR * 0.22)}px 'Montserrat', sans-serif`;
+      ctx.fillStyle = `rgba(128,128,128,${denarAlpha + 0.15})`;
+      ctx.textAlign = "center";
+      ctx.fillText("DENAR", lx, ly + baseR * 0.05);
+
+      // === RIGHT CLUSTER (T/ID original) — faded ===
+      const rx = cx + baseR * 2.8;
+      const ry = cy + baseR * 0.3;
+      const tidAlpha = 0.2 + 0.05 * Math.sin(t * 0.8 + 1);
+
+      drawHex(rx, ry, baseR * 1.3, `rgba(128,128,128,${tidAlpha})`, "", 0.8, [4, 4]);
+      drawHex(rx, ry, baseR * 0.8, `rgba(128,128,128,${tidAlpha + 0.1})`, "", 1);
+      drawHex(rx + baseR * 1.0, ry - baseR * 0.8, baseR * 0.4, `rgba(128,128,128,${tidAlpha})`, "", 0.6);
+      drawHex(rx - baseR * 0.3, ry + baseR * 1.3, baseR * 0.45, `rgba(128,128,128,${tidAlpha})`, "", 0.6);
+
+      drawNode(rx, ry, 3, `rgba(128,128,128,${tidAlpha + 0.2})`);
+      drawNode(rx + baseR * 1.0, ry - baseR * 0.8, 2, `rgba(128,128,128,${tidAlpha + 0.1})`);
+
+      ctx.fillStyle = `rgba(128,128,128,${tidAlpha + 0.15})`;
+      ctx.fillText("T/ID", rx, ry + baseR * 0.05);
+
+      // === CONNECTING LINES from clusters to center ===
+      const lineAlpha = 0.15 + 0.1 * Math.sin(t * 1.2);
+      drawLine(lx + baseR * 1.3, ly, cx - baseR * 1.1, cy, `rgba(0,255,136,${lineAlpha})`, 0.8);
+      drawLine(rx - baseR * 1.3, ry, cx + baseR * 1.1, cy, `rgba(0,255,136,${lineAlpha})`, 0.8);
+
+      // Data flow particles along connection lines
+      for (let p = 0; p < 3; p++) {
+        const prog = ((t * 0.3 + p * 0.33) % 1);
+        // Left to center
+        const px1 = (lx + baseR * 1.3) + ((cx - baseR * 1.1) - (lx + baseR * 1.3)) * prog;
+        const py1 = ly + (cy - ly) * prog;
+        drawNode(px1, py1, 1.5, `rgba(0,255,136,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
+        // Right to center
+        const px2 = (rx - baseR * 1.3) + ((cx + baseR * 1.1) - (rx - baseR * 1.3)) * prog;
+        const py2 = ry + (cy - ry) * prog;
+        drawNode(px2, py2, 1.5, `rgba(0,255,136,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
+      }
+
+      // === CENTRAL FUSION HEXAGON — vibrant ===
+      // Outer glow
+      if (hover) {
+        const grad = ctx.createRadialGradient(cx, cy, baseR * 0.5, cx, cy, baseR * 2);
+        grad.addColorStop(0, `rgba(0,255,136,${glowPulse * 0.15})`);
+        grad.addColorStop(1, "rgba(0,255,136,0)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(cx - baseR * 2, cy - baseR * 2, baseR * 4, baseR * 4);
+      }
+
+      // Large center hex
+      const centerR = baseR * 1.1;
+      drawHex(cx, cy, centerR, `rgba(0,255,136,${glowPulse})`, `rgba(0,255,136,${0.06 + (hover ? 0.06 : 0)})`, 2);
+
+      // Inner detail hex
+      drawHex(cx, cy, centerR * 0.6, `rgba(0,255,136,${glowPulse * 0.6})`, "", 1);
+
+      // Inner crosshairs
+      drawLine(cx - centerR * 0.3, cy, cx + centerR * 0.3, cy, `rgba(0,255,136,${glowPulse * 0.4})`, 0.5);
+      drawLine(cx, cy - centerR * 0.3, cx, cy + centerR * 0.3, `rgba(0,255,136,${glowPulse * 0.4})`, 0.5);
+
+      // T/ID logo text in center
+      ctx.font = `900 ${Math.max(10, baseR * 0.35)}px 'Montserrat', sans-serif`;
+      ctx.fillStyle = `rgba(0,255,136,${pulse})`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("T/ID", cx, cy);
+      ctx.textBaseline = "alphabetic";
+
+      // Corner node dots on center hex
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i - Math.PI / 2;
+        const nx = cx + centerR * Math.cos(angle);
+        const ny = cy + centerR * Math.sin(angle);
+        drawNode(nx, ny, 3.5 * pulse, `rgba(0,255,136,${glowPulse})`);
+      }
+
+      // Orbiting small hexes around center
+      for (let i = 0; i < 4; i++) {
+        const orbitAngle = (Math.PI / 2) * i + t * 0.15;
+        const orbitR = centerR * 1.7;
+        const ox = cx + orbitR * Math.cos(orbitAngle);
+        const oy = cy + orbitR * Math.sin(orbitAngle);
+        drawHex(ox, oy, baseR * 0.3, `rgba(0,255,136,${0.15 + 0.1 * Math.sin(t + i)})`, "", 0.6);
+        drawLine(cx + centerR * Math.cos(orbitAngle) * 0.95, cy + centerR * Math.sin(orbitAngle) * 0.95, ox, oy, `rgba(0,255,136,${0.1})`, 0.5);
+      }
+
+      t += 0.015;
+      animId.current = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => {
+      cancelAnimationFrame(animId.current);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="w-full h-full cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      aria-hidden="true"
+    />
+  );
+};
+
+/* ═══════════════════════════════════════════════════════════
+   TRUST BADGES — DJ Mag, Beatport, +10k Artists
+   ═══════════════════════════════════════════════════════════ */
+const TrustBadges = () => (
+  <motion.div
+    className="flex items-center justify-start gap-8 md:gap-12 mt-6 py-4 border-t border-border/30"
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ delay: 0.8, duration: 0.6 }}
+  >
+    {/* DJ Mag */}
+    <span className="font-heading text-[11px] md:text-xs font-bold tracking-[0.15em] text-muted-foreground/40 uppercase">
+      DJ Mag
+    </span>
+    {/* Beatport */}
+    <span className="font-heading text-[11px] md:text-xs font-bold tracking-[0.15em] text-muted-foreground/40 uppercase">
+      Beatport
+    </span>
+    {/* Counter */}
+    <span className="font-heading text-[11px] md:text-xs font-bold tracking-[0.15em] text-muted-foreground/40 uppercase">
+      +10k Artists
+    </span>
+  </motion.div>
+);
+
+/* ═══════════════════════════════════════════════════════════
+   CAPABILITIES SECTION — main component
+   ═══════════════════════════════════════════════════════════ */
 const CapabilitiesSection = () => (
   <section id="services" className="py-24 border-t border-border">
     <div className="container">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-        {/* Left - Text */}
+        {/* Left — Text */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
+          {/* Kicker */}
           <p className="font-heading text-[10px] tracking-[0.3em] text-primary mb-8 border border-primary/40 inline-block px-3 py-1">
-            // BUILT FOR THE BOLD
+            // ORIGINATING THE HYBRID LABEL MODEL
           </p>
 
+          {/* H2 Title */}
           <div className="space-y-0">
             {[
-              "A HYBRID",
-              "PLATFORM",
-              "FOR THE NEXT",
-              "GENERATION",
-              "OF ARTISTS",
+              "WHERE LEGACY",
+              "MEETS",
+              "INFRASTRUCTURE:",
+              "REDEFINING",
+              "THE ARTIST",
+              "EXPERIENCE",
             ].map((line, i) => (
               <motion.div
                 key={line}
@@ -31,25 +275,34 @@ const CapabilitiesSection = () => (
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
               >
-                <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-black leading-[0.95] text-foreground">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-black leading-[0.95] text-foreground">
                   {line}
                 </h2>
               </motion.div>
             ))}
           </div>
 
+          {/* Narrative paragraph with <strong> for SEO */}
           <motion.p
-            className="font-body text-sm md:text-base text-muted-foreground max-w-lg leading-relaxed mt-10"
+            className="font-body text-sm md:text-base text-muted-foreground max-w-lg leading-relaxed mt-10 [&_strong]:text-foreground [&_strong]:font-semibold hover:[&_strong]:text-primary [&_strong]:transition-colors [&_strong]:duration-300"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            We work with forward-thinking artists, musicians, and independent labels — providing a solid infrastructure that goes beyond distribution. Licensing, promotion, content protection, and tools — all under one roof, built for those who demand more.
+            Founded on a <strong>strategic merge with DENAR RCRDS</strong>, TRACKS/ID offers the industry's first true{" "}
+            <strong>hybrid distribution network</strong>. We unify the legacy of a powerhouse label—backed by{" "}
+            <strong>DJ Mag</strong> and <strong>Beatport</strong>—with a next-gen, all-in-one{" "}
+            <strong>digital music infrastructure</strong>. Whether you sign a conventional deal or choose to distribute
+            independently, you maintain <strong>full control</strong> of your catalog, monetizing, protecting, and
+            promoting your music. Join <strong>+10,000 artists</strong> already scaling their vision.
           </motion.p>
+
+          {/* Trust Badges */}
+          <TrustBadges />
         </motion.div>
 
-        {/* Right - Geometric Graphic */}
+        {/* Right — Fusion Hexagon Graphic */}
         <motion.div
           className="flex items-center justify-center lg:justify-end"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -57,57 +310,10 @@ const CapabilitiesSection = () => (
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="relative w-full max-w-[420px] aspect-square border border-border/50 p-4">
+          <div className="relative w-full max-w-[480px] aspect-square border border-border/50 p-2">
             {/* Dashed outer border */}
             <div className="absolute inset-0 border border-dashed border-border/30" />
-
-            <svg viewBox="0 0 400 400" fill="none" className="w-full h-full">
-              {/* Hexagonal grid - top row */}
-              <polygon points="200,40 260,75 260,145 200,180 140,145 140,75" stroke="hsl(var(--muted-foreground))" strokeWidth="1" fill="none" />
-              <polygon points="140,75 200,40 200,110 140,145" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" fill="none" />
-              <line x1="200" y1="40" x2="200" y2="180" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" />
-              <line x1="140" y1="75" x2="260" y2="145" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" />
-              <line x1="260" y1="75" x2="140" y2="145" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" />
-
-              {/* Left hex */}
-              <polygon points="140,145 80,180 80,250 140,285 200,250 200,180" stroke="hsl(var(--muted-foreground))" strokeWidth="1" fill="none" />
-              <line x1="140" y1="145" x2="140" y2="285" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" />
-              <line x1="80" y1="180" x2="200" y2="250" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" />
-              <line x1="200" y1="180" x2="80" y2="250" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" />
-
-              {/* Right hex - PRIMARY colored / filled */}
-              <polygon points="260,145 200,180 200,250 260,285 320,250 320,180" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
-              <polygon points="260,145 320,180 320,250 260,285 200,250 200,180" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="hsl(var(--primary))" fillOpacity="0.12" />
-              <line x1="260" y1="145" x2="260" y2="285" stroke="hsl(var(--primary))" strokeWidth="0.8" />
-              <line x1="200" y1="180" x2="320" y2="250" stroke="hsl(var(--primary))" strokeWidth="0.8" />
-              <line x1="320" y1="180" x2="200" y2="250" stroke="hsl(var(--primary))" strokeWidth="0.8" />
-
-              {/* Bottom hex */}
-              <polygon points="200,250 140,285 140,355 200,390 260,355 260,285" stroke="hsl(var(--muted-foreground))" strokeWidth="1" fill="none" />
-              <line x1="200" y1="250" x2="200" y2="390" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" />
-              <line x1="140" y1="285" x2="260" y2="355" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" />
-              <line x1="260" y1="285" x2="140" y2="355" stroke="hsl(var(--muted-foreground))" strokeWidth="0.5" />
-
-              {/* Node dots - muted */}
-              {[
-                [200, 40], [140, 75], [260, 75], [140, 145], [200, 180],
-                [80, 180], [80, 250], [140, 285], [200, 250],
-                [140, 355], [200, 390], [260, 355], [260, 285],
-              ].map(([cx, cy], i) => (
-                <circle key={`m-${i}`} cx={cx} cy={cy} r="4" fill="hsl(var(--muted-foreground))" fillOpacity="0.6" />
-              ))}
-
-              {/* Node dots - primary (right hex) */}
-              {[
-                [260, 145], [320, 180], [320, 250], [260, 285],
-              ].map(([cx, cy], i) => (
-                <circle key={`p-${i}`} cx={cx} cy={cy} r="5" fill="hsl(var(--primary))" />
-              ))}
-
-              {/* Center dot */}
-              <circle cx="260" cy="215" r="7" stroke="hsl(var(--primary))" strokeWidth="2" fill="none" />
-              <circle cx="260" cy="215" r="3" fill="hsl(var(--primary))" />
-            </svg>
+            <FusionHexagonGraphic />
           </div>
         </motion.div>
       </div>
