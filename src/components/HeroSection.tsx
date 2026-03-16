@@ -335,18 +335,26 @@ const HeroSection = () => {
               ))}
               <GlitchLine text={accentLine} delay={0.3 + headlineLines.length * 0.25} isAccent />
             </h1>
+            {/* Ghost button + no credit card */}
+            <motion.div
+              className="flex items-center gap-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.6, duration: 0.5 }}
+            >
               <motion.a
                 href="#services"
                 className="group inline-flex items-center gap-2 font-heading text-[11px] font-bold uppercase tracking-[0.15em] border border-border text-muted-foreground px-5 py-2.5 hover:border-primary hover:text-primary transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
               >
                 Explore Services
-                <motion.span
-                  className="inline-block transition-transform group-hover:translate-x-1"
-                >
+                <motion.span className="inline-block transition-transform group-hover:translate-x-1">
                   →
                 </motion.span>
               </motion.a>
+              <span className="font-body text-[11px] text-muted-foreground">
+                No credit card required.
+              </span>
             </motion.div>
 
             {/* Sub-info */}
