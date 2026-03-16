@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import heroBg from "@/assets/hero-bg.png";
 
 const serviceChips = [
   "Distribution",
@@ -21,10 +22,10 @@ const CircleGraphic = () => (
 const HeroSection = () => {
   return (
     <section className="relative h-screen flex flex-col overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: "radial-gradient(hsl(var(--foreground)) 1px, transparent 1px)",
-        backgroundSize: "32px 32px"
-      }} aria-hidden="true" />
+      <div className="absolute inset-0">
+        <img src={heroBg} alt="" className="w-full h-full object-cover" aria-hidden="true" />
+        <div className="absolute inset-0 bg-background/60" />
+      </div>
 
       <div className="relative z-10 flex flex-col flex-1 h-full px-6 md:px-12 lg:px-16">
         {/* Main content area — headline left, circles top-right */}
