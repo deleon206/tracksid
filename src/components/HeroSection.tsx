@@ -2,22 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /* ─── Headline lines ─── */
-const headlineLines = [
-  "MUSIC",
-  "DISTRIBUTION",
-  "FOR ARTISTS",
-];
+const headlineLines = ["MUSIC", "DISTRIBUTION", "FOR ARTISTS"];
 const accentLine = "& LABELS";
-
-/* ─── Service chips for bottom bar ─── */
-const serviceChips = [
-  "Distribution",
-  "Content ID",
-  "Licensing",
-  "Playlist Pitching",
-  "Promo Tools",
-  "Press Support",
-];
 
 /* ═══════════════════════════════════════════════════════════
    TRON DOT GRID CANVAS — dots connect when cursor is near
@@ -32,7 +18,7 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
     const ctx = canvas.getContext("2d")!;
     const dpr = window.devicePixelRatio || 1;
     const GAP = 32;
-    const RADIUS = 160; // activation radius
+    const RADIUS = 160;
     const DOT_R = 1;
 
     const resize = () => {
@@ -51,11 +37,9 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
       const mx = mousePos.current.x;
       const my = mousePos.current.y;
 
-      // Compute grid columns/rows
       const cols = Math.ceil(w / GAP) + 1;
       const rows = Math.ceil(h / GAP) + 1;
 
-      // Collect active dots near cursor
       const activeDots: { x: number; y: number; dist: number }[] = [];
 
       for (let r = 0; r < rows; r++) {
@@ -65,7 +49,6 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
           const dist = Math.hypot(x - mx, y - my);
           const inRange = dist < RADIUS;
 
-          // Base dot
           ctx.beginPath();
           ctx.arc(x, y, DOT_R, 0, Math.PI * 2);
           if (inRange) {
@@ -79,7 +62,6 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
         }
       }
 
-      // Draw TRON connection lines between nearby active dots
       if (activeDots.length > 1) {
         for (let i = 0; i < activeDots.length; i++) {
           for (let j = i + 1; j < activeDots.length; j++) {
@@ -99,7 +81,6 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
         }
       }
 
-      // Glitch micro-lines near cursor
       if (mx > 0 && my > 0) {
         for (let i = 0; i < 4; i++) {
           const gx = mx + (Math.random() - 0.5) * 80;
@@ -118,7 +99,6 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
     };
 
     draw();
-
     return () => {
       cancelAnimationFrame(animId.current);
       window.removeEventListener("resize", resize);
@@ -135,9 +115,9 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
 };
 
 /* ═══════════════════════════════════════════════════════════
-   SINUSOIDAL WAVE GRAPHIC — infinite phase-shift animation
+   MUSIC WAVE VISUALIZER — audio-style frequency bars
    ═══════════════════════════════════════════════════════════ */
-const SineWaveGraphic = () => {
+const MusicWaveGraphic = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animId = useRef(0);
 
@@ -156,32 +136,47 @@ const SineWaveGraphic = () => {
     window.addEventListener("resize", resize);
 
     let t = 0;
+    const BAR_COUNT = 64;
     const draw = () => {
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
       ctx.clearRect(0, 0, w, h);
 
-      const waves = [
-        { amp: h * 0.22, freq: 0.012, phase: t * 0.6, alpha: 0.8 },
-        { amp: h * 0.18, freq: 0.015, phase: t * 0.8 + 1, alpha: 0.6 },
-        { amp: h * 0.25, freq: 0.01, phase: t * 0.4 + 2, alpha: 0.5 },
-        { amp: h * 0.15, freq: 0.018, phase: t * 1.0 + 3, alpha: 0.4 },
-        { amp: h * 0.2, freq: 0.013, phase: t * 0.7 + 4, alpha: 0.35 },
-      ];
+      const barW = w / BAR_COUNT;
+      const midY = h / 2;
 
-      waves.forEach(({ amp, freq, phase, alpha }) => {
-        ctx.beginPath();
-        for (let x = 0; x <= w; x += 2) {
-          const y = h / 2 + Math.sin(x * freq + phase) * amp + Math.sin(x * freq * 2.3 + phase * 1.5) * amp * 0.3;
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = `rgba(0,255,136,${alpha})`;
-        ctx.lineWidth = 1.2;
-        ctx.stroke();
-      });
+      for (let i = 0; i < BAR_COUNT; i++) {
+        const x = i * barW;
+        // Combine multiple sine waves for organic audio feel
+        const amp1 = Math.sin(i * 0.15 + t * 1.2) * 0.4;
+        const amp2 = Math.sin(i * 0.08 + t * 0.7 + 1.5) * 0.3;
+        const amp3 = Math.sin(i * 0.22 + t * 1.8 + 3) * 0.2;
+        const amp4 = Math.cos(i * 0.12 + t * 0.5) * 0.1;
+        const combined = amp1 + amp2 + amp3 + amp4;
+        const barH = Math.abs(combined) * h * 0.45 + 2;
 
-      t += 0.015;
+        // Gradient alpha based on position
+        const normX = i / BAR_COUNT;
+        const edgeFade = Math.sin(normX * Math.PI);
+        const alpha = 0.3 + edgeFade * 0.7;
+
+        ctx.fillStyle = `rgba(0,255,136,${alpha * 0.8})`;
+        ctx.fillRect(x + 1, midY - barH / 2, barW - 2, barH);
+
+        // Mirror reflection (subtle)
+        ctx.fillStyle = `rgba(0,255,136,${alpha * 0.15})`;
+        ctx.fillRect(x + 1, midY + barH / 2, barW - 2, barH * 0.3);
+      }
+
+      // Horizontal center line
+      ctx.beginPath();
+      ctx.moveTo(0, midY);
+      ctx.lineTo(w, midY);
+      ctx.strokeStyle = "rgba(0,255,136,0.15)";
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+
+      t += 0.02;
       animId.current = requestAnimationFrame(draw);
     };
     draw();
@@ -196,7 +191,7 @@ const SineWaveGraphic = () => {
 };
 
 /* ═══════════════════════════════════════════════════════════
-   GLITCH TEXT — headline entry animation
+   GLITCH TEXT — headline entry animation with shimmer
    ═══════════════════════════════════════════════════════════ */
 const GlitchLine = ({ text, delay, isAccent }: { text: string; delay: number; isAccent?: boolean }) => (
   <motion.span
@@ -206,6 +201,7 @@ const GlitchLine = ({ text, delay, isAccent }: { text: string; delay: number; is
     transition={{ duration: 0.1, delay }}
   >
     <motion.span
+      className="inline-block hero-shimmer"
       initial={{ opacity: 0 }}
       animate={{
         opacity: [0, 1, 0.3, 1, 0.7, 1],
@@ -221,6 +217,27 @@ const GlitchLine = ({ text, delay, isAccent }: { text: string; delay: number; is
       {text}
     </motion.span>
   </motion.span>
+);
+
+/* ═══════════════════════════════════════════════════════════
+   LIVE DATA BADGE — blinking indicator
+   ═══════════════════════════════════════════════════════════ */
+const LiveBadge = () => (
+  <motion.div
+    className="absolute top-3 left-3 flex items-center gap-1.5 z-10"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 1.5 }}
+  >
+    <motion.div
+      className="w-1.5 h-1.5 rounded-full bg-primary"
+      animate={{ opacity: [1, 0.3, 1] }}
+      transition={{ duration: 1.2, repeat: Infinity }}
+    />
+    <span className="font-heading text-[9px] tracking-[0.2em] text-primary font-bold">
+      LIVE DATA
+    </span>
+  </motion.div>
 );
 
 /* ═══════════════════════════════════════════════════════════
@@ -264,18 +281,37 @@ const HeroSection = () => {
             <p className="font-heading text-[10px] tracking-[0.2em] text-muted-foreground">
               // YOU SEE A NODE. WE SEE A NEXUS.
             </p>
-            {/* Sine wave box */}
+            {/* Music wave box */}
             <div className="w-[280px] h-[180px] border border-border/50 relative overflow-hidden">
-              <SineWaveGraphic />
+              <LiveBadge />
+              <MusicWaveGraphic />
               {/* Corner brackets */}
               <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-primary/60" />
               <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-primary/60" />
               <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-primary/60" />
               <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-primary/60" />
             </div>
+
+            {/* Trending ticker */}
+            <motion.div
+              className="flex items-center gap-2 mt-1"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2 }}
+            >
+              <motion.span
+                className="w-1 h-1 rounded-full bg-primary"
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+              />
+              <p className="font-heading text-[9px] tracking-[0.12em] text-muted-foreground">
+                Trending: <span className="text-primary">+500 new releases</span> in the last 24h via Tracks/ID Gateway
+              </p>
+            </motion.div>
+
             {/* Decorative connector line */}
-            <svg width="2" height="60" className="mr-8 opacity-40" aria-hidden="true">
-              <line x1="1" y1="0" x2="1" y2="60" stroke="hsl(var(--primary))" strokeWidth="1" strokeDasharray="3 3" />
+            <svg width="2" height="40" className="mr-8 opacity-40" aria-hidden="true">
+              <line x1="1" y1="0" x2="1" y2="40" stroke="hsl(var(--primary))" strokeWidth="1" strokeDasharray="3 3" />
             </svg>
           </motion.div>
 
@@ -288,48 +324,76 @@ const HeroSection = () => {
               <GlitchLine text={accentLine} delay={0.3 + headlineLines.length * 0.25} isAccent />
             </h1>
 
+            {/* Ghost button - Explore Services */}
+            <motion.div
+              className="flex items-center gap-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.6, duration: 0.5 }}
+            >
+              <motion.a
+                href="#services"
+                className="group inline-flex items-center gap-2 font-heading text-[11px] font-bold uppercase tracking-[0.15em] border border-border text-muted-foreground px-5 py-2.5 hover:border-primary hover:text-primary transition-all duration-300"
+                whileHover={{ scale: 1.02 }}
+              >
+                Explore Services
+                <motion.span
+                  className="inline-block transition-transform group-hover:translate-x-1"
+                >
+                  →
+                </motion.span>
+              </motion.a>
+            </motion.div>
+
             {/* Sub-info */}
             <motion.p
               className="font-heading text-xs tracking-[0.15em] text-muted-foreground uppercase"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.6, duration: 0.6 }}
+              transition={{ delay: 1.8, duration: 0.6 }}
             >
               ERROR LOGS: 0
             </motion.p>
           </div>
         </div>
 
-        {/* ─── Bottom accent bar ─── */}
+        {/* ─── Bottom duo-tone bar ─── */}
         <motion.div
           className="flex flex-col sm:flex-row items-stretch -mx-4 md:-mx-8"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.8 }}
+          transition={{ duration: 0.8, delay: 2 }}
         >
-          {/* Green section — left */}
-          <div className="bg-primary text-primary-foreground px-6 md:px-8 py-4 flex items-center gap-4 sm:max-w-[55%]">
-            <div className="w-8 h-8 border-2 border-primary-foreground rounded-full flex items-center justify-center shrink-0">
-              <span className="font-heading text-xs font-bold">T/</span>
+          {/* Left side (70%) — black with green border-top */}
+          <div className="relative flex-[7] border-t border-primary bg-background px-6 md:px-8 py-4 flex items-center gap-6">
+            {/* T/ icon */}
+            <div className="w-8 h-8 border-2 border-primary rounded-full flex items-center justify-center shrink-0">
+              <span className="font-heading text-xs font-bold text-primary">T/</span>
             </div>
-            <p className="font-heading text-[10px] md:text-xs tracking-wider font-bold uppercase">
+            <p className="font-heading text-[10px] md:text-xs tracking-wider font-bold uppercase text-foreground">
               Music infrastructure to distribute, monetize, and grow your catalog
             </p>
+            {/* Micro-copy urgency */}
+            <p className="hidden lg:block font-body text-[10px] text-muted-foreground ml-auto shrink-0">
+              Join <span className="text-foreground font-medium">+1,200 labels</span> today. No credit card required.
+            </p>
+            {/* Shimmer line across the bar */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="hero-bar-shimmer absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent" />
+            </div>
           </div>
 
-          {/* Description + CTA — right */}
-          <div className="flex-1 px-6 md:px-8 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 border-l border-primary-foreground/20 bg-primary">
-            <p className="font-body text-xs text-primary-foreground/80 flex-1">
-              Tracks/ID is built for ambitious artists and labels who refuse to be held back.
-            </p>
+          {/* Right side (30%) — solid green CTA */}
+          <div className="flex-[3] bg-primary px-6 md:px-8 py-4 flex items-center justify-center">
             <motion.a
               href="#plans"
-              className="group inline-flex items-center gap-2 font-heading text-xs font-bold uppercase tracking-wider border-2 border-primary-foreground text-primary-foreground px-6 py-3 bg-primary-foreground/0 hover:bg-primary-foreground hover:text-primary transition-all duration-300 shrink-0"
-              whileHover={{ scale: 1.02 }}
+              className="group inline-flex items-center gap-3 font-heading text-xs font-black uppercase tracking-[0.15em] text-primary-foreground hover:opacity-80 transition-opacity duration-200"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
             >
               EMPIEZA AHORA
               <motion.span
-                className="inline-block"
+                className="inline-block text-lg"
                 initial={{ x: 0 }}
                 whileHover={{ x: 3 }}
                 transition={{ type: "spring", stiffness: 400 }}
