@@ -403,7 +403,7 @@ const HeroSection = () => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
-              EMPIEZA AHORA
+              SEND YOUR DEMO
               <motion.span
                 className="inline-block text-lg"
                 initial={{ x: 0 }}
