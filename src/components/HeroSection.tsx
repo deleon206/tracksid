@@ -129,7 +129,7 @@ const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-auto"
+      className="absolute inset-0 w-full h-full pointer-events-none"
       aria-hidden="true"
     />
   );
