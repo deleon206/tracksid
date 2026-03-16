@@ -76,7 +76,7 @@ const HeroSection = () => {
             </p>
           </div>
 
-          <div className="flex-1 px-6 md:px-8 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 border-l border-border">
+          <div className="flex-1 px-6 md:px-8 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 border-l border-border bg-background">
             <p className="font-body text-xs text-muted-foreground max-w-sm leading-relaxed">
               Launch, monetize, and scale your catalog with a platform built for artists, labels, and electronic music projects.
             </p>
