@@ -22,9 +22,8 @@ const serviceChips = [
 /* ═══════════════════════════════════════════════════════════
    TRON DOT GRID CANVAS — dots connect when cursor is near
    ═══════════════════════════════════════════════════════════ */
-const TronGridCanvas = () => {
+const TronGridCanvas = ({ mousePos }: { mousePos: React.RefObject<{ x: number; y: number }> }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouse = useRef({ x: -1000, y: -1000 });
   const animId = useRef(0);
 
   useEffect(() => {
@@ -49,8 +48,8 @@ const TronGridCanvas = () => {
       const h = canvas.offsetHeight;
       ctx.clearRect(0, 0, w, h);
 
-      const mx = mouse.current.x;
-      const my = mouse.current.y;
+      const mx = mousePos.current.x;
+      const my = mousePos.current.y;
 
       // Compute grid columns/rows
       const cols = Math.ceil(w / GAP) + 1;
@@ -120,29 +119,16 @@ const TronGridCanvas = () => {
 
     draw();
 
-    const handleMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    };
-    const handleLeave = () => {
-      mouse.current = { x: -1000, y: -1000 };
-    };
-
-    canvas.addEventListener("mousemove", handleMove);
-    canvas.addEventListener("mouseleave", handleLeave);
-
     return () => {
       cancelAnimationFrame(animId.current);
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousemove", handleMove);
-      canvas.removeEventListener("mouseleave", handleLeave);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-auto"
+      className="absolute inset-0 w-full h-full pointer-events-none"
       aria-hidden="true"
     />
   );
@@ -241,10 +227,28 @@ const GlitchLine = ({ text, delay, isAccent }: { text: string; delay: number; is
    HERO SECTION — main component
    ═══════════════════════════════════════════════════════════ */
 const HeroSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const mousePos = useRef({ x: -1000, y: -1000 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    mousePos.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    mousePos.current = { x: -1000, y: -1000 };
+  }, []);
+
   return (
-    <section className="relative h-screen flex flex-col overflow-hidden bg-background">
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative h-screen flex flex-col overflow-hidden bg-background"
+    >
       {/* TRON interactive dot grid */}
-      <TronGridCanvas />
+      <TronGridCanvas mousePos={mousePos} />
 
       <div className="relative z-10 flex flex-col flex-1 h-full container">
         {/* Main content — headline left, wave graphic right */}
