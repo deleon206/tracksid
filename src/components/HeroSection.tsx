@@ -136,43 +136,45 @@ const MusicWaveGraphic = () => {
     window.addEventListener("resize", resize);
 
     let t = 0;
-    const BAR_COUNT = 64;
     const draw = () => {
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
       ctx.clearRect(0, 0, w, h);
 
-      const barW = w / BAR_COUNT;
       const midY = h / 2;
+      const points = 200;
 
-      for (let i = 0; i < BAR_COUNT; i++) {
-        const x = i * barW;
-        // Combine multiple sine waves for organic audio feel
-        const amp1 = Math.sin(i * 0.15 + t * 1.2) * 0.4;
-        const amp2 = Math.sin(i * 0.08 + t * 0.7 + 1.5) * 0.3;
-        const amp3 = Math.sin(i * 0.22 + t * 1.8 + 3) * 0.2;
-        const amp4 = Math.cos(i * 0.12 + t * 0.5) * 0.1;
-        const combined = amp1 + amp2 + amp3 + amp4;
-        const barH = Math.abs(combined) * h * 0.45 + 2;
+      // Draw smooth audio waveform
+      for (let layer = 0; layer < 3; layer++) {
+        const layerAlpha = [0.7, 0.35, 0.15][layer];
+        const layerScale = [1, 0.6, 0.3][layer];
+        const phaseOffset = layer * 1.2;
 
-        // Gradient alpha based on position
-        const normX = i / BAR_COUNT;
-        const edgeFade = Math.sin(normX * Math.PI);
-        const alpha = 0.3 + edgeFade * 0.7;
+        ctx.beginPath();
+        for (let i = 0; i <= points; i++) {
+          const x = (i / points) * w;
+          const normX = i / points;
+          const envelope = Math.sin(normX * Math.PI); // fade edges
 
-        ctx.fillStyle = `rgba(0,255,136,${alpha * 0.8})`;
-        ctx.fillRect(x + 1, midY - barH / 2, barW - 2, barH);
+          const wave1 = Math.sin(normX * 8 + t * 1.5 + phaseOffset) * 0.5;
+          const wave2 = Math.sin(normX * 14 + t * 2.2 + phaseOffset) * 0.25;
+          const wave3 = Math.sin(normX * 20 + t * 0.8 + phaseOffset) * 0.15;
+          const combined = (wave1 + wave2 + wave3) * envelope * layerScale;
 
-        // Mirror reflection (subtle)
-        ctx.fillStyle = `rgba(0,255,136,${alpha * 0.15})`;
-        ctx.fillRect(x + 1, midY + barH / 2, barW - 2, barH * 0.3);
+          const y = midY + combined * h * 0.4;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = `rgba(0,255,136,${layerAlpha})`;
+        ctx.lineWidth = layer === 0 ? 1.5 : 1;
+        ctx.stroke();
       }
 
-      // Horizontal center line
+      // Subtle glow on center line
       ctx.beginPath();
       ctx.moveTo(0, midY);
       ctx.lineTo(w, midY);
-      ctx.strokeStyle = "rgba(0,255,136,0.15)";
+      ctx.strokeStyle = "rgba(0,255,136,0.08)";
       ctx.lineWidth = 0.5;
       ctx.stroke();
 
@@ -282,7 +284,7 @@ const HeroSection = () => {
               // YOU SEE A NODE. WE SEE A NEXUS.
             </p>
             {/* Music wave box */}
-            <div className="w-[220px] h-[130px] border border-border/50 relative overflow-hidden">
+            <div className="w-[320px] h-[80px] border border-border/50 relative overflow-hidden">
               <LiveBadge />
               <MusicWaveGraphic />
               {/* Corner brackets */}
