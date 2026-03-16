@@ -317,14 +317,25 @@ const HeroSection = () => {
 
           {/* Headline — bottom left */}
           <div className="flex flex-col gap-6 pb-4 max-w-[70%]">
+            {/* Tag badge */}
+            <motion.div
+              className="inline-flex items-center bg-primary px-3 py-1 mb-4 w-fit"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.15, duration: 0.4 }}
+            >
+              <span className="font-heading text-[10px] font-bold tracking-[0.15em] text-primary-foreground italic">
+                // BUILT FOR THE BOLD
+              </span>
+            </motion.div>
+
             <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-heading font-black leading-[0.9] tracking-tighter">
               {headlineLines.map((line, i) => (
                 <GlitchLine key={line} text={line} delay={0.3 + i * 0.25} />
               ))}
               <GlitchLine text={accentLine} delay={0.3 + headlineLines.length * 0.25} isAccent />
             </h1>
-
-            {/* Ghost button - Explore Services */}
+            {/* Ghost button + no credit card */}
             <motion.div
               className="flex items-center gap-4"
               initial={{ opacity: 0, y: 10 }}
@@ -337,12 +348,13 @@ const HeroSection = () => {
                 whileHover={{ scale: 1.02 }}
               >
                 Explore Services
-                <motion.span
-                  className="inline-block transition-transform group-hover:translate-x-1"
-                >
+                <motion.span className="inline-block transition-transform group-hover:translate-x-1">
                   →
                 </motion.span>
               </motion.a>
+              <span className="font-body text-[11px] text-muted-foreground">
+                No credit card required.
+              </span>
             </motion.div>
 
             {/* Sub-info */}
