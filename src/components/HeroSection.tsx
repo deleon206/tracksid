@@ -228,10 +228,28 @@ const GlitchLine = ({ text, delay, isAccent }: { text: string; delay: number; is
    HERO SECTION — main component
    ═══════════════════════════════════════════════════════════ */
 const HeroSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const mousePos = useRef({ x: -1000, y: -1000 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    mousePos.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    mousePos.current = { x: -1000, y: -1000 };
+  }, []);
+
   return (
-    <section className="relative h-screen flex flex-col overflow-hidden bg-background">
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative h-screen flex flex-col overflow-hidden bg-background"
+    >
       {/* TRON interactive dot grid */}
-      <TronGridCanvas />
+      <TronGridCanvas mousePos={mousePos} />
 
       <div className="relative z-10 flex flex-col flex-1 h-full container">
         {/* Main content — headline left, wave graphic right */}
