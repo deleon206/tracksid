@@ -45,6 +45,9 @@ const Navbar = () => {
               }`}
             >
               {link.label}
+              {link.accent && (
+                <span className="w-1.5 h-1.5 rounded-full bg-primary ml-0.5 -mt-2" />
+              )}
               {link.hasDropdown && (
                 <ChevronDown className="w-3 h-3 opacity-60" />
               )}
