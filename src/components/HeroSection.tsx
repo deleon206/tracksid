@@ -282,7 +282,7 @@ const HeroSection = () => {
               // YOU SEE A NODE. WE SEE A NEXUS.
             </p>
             {/* Music wave box */}
-            <div className="w-[220px] h-[130px] border border-border/50 relative overflow-hidden">
+            <div className="w-[320px] h-[80px] border border-border/50 relative overflow-hidden">
               <LiveBadge />
               <MusicWaveGraphic />
               {/* Corner brackets */}
