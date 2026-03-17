@@ -3,8 +3,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import OnionSkinBackground from "./OnionSkinBackground";
 
 /* ─── Headline lines ─── */
-const headlineLines = ["MUSIC", "DISTRIBUTION", "FOR ARTISTS"];
-const accentLine = "& LABELS";
+const headlineLines = ["THE #1", "ALL-IN-ONE", "RECORD LABEL"];
+const accentLine = "& DISTRIBUTION";
 
 /* ═══════════════════════════════════════════════════════════
    MUSIC WAVE VISUALIZER — audio-style frequency bars
