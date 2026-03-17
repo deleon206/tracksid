@@ -120,27 +120,44 @@ const MagArticle = () => {
         />
       )}
 
-      {/* ═══ Full-width Hero Image with gradient fade ═══ */}
-      {article.image_url && (
-        <motion.figure
-          className="relative w-full min-h-[50vh] md:min-h-[70vh] overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          style={{ aspectRatio: "16/9" }}
-        >
+      {/* ═══ Full-width Hero with title overlaid ═══ */}
+      <motion.section
+        className="relative w-full min-h-[60vh] md:min-h-[80vh] flex items-end overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        {article.image_url && (
           <img
             src={article.image_url}
             alt={article.title || "Article cover"}
             className="absolute inset-0 w-full h-full object-cover"
             loading="eager"
+            style={{ aspectRatio: "16/9" }}
           />
-          {/* Gradient overlay — bottom fade to background */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-          {/* Outer glow */}
-          <div className="absolute inset-0 shadow-[inset_0_0_120px_40px_hsl(var(--primary)/0.08)]" />
-        </motion.figure>
-      )}
+        )}
+        {/* Gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/60 to-transparent" />
+
+        {/* Title overlay */}
+        <div className="relative z-10 container pb-12 md:pb-16">
+          <div className="max-w-4xl">
+            <div className="font-mono text-[10px] tracking-widest text-muted-foreground mb-4">
+              // LATEST — {formattedDate}
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black text-foreground leading-[0.92] mb-6 tracking-tight">
+              {article.title}
+            </h1>
+            <Link
+              to="/mag"
+              className="inline-flex items-center gap-2 font-heading text-xs font-bold tracking-wider text-primary hover:brightness-110 transition-all"
+            >
+              READ ARTICLE →
+            </Link>
+          </div>
+        </div>
+      </motion.section>
 
       <main className="relative z-10">
         <div className="container">
@@ -163,23 +180,6 @@ const MagArticle = () => {
                 </ol>
               </motion.nav>
 
-              {/* Header */}
-              <motion.header
-                className="mb-16"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7 }}
-              >
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-foreground leading-[0.92] mb-8 tracking-tight">
-                  {article.title}
-                </h1>
-
-                <div className="flex flex-wrap items-center gap-6 font-mono text-[10px] tracking-widest text-muted-foreground">
-                  <span>{formattedDate}</span>
-                  <span className="w-1 h-1 rounded-full bg-primary" />
-                  <span>TRACKS/ID</span>
-                </div>
-              </motion.header>
 
               {/* Article body — renders HTML from Supabase */}
               <motion.section
