@@ -1,10 +1,11 @@
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
 const services = [
   {
     id: "distribution",
-    tag: "// NEXT-GEN DISTRIBUTION",
+    key: "D",
+    tag: "// GLOBAL DISTRIBUTION",
     title: "DISTRIBUTION",
     description:
       "Deliver your music to 150+ platforms worldwide. Real-time analytics, release scheduling, and automated delivery — built to scale without chaos.",
@@ -25,58 +26,56 @@ const services = [
     ),
   },
   {
-    id: "licensing",
-    tag: "// NEXT-GEN LICENSING",
-    title: "LICENSING",
+    id: "bookings",
+    key: "B",
+    tag: "// ARTIST BOOKINGS",
+    title: "BOOKINGS",
     description:
-      "Streamlined, scalable licensing — complete control, faster placements, audit-ready always. Sync opportunities across film, TV, ads, and gaming.",
+      "Book artists for festivals, clubs, and events around the world. Our booking agency connects talent with promoters across Europe, LATAM, Asia, and beyond.",
     color: "hsl(280, 80%, 60%)",
     graphic: (
       <svg width="280" height="280" viewBox="0 0 280 280" fill="none" className="w-full h-full max-w-[280px]">
         <circle cx="140" cy="140" r="110" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <rect x="70" y="70" width="140" height="140" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <line x1="70" y1="70" x2="210" y2="210" stroke="currentColor" strokeWidth="1" />
-        <line x1="210" y1="70" x2="70" y2="210" stroke="currentColor" strokeWidth="1" />
+        <circle cx="140" cy="140" r="70" stroke="currentColor" strokeWidth="1" fill="none" />
+        <circle cx="140" cy="140" r="30" stroke="currentColor" strokeWidth="1.5" fill="none" />
         <line x1="140" y1="30" x2="140" y2="250" stroke="currentColor" strokeWidth="1" />
         <line x1="30" y1="140" x2="250" y2="140" stroke="currentColor" strokeWidth="1" />
         <circle cx="140" cy="30" r="4" fill="currentColor" />
+        <circle cx="250" cy="140" r="4" fill="currentColor" />
         <circle cx="140" cy="250" r="4" fill="currentColor" />
+        <circle cx="30" cy="140" r="4" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    id: "licensing",
+    key: "L",
+    tag: "// SYNC & LICENSING",
+    title: "LICENSING",
+    description:
+      "License your music for films, TV shows, commercials, retail stores, and digital content. We handle sync deals, mechanical rights, and placement negotiations.",
+    color: "hsl(200, 90%, 55%)",
+    graphic: (
+      <svg width="280" height="280" viewBox="0 0 280 280" fill="none" className="w-full h-full max-w-[280px]">
+        <rect x="70" y="70" width="140" height="140" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <line x1="70" y1="70" x2="210" y2="210" stroke="currentColor" strokeWidth="1" />
+        <line x1="210" y1="70" x2="70" y2="210" stroke="currentColor" strokeWidth="1" />
+        <circle cx="140" cy="140" r="60" stroke="currentColor" strokeWidth="1" fill="none" />
         <circle cx="70" cy="70" r="4" fill="currentColor" />
         <circle cx="210" cy="70" r="4" fill="currentColor" />
         <circle cx="70" cy="210" r="4" fill="currentColor" />
         <circle cx="210" cy="210" r="4" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    id: "copyright",
-    tag: "// NEXT-GEN COPYRIGHT",
-    title: "COPYRIGHT\n& CONTENT ID",
-    description:
-      "Every track has a trail. Every claim has an answer. Every 'what happened?' has a receipt. Full protection across YouTube, Spotify, and all major platforms.",
-    color: "hsl(200, 90%, 55%)",
-    graphic: (
-      <svg width="280" height="280" viewBox="0 0 280 280" fill="none" className="w-full h-full max-w-[280px]">
-        <circle cx="140" cy="140" r="30" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <circle cx="140" cy="140" r="55" stroke="currentColor" strokeWidth="1" fill="none" />
-        <circle cx="140" cy="140" r="80" stroke="currentColor" strokeWidth="1" fill="none" />
-        <circle cx="140" cy="140" r="105" stroke="currentColor" strokeWidth="1.5" fill="none" />
         <circle cx="140" cy="140" r="4" fill="currentColor" />
-        <circle cx="195" cy="140" r="4" fill="currentColor" />
-        <circle cx="140" cy="60" r="4" fill="currentColor" />
-        <circle cx="85" cy="185" r="4" fill="currentColor" />
-        <circle cx="220" cy="100" r="4" fill="currentColor" />
-        <circle cx="60" cy="120" r="4" fill="currentColor" />
-        <circle cx="200" cy="200" r="4" fill="currentColor" />
       </svg>
     ),
   },
   {
-    id: "promotion",
-    tag: "// NEXT-GEN PROMOTION",
-    title: "PLANNING\n& PROMOTION",
+    id: "tools",
+    key: "T",
+    tag: "// ALL-IN-ONE TOOLS",
+    title: "ARTIST\nTOOLS",
     description:
-      "Plan smarter and stay ahead — real-time campaign tools, playlist pitching, and marketing automation built to flex with your release strategy.",
+      "Everything you need in one platform: pre-save campaigns, marketing tools, playlist pitching, artwork generation, smart links, and release planning.",
     color: "hsl(152, 100%, 50%)",
     graphic: (
       <svg width="280" height="280" viewBox="0 0 280 280" fill="none" className="w-full h-full max-w-[280px]">
@@ -90,14 +89,30 @@ const services = [
       </svg>
     ),
   },
+  {
+    id: "press",
+    key: "P",
+    tag: "// PRESS & PR",
+    title: "PRESS\n& PR",
+    description:
+      "Leverage our network of media partners including DJ Mag, We Rave You, MixMag, and more. Get editorial coverage, reviews, and premiere placements.",
+    color: "hsl(20, 90%, 55%)",
+    graphic: (
+      <svg width="280" height="280" viewBox="0 0 280 280" fill="none" className="w-full h-full max-w-[280px]">
+        <polygon points="140,40 240,110 210,230 70,230 40,110" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <polygon points="140,80 200,120 180,200 100,200 80,120" stroke="currentColor" strokeWidth="1" fill="none" />
+        <circle cx="140" cy="40" r="4" fill="currentColor" />
+        <circle cx="240" cy="110" r="4" fill="currentColor" />
+        <circle cx="210" cy="230" r="4" fill="currentColor" />
+        <circle cx="70" cy="230" r="4" fill="currentColor" />
+        <circle cx="40" cy="110" r="4" fill="currentColor" />
+        <circle cx="140" cy="140" r="4" fill="currentColor" />
+      </svg>
+    ),
+  },
 ];
 
-const navLetters = [
-  { letter: "D", color: "hsl(var(--primary))" },
-  { letter: "L", color: "hsl(280, 80%, 60%)" },
-  { letter: "C", color: "hsl(200, 90%, 55%)" },
-  { letter: "P", color: "hsl(152, 100%, 50%)" },
-];
+const navLetters = services.map((s) => ({ letter: s.key, color: s.color }));
 
 const HybridPlatformSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -122,7 +137,7 @@ const HybridPlatformSection = () => {
     <section ref={sectionRef} className="relative border-t border-border" style={{ height: `${services.length * 100}vh` }}>
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="grid lg:grid-cols-2 h-full">
-          {/* Left side - fixed text */}
+          {/* Left side */}
           <div className="flex flex-col justify-between p-8 lg:p-12 xl:p-16 bg-background relative">
             <div>
               <AnimatePresence mode="wait">
@@ -153,12 +168,9 @@ const HybridPlatformSection = () => {
             <AnimatePresence mode="wait">
               <motion.a
                 key={activeService.id}
-                href="#plans"
+                href={activeService.id === "distribution" ? "/distribution" : "#plans"}
                 className="inline-flex items-center gap-2 font-heading text-[11px] font-bold tracking-[0.15em] px-6 py-3 border transition-all duration-200 mt-8 self-start"
-                style={{
-                  borderColor: activeService.color,
-                  color: activeService.color,
-                }}
+                style={{ borderColor: activeService.color, color: activeService.color }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -169,7 +181,7 @@ const HybridPlatformSection = () => {
               </motion.a>
             </AnimatePresence>
 
-            {/* Bottom nav letters */}
+            {/* Nav letters */}
             <div className="flex items-center gap-8 mt-8">
               {navLetters.map((item, i) => (
                 <button
@@ -194,7 +206,7 @@ const HybridPlatformSection = () => {
             </div>
           </div>
 
-          {/* Right side - animated card */}
+          {/* Right side */}
           <div className="relative overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
@@ -206,12 +218,9 @@ const HybridPlatformSection = () => {
                 exit={{ y: "-100%", opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               >
-                {/* Graphic */}
                 <div className="flex justify-center items-center flex-1 opacity-30">
                   {activeService.graphic}
                 </div>
-
-                {/* Info */}
                 <motion.div
                   className="mt-auto"
                   initial={{ opacity: 0, y: 20 }}
