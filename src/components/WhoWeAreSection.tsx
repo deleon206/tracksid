@@ -34,16 +34,18 @@ const Hexagon = ({ className, strokeColor, size = "md", children }: {
   );
 };
 
-/* ─── Vertical data cable with traveling particles ─── */
-const VerticalCable = ({ inView, delay = 0 }: { inView: boolean; delay?: number }) => {
-  const cablePath = "M 25,0 C 25,20 15,35 25,50 S 35,70 25,90";
-  const particlePath = "M 25,0 C 25,20 15,35 25,50 S 35,70 25,90";
+/* ─── Diagonal cable connecting a top node to the center merge node ─── */
+const DiagonalCable = ({ inView, delay = 0, direction }: { inView: boolean; delay?: number; direction: "left" | "right" }) => {
+  // Left cable goes from top-right to bottom-left; right cable mirrors
+  const path = direction === "left"
+    ? "M 45,0 C 40,25 20,50 5,80"
+    : "M 5,0 C 10,25 30,50 45,80";
 
   return (
-    <div className="w-[50px] h-[90px] relative mx-auto">
-      <svg viewBox="0 0 50 90" className="w-full h-full overflow-visible">
+    <div className="w-[50px] h-[80px]">
+      <svg viewBox="0 0 50 80" className="w-full h-full overflow-visible">
         <motion.path
-          d={cablePath}
+          d={path}
           fill="none"
           stroke="hsl(var(--border))"
           strokeWidth="1"
@@ -52,7 +54,7 @@ const VerticalCable = ({ inView, delay = 0 }: { inView: boolean; delay?: number 
           transition={{ duration: 0.8, delay: delay + 0.4 }}
         />
         <motion.path
-          d={cablePath}
+          d={path}
           fill="none"
           stroke="hsl(var(--primary))"
           strokeWidth="1.5"
@@ -73,7 +75,7 @@ const VerticalCable = ({ inView, delay = 0 }: { inView: boolean; delay?: number 
               dur="1.6s"
               begin={`${delay + 1 + i * 0.8}s`}
               repeatCount="indefinite"
-              path={particlePath}
+              path={path}
             />
           </circle>
         ))}
@@ -148,58 +150,58 @@ const WhoWeAreSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* ── RIGHT: Compact triangle layout ── */}
+          {/* ── RIGHT: Symmetric triangle layout ── */}
           <div className="flex items-center justify-center">
-            <div className="relative w-[280px] h-[320px] sm:w-[320px] sm:h-[360px]">
+            <div className="flex flex-col items-center">
 
-              {/* Top-left: DENAR */}
-              <motion.div
-                className="absolute top-0 left-0 flex flex-col items-center text-center"
-                initial={{ opacity: 0, x: -30 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-              >
-                <Hexagon strokeColor="hsl(var(--muted-foreground))" size="sm">
-                  <span className="font-heading text-xs font-black text-muted-foreground">DENAR</span>
-                </Hexagon>
-                <h3 className="font-heading text-[11px] font-black text-foreground mt-2">DENAR RCRDS</h3>
-                <p className="font-body text-[10px] text-muted-foreground mt-0.5 max-w-[120px] leading-snug">
-                  <strong className="text-foreground">+1,000 artists</strong> signed
-                </p>
-              </motion.div>
+              {/* Top row: DENAR + TRACKS/ID symmetrically spaced */}
+              <div className="flex items-start gap-14 sm:gap-20">
+                {/* DENAR */}
+                <motion.div
+                  className="flex flex-col items-center text-center"
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                >
+                  <Hexagon strokeColor="hsl(var(--muted-foreground))" size="sm">
+                    <span className="font-heading text-xs font-black text-muted-foreground">DENAR</span>
+                  </Hexagon>
+                  <h3 className="font-heading text-[11px] font-black text-foreground mt-2">DENAR RCRDS</h3>
+                  <p className="font-body text-[10px] text-muted-foreground mt-0.5 max-w-[120px] leading-snug">
+                    <strong className="text-foreground">+1,000 artists</strong> signed
+                  </p>
+                </motion.div>
 
-              {/* Top-right: TRACKS/ID */}
-              <motion.div
-                className="absolute top-0 right-0 flex flex-col items-center text-center"
-                initial={{ opacity: 0, x: 30 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-              >
-                <Hexagon strokeColor="hsl(var(--muted-foreground))" size="sm">
-                  <span className="font-heading text-xs font-black text-muted-foreground">T/</span>
-                </Hexagon>
-                <h3 className="font-heading text-[11px] font-black text-foreground mt-2">TRACKS/ID</h3>
-                <p className="font-body text-[10px] text-muted-foreground mt-0.5 max-w-[120px] leading-snug">
-                  Next-gen <strong className="text-foreground">music tech</strong>
-                </p>
-              </motion.div>
-
-              {/* Cables from each node converging to center bottom */}
-              <div className="absolute top-[100px] left-[40px] sm:left-[50px]">
-                <VerticalCable inView={inView} delay={0} />
+                {/* TRACKS/ID */}
+                <motion.div
+                  className="flex flex-col items-center text-center"
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                >
+                  <Hexagon strokeColor="hsl(var(--muted-foreground))" size="sm">
+                    <span className="font-heading text-xs font-black text-muted-foreground">T/</span>
+                  </Hexagon>
+                  <h3 className="font-heading text-[11px] font-black text-foreground mt-2">TRACKS/ID</h3>
+                  <p className="font-body text-[10px] text-muted-foreground mt-0.5 max-w-[120px] leading-snug">
+                    Next-gen <strong className="text-foreground">music tech</strong>
+                  </p>
+                </motion.div>
               </div>
-              <div className="absolute top-[100px] right-[40px] sm:right-[50px]">
-                <VerticalCable inView={inView} delay={0.3} />
+
+              {/* Diagonal cables converging to center */}
+              <div className="flex items-start gap-4 -mt-1">
+                <DiagonalCable inView={inView} delay={0} direction="left" />
+                <DiagonalCable inView={inView} delay={0.3} direction="right" />
               </div>
 
               {/* Center-bottom: THE MERGE */}
               <motion.div
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center text-center"
+                className="flex flex-col items-center text-center -mt-1"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.7, delay: 1.2, type: "spring", stiffness: 120 }}
               >
-                {/* Glow pulse */}
                 <motion.div
                   className="absolute w-36 h-40 rounded-full pointer-events-none"
                   style={{
