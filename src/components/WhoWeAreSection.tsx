@@ -36,8 +36,8 @@ const DataCable = ({ direction, inView }: { direction: "left" | "right"; inView:
     : "M 300,30 C 260,30 240,10 200,18 S 140,40 100,25 S 40,10 0,30";
 
   return (
-    <div className="hidden lg:flex items-center flex-1 relative h-[60px] -mx-4">
-      <svg viewBox="0 0 300 60" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+    <div className="hidden lg:flex items-center relative h-[60px] min-w-[140px]">
+      <svg viewBox="0 0 300 60" className="w-full h-full overflow-visible" preserveAspectRatio="xMidYMid meet">
         {/* Base cable (dim) */}
         <motion.path
           d={cablePath}
@@ -114,11 +114,11 @@ const WhoWeAreSection = () => {
         </motion.div>
 
         {/* ─── Merge visual: 3 columns ─── */}
-        <div className="relative flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-0 mb-20">
+        <div className="relative flex flex-col lg:grid lg:grid-cols-[1fr_auto_1.2fr_auto_1fr] items-center gap-8 lg:gap-0 mb-20">
 
           {/* ── DENAR RCRDS (Left) ── */}
           <motion.div
-            className="relative flex flex-col items-center text-center lg:w-1/3 z-10"
+            className="relative flex flex-col items-center text-center z-10"
             initial={{ opacity: 0, x: -80 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -141,7 +141,7 @@ const WhoWeAreSection = () => {
 
           {/* ── FUSION CENTER ── */}
           <motion.div
-            className="relative flex flex-col items-center text-center lg:w-1/3 z-20"
+            className="relative flex flex-col items-center text-center z-20"
             initial={{ opacity: 0, scale: 0.6 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.7, delay: 1.2, type: "spring", stiffness: 120 }}
@@ -214,7 +214,7 @@ const WhoWeAreSection = () => {
 
           {/* ── TRACKS/ID (Right) ── */}
           <motion.div
-            className="relative flex flex-col items-center text-center lg:w-1/3 z-10"
+            className="relative flex flex-col items-center text-center z-10"
             initial={{ opacity: 0, x: 80 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease: "easeOut" }}
