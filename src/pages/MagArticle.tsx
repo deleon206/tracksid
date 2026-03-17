@@ -140,21 +140,27 @@ const MagArticle = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/60 to-transparent" />
 
-        {/* Title overlay */}
-        <div className="relative z-10 container pb-12 md:pb-16">
-          <div className="max-w-4xl">
-            <div className="font-mono text-[10px] tracking-widest text-muted-foreground mb-4">
-              // LATEST — {formattedDate}
+        {/* Title overlay — aligned with article body below */}
+        <div className="relative z-10 w-full pb-12 md:pb-16">
+          <div className="container">
+            <div className="flex gap-16 justify-center">
+              <div className="w-full max-w-[720px]">
+                <div className="font-mono text-[10px] tracking-widest text-muted-foreground mb-4">
+                  // LATEST — {formattedDate}
+                </div>
+                <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black text-foreground leading-[0.92] mb-6 tracking-tight">
+                  {article.title}
+                </h1>
+                <Link
+                  to="/mag"
+                  className="inline-flex items-center gap-2 font-heading text-xs font-bold tracking-wider text-primary hover:brightness-110 transition-all"
+                >
+                  READ ARTICLE →
+                </Link>
+              </div>
+              {/* Spacer matching sidebar width */}
+              <div className="hidden xl:block w-[220px] shrink-0" />
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black text-foreground leading-[0.92] mb-6 tracking-tight">
-              {article.title}
-            </h1>
-            <Link
-              to="/mag"
-              className="inline-flex items-center gap-2 font-heading text-xs font-bold tracking-wider text-primary hover:brightness-110 transition-all"
-            >
-              READ ARTICLE →
-            </Link>
           </div>
         </div>
       </motion.section>
