@@ -37,7 +37,7 @@ const PlatformShowcase = () => (
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Los sistemas tradicionales son lentos, costosos y cerrados por diseño. Te encierran, confunden a tu equipo y te entierran en hojas de cálculo. Creemos que la tecnología debe liberar tus operaciones — no explotarlas. Desde tu panel puedes gestionar lanzamientos, analíticas en tiempo real, splits de regalías, pitching a playlists, y mucho más.
+            Traditional systems are slow, expensive, and closed by design. They lock you in, confuse your team, and bury you in spreadsheets. We believe technology should free your operations — not exploit them. From your dashboard you can manage releases, real-time analytics, royalty splits, playlist pitching, and much more.
           </motion.p>
         </motion.div>
 

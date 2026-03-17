@@ -9,7 +9,6 @@ import PlatformShowcase from "@/components/PlatformShowcase";
 import SwitchBonusSection from "@/components/SwitchBonusSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FaqSection from "@/components/FaqSection";
-import FinalCta from "@/components/FinalCta";
 import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
 
@@ -29,7 +28,6 @@ const Index = () => {
       <PlatformShowcase />
       <TestimonialsSection />
       <FaqSection />
-      <FinalCta />
       <SwitchBonusSection />
       <Footer />
     </div>
