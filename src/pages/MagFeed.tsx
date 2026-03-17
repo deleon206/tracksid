@@ -12,11 +12,6 @@ const MagFeed = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>The Mag — Events & Insights | TracksID</title>
-        <meta name="description" content="Industry events, product insights, and the latest news from the TracksID team. Stay updated with our magazine." />
-        <link rel="canonical" href="https://tracksid.lovable.app/mag" />
-      </Helmet>
 
       <Navbar />
 
