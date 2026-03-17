@@ -7,6 +7,7 @@ import MagFeed from "./pages/MagFeed.tsx";
 import MagArticle from "./pages/MagArticle.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Invitation from "./pages/Invitation.tsx";
+import Demos from "./pages/Demos.tsx";
 
 const App = () => (
   <TooltipProvider>
@@ -15,6 +16,7 @@ const App = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/demos" element={<Demos />} />
         <Route path="/mag" element={<MagFeed />} />
         <Route path="/mag/:slug" element={<MagArticle />} />
         <Route path="/inv/:artistAlias" element={<Invitation />} />
