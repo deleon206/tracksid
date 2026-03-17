@@ -152,49 +152,6 @@ const HeroSection = () => {
         {/* Main content — headline left, wave graphic right */}
         <div className="flex-1 flex items-end relative pt-20">
 
-          {/* Wave graphic — top right */}
-          <motion.div
-            className="absolute top-20 right-0 flex flex-col items-end gap-2"
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-          >
-            <p className="font-heading text-[10px] tracking-[0.2em] text-muted-foreground">
-              // YOU SEE A NODE. WE SEE A NEXUS.
-            </p>
-            {/* Music wave box */}
-            <div className="w-[320px] h-[80px] border border-border/50 relative overflow-hidden">
-              <LiveBadge />
-              <MusicWaveGraphic />
-              {/* Corner brackets */}
-              <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-primary/60" />
-              <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-primary/60" />
-              <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-primary/60" />
-              <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-primary/60" />
-            </div>
-
-            {/* Trending ticker */}
-            <motion.div
-              className="flex items-center gap-2 mt-1"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2 }}
-            >
-              <motion.span
-                className="w-1 h-1 rounded-full bg-primary"
-                animate={{ opacity: [1, 0.3, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
-              />
-              <p className="font-heading text-[9px] tracking-[0.12em] text-muted-foreground">
-                Trending: <span className="text-primary">+500 new releases</span> in the last 24h via Tracks/ID Gateway
-              </p>
-            </motion.div>
-
-            {/* Decorative connector line */}
-            <svg width="2" height="40" className="mr-8 opacity-40" aria-hidden="true">
-              <line x1="1" y1="0" x2="1" y2="40" stroke="hsl(var(--primary))" strokeWidth="1" strokeDasharray="3 3" />
-            </svg>
-          </motion.div>
 
           {/* Headline — bottom left */}
           <div className="flex flex-col gap-6 pb-4 max-w-[70%]">

@@ -22,13 +22,7 @@ const Navbar = () => {
     >
       <div className="container flex items-center justify-between py-3">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2 font-heading text-sm font-bold tracking-widest text-foreground uppercase">
-          <svg width="28" height="28" viewBox="0 0 40 40" fill="none" className="shrink-0">
-            <circle cx="20" cy="20" r="18" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
-            <circle cx="20" cy="20" r="6" stroke="hsl(var(--primary))" strokeWidth="1.2" fill="none" />
-            <line x1="20" y1="2" x2="20" y2="14" stroke="hsl(var(--primary))" strokeWidth="1" />
-            <line x1="20" y1="26" x2="20" y2="38" stroke="hsl(var(--primary))" strokeWidth="1" />
-          </svg>
+        <a href="/" className="font-heading text-sm font-bold tracking-widest text-foreground uppercase">
           TRACKS/ID
         </a>
 
