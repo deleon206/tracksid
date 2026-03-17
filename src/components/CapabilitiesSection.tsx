@@ -155,7 +155,7 @@ const FusionHexagonGraphic = () => {
 
       // Large center hex
       const centerR = baseR * 1.1;
-      drawHex(cx, cy, centerR, `rgba(0,255,136,${glowPulse})`, `rgba(0,255,136,${0.06 + (hover ? 0.06 : 0)})`, 2);
+      drawHex(cx, cy, centerR, `rgba(230,180,17,${glowPulse})`, `rgba(230,180,17,${0.06 + (hover ? 0.06 : 0)})`, 2);
 
       // Inner detail hex
       drawHex(cx, cy, centerR * 0.6, `rgba(0,255,136,${glowPulse * 0.6})`, "", 1);
