@@ -3,8 +3,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import OnionSkinBackground from "./OnionSkinBackground";
 
 /* ─── Headline lines ─── */
-const headlineLines = ["MUSIC", "DISTRIBUTION", "FOR ARTISTS"];
-const accentLine = "& LABELS";
+const headlineLines = ["THE #1", "ALL-IN-ONE", "RECORD LABEL"];
+const accentLine = "& DISTRIBUTION";
 
 /* ═══════════════════════════════════════════════════════════
    MUSIC WAVE VISUALIZER — audio-style frequency bars
@@ -148,13 +148,12 @@ const HeroSection = () => {
       {/* Onion Skin 3D background */}
       <OnionSkinBackground />
 
-      <div className="relative z-10 flex flex-col flex-1 h-full container">
-        {/* Main content — headline left, wave graphic right */}
+      <div className="relative z-10 flex flex-col flex-1 h-full container px-4 sm:px-6 md:px-8">
+        {/* Main content — headline left */}
         <div className="flex-1 flex items-end relative pt-20">
 
-
           {/* Headline — bottom left */}
-          <div className="flex flex-col gap-6 pb-4 max-w-[70%]">
+          <div className="flex flex-col gap-4 sm:gap-6 pb-4 max-w-full sm:max-w-[70%]">
             {/* Tag badge */}
             <motion.div
               className="inline-flex items-center bg-primary px-3 py-1 mb-4 w-fit"
@@ -163,11 +162,11 @@ const HeroSection = () => {
               transition={{ delay: 0.15, duration: 0.4 }}
             >
               <span className="font-heading text-[10px] font-bold tracking-[0.15em] text-primary-foreground italic">
-                // THE WORLD'S FIRST HYBRID LABEL SOLUTION
+                // SEND YOUR DEMO TO A REAL RECORD LABEL
               </span>
             </motion.div>
 
-            <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-heading font-black leading-[0.9] tracking-tighter">
+            <h1 className="text-[clamp(2rem,6vw,5.5rem)] font-heading font-black leading-[0.9] tracking-tighter">
               {headlineLines.map((line, i) => (
                 <GlitchLine key={line} text={line} delay={0.3 + i * 0.25} />
               ))}
@@ -209,47 +208,40 @@ const HeroSection = () => {
 
         {/* ─── Bottom duo-tone bar ─── */}
         <motion.div
-          className="flex flex-col sm:flex-row items-stretch -mx-4 md:-mx-8"
+          className="flex flex-col sm:flex-row items-stretch w-full"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 2 }}
         >
-          {/* Left side (70%) — black with green border-top */}
-          <div className="relative flex-[7] border-t border-primary bg-background px-6 md:px-8 py-4 flex items-center gap-6">
+          {/* Left side — black with gold border-top */}
+          <div className="relative flex-1 sm:flex-[7] border-t border-primary bg-background px-4 sm:px-6 md:px-8 py-3 sm:py-4 flex items-center gap-3 sm:gap-6 min-w-0">
             {/* T/ icon */}
-            <div className="w-8 h-8 border-2 border-primary rounded-full flex items-center justify-center shrink-0">
-              <span className="font-heading text-xs font-bold text-primary">T/</span>
+            <div className="w-7 h-7 sm:w-8 sm:h-8 border-2 border-primary rounded-full flex items-center justify-center shrink-0">
+              <span className="font-heading text-[10px] sm:text-xs font-bold text-primary">T/</span>
             </div>
-            <p className="font-heading text-[10px] md:text-xs tracking-wider font-bold uppercase text-foreground">
+            <p className="font-heading text-[9px] sm:text-[10px] md:text-xs tracking-wider font-bold uppercase text-foreground truncate sm:whitespace-normal">
               Music infrastructure to distribute, monetize, and grow your catalog
             </p>
             {/* Micro-copy urgency */}
             <p className="hidden lg:block font-body text-[10px] text-muted-foreground ml-auto shrink-0">
-              Join <span className="text-foreground font-medium">+1,200 labels & 10,000 artists</span> today.&nbsp;
+              Join <span className="text-foreground font-medium">+1,200 labels & 10,000 artists</span> today.
             </p>
-            {/* Shimmer line across the bar */}
+            {/* Shimmer line */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="hero-bar-shimmer absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent" />
             </div>
           </div>
 
-          {/* Right side (30%) — solid green CTA */}
-          <div className="flex-[3] bg-primary px-6 md:px-8 py-4 flex items-center justify-center">
+          {/* Right side — solid gold CTA */}
+          <div className="sm:flex-[3] bg-primary px-4 sm:px-6 md:px-8 py-3 sm:py-4 flex items-center justify-center">
             <motion.a
               href="#plans"
-              className="group inline-flex items-center gap-3 font-heading text-xs font-black uppercase tracking-[0.15em] text-primary-foreground hover:opacity-80 transition-opacity duration-200"
+              className="group inline-flex items-center gap-2 sm:gap-3 font-heading text-[10px] sm:text-xs font-black uppercase tracking-[0.15em] text-primary-foreground hover:opacity-80 transition-opacity duration-200"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
               SEND YOUR DEMO
-              <motion.span
-                className="inline-block text-lg"
-                initial={{ x: 0 }}
-                whileHover={{ x: 3 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                →
-              </motion.span>
+              <span className="inline-block text-base sm:text-lg">→</span>
             </motion.a>
           </div>
         </motion.div>
