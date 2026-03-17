@@ -1,10 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ArrowUp } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ReadingProgress from "@/components/ReadingProgress";
+import MagSidebarSearch from "@/components/MagSidebarSearch";
 import { useMagArticle, useMagArticles } from "@/hooks/use-mag-articles";
 
 import beatportLogo from "@/assets/partners/beatport.png";
