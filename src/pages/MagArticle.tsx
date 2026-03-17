@@ -227,17 +227,29 @@ const MagArticle = () => {
                         to={`/mag/${a.slug}`}
                         className="block group"
                       >
-                        <p className="font-mono text-[11px] leading-snug text-foreground/60 group-hover:text-primary transition-colors line-clamp-2">
-                          {a.title}
-                        </p>
-                        <span className="font-mono text-[9px] text-muted-foreground mt-1 block">
-                          {a.created_at
-                            ? new Date(a.created_at).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                              })
-                            : ""}
-                        </span>
+                        <div className="flex gap-3 items-start">
+                          {a.image_url && (
+                            <img
+                              src={a.image_url}
+                              alt={a.title || ""}
+                              className="w-16 h-10 object-cover shrink-0 grayscale group-hover:grayscale-0 transition-all duration-300"
+                              loading="lazy"
+                            />
+                          )}
+                          <div className="min-w-0">
+                            <p className="font-mono text-[11px] leading-snug text-foreground/60 group-hover:text-primary transition-colors line-clamp-2">
+                              {a.title}
+                            </p>
+                            <span className="font-mono text-[9px] text-muted-foreground mt-1 block">
+                              {a.created_at
+                                ? new Date(a.created_at).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                  })
+                                : ""}
+                            </span>
+                          </div>
+                        </div>
                       </Link>
                     ))}
                   </div>
