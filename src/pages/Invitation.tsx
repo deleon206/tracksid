@@ -180,19 +180,22 @@ const LockScreen = ({
 
           {/* Notes */}
           <motion.div
-            className="mt-8 space-y-3 text-center"
+            className="mt-8 space-y-4 text-center max-w-sm mx-auto"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
+            animate={{ opacity: 0.7 }}
             transition={{ delay: 1.8 }}
           >
-            <p className="font-body text-[10px] text-foreground/70 leading-relaxed">
-              * Para visualizar el contenido de la propuesta, por favor ingrese el nombre visible que tenga en LabelRadar como artista.
+            <p className="font-body text-[10px] text-foreground/90 leading-relaxed flex items-start gap-2 text-left">
+              <svg className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/></svg>
+              To view the content of this proposal, please enter the visible artist name you have on LabelRadar.
             </p>
-            <p className="font-body text-[10px] text-foreground/70 leading-relaxed">
-              * En caso de ser una colaboración de más de 1 artista en el track, la propuesta y los beneficios se aplicarán equitativamente.
+            <p className="font-body text-[10px] text-foreground/90 leading-relaxed flex items-start gap-2 text-left">
+              <svg className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              If this is a collaboration involving more than one artist on the track, the proposal and benefits will apply equitably to all parties.
             </p>
-            <p className="font-body text-[10px] text-foreground/70 leading-relaxed">
-              * En caso de tener problemas con el acceso, por favor comuníquelo a su A&R asignado mediante LabelRadar.
+            <p className="font-body text-[10px] text-foreground/90 leading-relaxed flex items-start gap-2 text-left">
+              <svg className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              If you experience any issues accessing this proposal, please contact your assigned A&R representative via LabelRadar.
             </p>
           </motion.div>
         </form>
