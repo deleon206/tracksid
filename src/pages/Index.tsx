@@ -28,6 +28,7 @@ const Index = () => {
       <PlatformShowcase />
       <TestimonialsSection />
       <FaqSection />
+      <div className="w-full border-t border-border" />
       <SwitchBonusSection />
       <Footer />
     </div>
