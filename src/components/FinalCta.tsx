@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { articles } from "@/data/articles";
+import { useMagArticles } from "@/hooks/use-mag-articles";
 
 const FinalCta = () => {
-  const sorted = [...articles].reverse();
+  const { articles, loading } = useMagArticles(4);
+
+  if (loading || articles.length === 0) return null;
 
   return (
     <section className="py-24 border-t border-border">
@@ -24,9 +26,9 @@ const FinalCta = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border">
-          {sorted.map((article, i) => (
+          {articles.map((article, i) => (
             <motion.div
-              key={article.slug}
+              key={article.id}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -38,22 +40,23 @@ const FinalCta = () => {
               >
                 {/* Date column */}
                 <div className="flex flex-col items-start shrink-0 w-28">
-                  <span className="inline-block bg-primary text-primary-foreground font-mono text-[9px] font-bold tracking-wider px-2 py-0.5 mb-3">
-                    {article.category}
-                  </span>
                   <p className="font-heading text-xl font-black text-foreground leading-none">
-                    {article.date}
+                    {article.created_at
+                      ? new Date(article.created_at).toLocaleDateString("en-US", { day: "numeric", month: "short" }).toUpperCase()
+                      : ""}
                   </p>
                 </div>
 
                 {/* Thumbnail */}
                 <div className="relative overflow-hidden w-28 h-20 shrink-0">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                    loading="lazy"
-                  />
+                  {article.image_url && (
+                    <img
+                      src={article.image_url}
+                      alt={article.title || "Article"}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                      loading="lazy"
+                    />
+                  )}
                   <div
                     className="absolute inset-0 pointer-events-none opacity-20"
                     style={{
@@ -68,9 +71,6 @@ const FinalCta = () => {
                   <h3 className="font-heading text-sm md:text-base font-bold text-foreground group-hover:text-primary transition-colors duration-300 leading-tight mb-1 line-clamp-2">
                     {article.title}
                   </h3>
-                  <p className="font-body text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                    {article.excerpt}
-                  </p>
                 </div>
               </Link>
             </motion.div>
