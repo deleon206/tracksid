@@ -167,7 +167,7 @@ const HeroSection = () => {
               </span>
             </motion.div>
 
-            <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-heading font-black leading-[0.9] tracking-tighter">
+            <h1 className="text-[clamp(2rem,6vw,5.5rem)] font-heading font-black leading-[0.9] tracking-tighter">
               {headlineLines.map((line, i) => (
                 <GlitchLine key={line} text={line} delay={0.3 + i * 0.25} />
               ))}
