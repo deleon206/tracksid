@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { Music, Headphones, Radio } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import UserTypeSolutions from "@/components/UserTypeSolutions";
+import PlatformShowcase from "@/components/PlatformShowcase";
+import SwitchBonusSection from "@/components/SwitchBonusSection";
 import artistImg from "@/assets/distribution-hero-artist.jpg";
 
 const platformLogos = [
@@ -178,6 +181,10 @@ const Distribution = () => {
         </div>
       </section>
 
+      <UserTypeSolutions />
+      <PlatformShowcase />
+      <div className="w-full border-t border-border" />
+      <SwitchBonusSection />
       <Footer />
     </div>
   );
