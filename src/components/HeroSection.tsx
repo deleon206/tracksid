@@ -209,47 +209,40 @@ const HeroSection = () => {
 
         {/* ─── Bottom duo-tone bar ─── */}
         <motion.div
-          className="flex flex-col sm:flex-row items-stretch -mx-4 md:-mx-8"
+          className="flex flex-col sm:flex-row items-stretch w-full"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 2 }}
         >
-          {/* Left side (70%) — black with green border-top */}
-          <div className="relative flex-[7] border-t border-primary bg-background px-6 md:px-8 py-4 flex items-center gap-6">
+          {/* Left side — black with gold border-top */}
+          <div className="relative flex-1 sm:flex-[7] border-t border-primary bg-background px-4 sm:px-6 md:px-8 py-3 sm:py-4 flex items-center gap-3 sm:gap-6 min-w-0">
             {/* T/ icon */}
-            <div className="w-8 h-8 border-2 border-primary rounded-full flex items-center justify-center shrink-0">
-              <span className="font-heading text-xs font-bold text-primary">T/</span>
+            <div className="w-7 h-7 sm:w-8 sm:h-8 border-2 border-primary rounded-full flex items-center justify-center shrink-0">
+              <span className="font-heading text-[10px] sm:text-xs font-bold text-primary">T/</span>
             </div>
-            <p className="font-heading text-[10px] md:text-xs tracking-wider font-bold uppercase text-foreground">
+            <p className="font-heading text-[9px] sm:text-[10px] md:text-xs tracking-wider font-bold uppercase text-foreground truncate sm:whitespace-normal">
               Music infrastructure to distribute, monetize, and grow your catalog
             </p>
             {/* Micro-copy urgency */}
             <p className="hidden lg:block font-body text-[10px] text-muted-foreground ml-auto shrink-0">
-              Join <span className="text-foreground font-medium">+1,200 labels & 10,000 artists</span> today.&nbsp;
+              Join <span className="text-foreground font-medium">+1,200 labels & 10,000 artists</span> today.
             </p>
-            {/* Shimmer line across the bar */}
+            {/* Shimmer line */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="hero-bar-shimmer absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent" />
             </div>
           </div>
 
-          {/* Right side (30%) — solid green CTA */}
-          <div className="flex-[3] bg-primary px-6 md:px-8 py-4 flex items-center justify-center">
+          {/* Right side — solid gold CTA */}
+          <div className="sm:flex-[3] bg-primary px-4 sm:px-6 md:px-8 py-3 sm:py-4 flex items-center justify-center">
             <motion.a
               href="#plans"
-              className="group inline-flex items-center gap-3 font-heading text-xs font-black uppercase tracking-[0.15em] text-primary-foreground hover:opacity-80 transition-opacity duration-200"
+              className="group inline-flex items-center gap-2 sm:gap-3 font-heading text-[10px] sm:text-xs font-black uppercase tracking-[0.15em] text-primary-foreground hover:opacity-80 transition-opacity duration-200"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
               SEND YOUR DEMO
-              <motion.span
-                className="inline-block text-lg"
-                initial={{ x: 0 }}
-                whileHover={{ x: 3 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                →
-              </motion.span>
+              <span className="inline-block text-base sm:text-lg">→</span>
             </motion.a>
           </div>
         </motion.div>
