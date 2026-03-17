@@ -57,25 +57,25 @@ const HexLockIcon = () => (
     viewBox="0 0 64 72"
     fill="none"
     className="mb-8"
-    animate={{ filter: ["drop-shadow(0 0 8px hsl(152 100% 50% / 0.3))", "drop-shadow(0 0 20px hsl(152 100% 50% / 0.6))", "drop-shadow(0 0 8px hsl(152 100% 50% / 0.3))"] }}
+    animate={{ filter: ["drop-shadow(0 0 8px hsl(48 90% 50% / 0.3))", "drop-shadow(0 0 20px hsl(48 90% 50% / 0.6))", "drop-shadow(0 0 8px hsl(48 90% 50% / 0.3))"] }}
     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
   >
     {/* Hexagon outline */}
     <motion.path
       d="M32 2L60 19V53L32 70L4 53V19L32 2Z"
-      stroke="hsl(152 100% 50%)"
+      stroke="hsl(48 90% 50%)"
       strokeWidth="1.5"
       fill="none"
       animate={{ opacity: [0.5, 1, 0.5] }}
       transition={{ duration: 3, repeat: Infinity }}
     />
     {/* Lock body */}
-    <rect x="22" y="34" width="20" height="16" rx="2" stroke="hsl(152 100% 50%)" strokeWidth="1.2" fill="none" />
+    <rect x="22" y="34" width="20" height="16" rx="2" stroke="hsl(48 90% 50%)" strokeWidth="1.2" fill="none" />
     {/* Lock shackle */}
-    <path d="M26 34V28C26 24.7 28.7 22 32 22C35.3 22 38 24.7 38 28V34" stroke="hsl(152 100% 50%)" strokeWidth="1.2" fill="none" />
+    <path d="M26 34V28C26 24.7 28.7 22 32 22C35.3 22 38 24.7 38 28V34" stroke="hsl(48 90% 50%)" strokeWidth="1.2" fill="none" />
     {/* Keyhole */}
-    <circle cx="32" cy="41" r="2" fill="hsl(152 100% 50%)" />
-    <rect x="31.2" y="42" width="1.6" height="4" rx="0.8" fill="hsl(152 100% 50%)" />
+    <circle cx="32" cy="41" r="2" fill="hsl(48 90% 50%)" />
+    <rect x="31.2" y="42" width="1.6" height="4" rx="0.8" fill="hsl(48 90% 50%)" />
   </motion.svg>
 );
 
