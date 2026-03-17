@@ -161,8 +161,8 @@ const FusionHexagonGraphic = () => {
       drawHex(cx, cy, centerR * 0.6, `rgba(230,180,17,${glowPulse * 0.6})`, "", 1);
 
       // Inner crosshairs
-      drawLine(cx - centerR * 0.3, cy, cx + centerR * 0.3, cy, `rgba(0,255,136,${glowPulse * 0.4})`, 0.5);
-      drawLine(cx, cy - centerR * 0.3, cx, cy + centerR * 0.3, `rgba(0,255,136,${glowPulse * 0.4})`, 0.5);
+      drawLine(cx - centerR * 0.3, cy, cx + centerR * 0.3, cy, `rgba(230,180,17,${glowPulse * 0.4})`, 0.5);
+      drawLine(cx, cy - centerR * 0.3, cx, cy + centerR * 0.3, `rgba(230,180,17,${glowPulse * 0.4})`, 0.5);
 
       // T/ID logo text in center
       ctx.font = `900 ${Math.max(10, baseR * 0.35)}px 'Montserrat', sans-serif`;
