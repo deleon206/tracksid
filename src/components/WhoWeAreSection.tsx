@@ -36,8 +36,8 @@ const DataCable = ({ direction, inView }: { direction: "left" | "right"; inView:
     : "M 300,30 C 260,30 240,10 200,18 S 140,40 100,25 S 40,10 0,30";
 
   return (
-    <div className="hidden lg:flex items-center flex-1 relative h-[60px] -mx-4">
-      <svg viewBox="0 0 300 60" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+    <div className="hidden lg:flex items-center relative h-[60px] min-w-[140px]">
+      <svg viewBox="0 0 300 60" className="w-full h-full overflow-visible" preserveAspectRatio="xMidYMid meet">
         {/* Base cable (dim) */}
         <motion.path
           d={cablePath}
