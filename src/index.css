@@ -113,3 +113,38 @@
   85% { opacity: 1; }
   95% { transform: translateX(100%); opacity: 0.6; }
 }
+
+/* Prose styles for Mag articles rendered from HTML */
+.prose-mag {
+  @apply text-foreground/80;
+}
+.prose-mag h1 {
+  @apply font-heading text-3xl md:text-5xl font-black text-foreground mt-12 mb-6 leading-[0.95];
+}
+.prose-mag h2 {
+  @apply font-heading text-2xl md:text-3xl font-black text-foreground mt-12 mb-6;
+}
+.prose-mag h3 {
+  @apply font-heading text-xl md:text-2xl font-bold text-foreground mt-8 mb-4;
+}
+.prose-mag p {
+  @apply font-body text-lg leading-[1.7] mb-6;
+}
+.prose-mag blockquote {
+  @apply border-l-4 border-primary pl-6 py-2 my-8 italic font-body text-lg text-foreground/90 leading-relaxed;
+}
+.prose-mag img {
+  @apply w-full object-cover my-10;
+}
+.prose-mag ul, .prose-mag ol {
+  @apply font-body text-lg leading-[1.7] mb-6 pl-6;
+}
+.prose-mag li {
+  @apply mb-2;
+}
+.prose-mag a {
+  @apply text-primary underline hover:brightness-110 transition-all;
+}
+.prose-mag strong {
+  @apply text-foreground font-bold;
+}
