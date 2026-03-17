@@ -289,56 +289,88 @@ const ReviewStar = ({ filled }: { filled: boolean }) => (
 );
 
 const FloatingReviews = () => {
-  // Create 3 orbital rings with different speeds and directions
-  const rings = [
-    { reviews: floatingReviews.slice(0, 6), duration: 45, reverse: false, radius: 420, tilt: 12 },
-    { reviews: floatingReviews.slice(6, 12), duration: 55, reverse: true, radius: 520, tilt: -8 },
-    { reviews: floatingReviews.slice(12, 18), duration: 50, reverse: false, radius: 460, tilt: 5 },
+  /* 
+    Satellite-style diagonal streams — reviews travel across the full screen
+    in sweeping diagonal paths with slight tilt, like satellites orbiting Earth.
+    Directions based on reference: bottom-left→top-right, top-right→bottom-left, etc.
+  */
+  const streams = [
+    // Bottom-left to top-right (main upward sweep)
+    {
+      reviews: floatingReviews.slice(0, 5),
+      from: { x: "-30%", y: "110%" },
+      to: { x: "130%", y: "-20%" },
+      duration: 70,
+      staggerOffset: 0,
+      tilt: "-12deg",
+    },
+    // Top-right to bottom-left (counter sweep)
+    {
+      reviews: floatingReviews.slice(5, 10),
+      from: { x: "130%", y: "-15%" },
+      to: { x: "-30%", y: "115%" },
+      duration: 80,
+      staggerOffset: 0.15,
+      tilt: "-8deg",
+    },
+    // Bottom-right to top-left (crossing diagonal)
+    {
+      reviews: floatingReviews.slice(10, 15),
+      from: { x: "125%", y: "110%" },
+      to: { x: "-25%", y: "-15%" },
+      duration: 75,
+      staggerOffset: 0.3,
+      tilt: "10deg",
+    },
+    // Top-left to bottom-right
+    {
+      reviews: floatingReviews.slice(15, 18),
+      from: { x: "-25%", y: "-10%" },
+      to: { x: "130%", y: "115%" },
+      duration: 85,
+      staggerOffset: 0.1,
+      tilt: "6deg",
+    },
   ];
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true" style={{ perspective: "1200px" }}>
-      {rings.map((ring, ringIdx) => (
-        <motion.div
-          key={ringIdx}
-          className="absolute inset-0 flex items-center justify-center"
-          style={{ transformStyle: "preserve-3d", rotateX: `${ring.tilt}deg` }}
-          animate={{ rotateZ: ring.reverse ? [360, 0] : [0, 360] }}
-          transition={{ duration: ring.duration, repeat: Infinity, ease: "linear" }}
-        >
-          {ring.reviews.map((review, i) => {
-            const angle = (360 / ring.reviews.length) * i;
-            const rad = (angle * Math.PI) / 180;
-            const x = Math.cos(rad) * ring.radius;
-            const y = Math.sin(rad) * ring.radius * 0.35;
-            return (
-              <motion.div
-                key={i}
-                className="absolute max-w-[220px] px-3 py-2.5 border border-border/20 bg-card/30 backdrop-blur-[2px] rounded-sm"
-                style={{
-                  left: `calc(50% + ${x}px)`,
-                  top: `calc(50% + ${y}px)`,
-                  transform: `translate(-50%, -50%)`,
-                  opacity: 0.12 + (ringIdx * 0.03),
-                }}
-                animate={{
-                  rotateZ: ring.reverse ? [-360, 0] : [0, -360],
-                }}
-                transition={{ duration: ring.duration, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="flex gap-0.5 mb-1">
-                  {[...Array(5)].map((_, s) => (
-                    <ReviewStar key={s} filled={s < review.stars} />
-                  ))}
-                </div>
-                <p className="font-body text-[9px] leading-snug text-foreground/70">
-                  "{review.text}"
-                </p>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      ))}
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      {streams.map((stream, sIdx) =>
+        stream.reviews.map((review, i) => {
+          const delay = (stream.duration / stream.reviews.length) * i + stream.staggerOffset * stream.duration;
+          return (
+            <motion.div
+              key={`${sIdx}-${i}`}
+              className="absolute max-w-[200px] px-3 py-2 border border-border/15 bg-card/20 backdrop-blur-[1px] rounded-sm"
+              style={{
+                rotate: stream.tilt,
+                opacity: 0,
+              }}
+              animate={{
+                left: [stream.from.x, stream.to.x],
+                top: [stream.from.y, stream.to.y],
+                opacity: [0, 0.15, 0.15, 0],
+              }}
+              transition={{
+                duration: stream.duration,
+                delay,
+                repeat: Infinity,
+                ease: "linear",
+                times: [0, 0.1, 0.9, 1],
+              }}
+            >
+              <div className="flex gap-0.5 mb-1">
+                {[...Array(5)].map((_, s) => (
+                  <ReviewStar key={s} filled={s < review.stars} />
+                ))}
+              </div>
+              <p className="font-body text-[9px] leading-snug text-foreground/60 whitespace-normal">
+                "{review.text}"
+              </p>
+            </motion.div>
+          );
+        })
+      )}
     </div>
   );
 };
