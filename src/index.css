@@ -216,3 +216,12 @@
   @apply my-12;
   border-color: hsl(var(--border));
 }
+
+/* Ticker animation for platform logos */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-ticker {
+  animation: ticker 20s linear infinite;
+}
