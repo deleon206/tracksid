@@ -159,7 +159,7 @@ const LockScreen = ({
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder={`Insert Artist Alias to Decrypt for ${artistAlias}`}
-              className="w-full bg-transparent border border-primary/60 text-foreground font-heading text-sm font-bold tracking-wider px-5 py-4 text-center placeholder:text-muted-foreground placeholder:font-normal placeholder:text-xs placeholder:tracking-widest focus:outline-none focus:border-primary focus:shadow-[0_0_20px_hsl(152_100%_50%_/_0.15)] transition-all duration-500"
+              className="w-full bg-transparent border border-primary/60 text-foreground font-heading text-sm font-bold tracking-wider px-5 py-4 text-center placeholder:text-muted-foreground placeholder:font-normal placeholder:text-xs placeholder:tracking-widest focus:outline-none focus:border-primary focus:shadow-[0_0_20px_hsl(48_90%_50%_/_0.15)] transition-all duration-500"
               autoFocus
             />
             {/* Corner brackets */}
