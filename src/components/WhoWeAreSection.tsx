@@ -216,27 +216,8 @@ const WhoWeAreSection = () => {
             </p>
           </motion.div>
 
-          {/* ── Connecting lines right ── */}
-          <div className="hidden lg:flex items-center w-24 relative">
-            <motion.div
-              className="h-[1px] flex-1 bg-muted-foreground/30 origin-left"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            />
-            <motion.div
-              className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary"
-              initial={{ scale: 0 }}
-              animate={inView ? { scale: [0, 1.5, 1] } : {}}
-              transition={{ duration: 0.5, delay: 1.4 }}
-            />
-            <motion.div
-              className="h-[1px] flex-1 bg-muted-foreground/30 origin-right"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            />
-          </div>
+          {/* ── Right data cable ── */}
+          <DataCable direction="right" inView={inView} />
 
           {/* ── TRACKS/ID (Right) ── */}
           <motion.div
