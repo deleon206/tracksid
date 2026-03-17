@@ -22,9 +22,9 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <TrustBar />
+      <UserTypeSolutions />
       <CapabilitiesSection />
       <HybridPlatformSection />
-      <UserTypeSolutions />
       <PlatformShowcase />
       <TestimonialsSection />
       <FaqSection />
