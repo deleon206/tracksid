@@ -143,30 +143,8 @@ const WhoWeAreSection = () => {
             </p>
           </motion.div>
 
-          {/* ── Connecting lines + merge pulse ── */}
-          <div className="hidden lg:flex items-center w-24 relative">
-            {/* Left line */}
-            <motion.div
-              className="h-[1px] flex-1 bg-muted-foreground/30 origin-left"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            />
-            {/* Pulse dot */}
-            <motion.div
-              className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary"
-              initial={{ scale: 0 }}
-              animate={inView ? { scale: [0, 1.5, 1] } : {}}
-              transition={{ duration: 0.5, delay: 1.4 }}
-            />
-            {/* Right line */}
-            <motion.div
-              className="h-[1px] flex-1 bg-muted-foreground/30 origin-right"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            />
-          </div>
+          {/* ── Left data cable ── */}
+          <DataCable direction="left" inView={inView} />
 
           {/* ── FUSION CENTER ── */}
           <motion.div
