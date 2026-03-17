@@ -136,11 +136,11 @@ const FusionHexagonGraphic = () => {
         // Left to center
         const px1 = (lx + baseR * 1.3) + ((cx - baseR * 1.1) - (lx + baseR * 1.3)) * prog;
         const py1 = ly + (cy - ly) * prog;
-        drawNode(px1, py1, 1.5, `rgba(0,255,136,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
+        drawNode(px1, py1, 1.5, `rgba(230,180,17,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
         // Right to center
         const px2 = (rx - baseR * 1.3) + ((cx + baseR * 1.1) - (rx - baseR * 1.3)) * prog;
         const py2 = ry + (cy - ry) * prog;
-        drawNode(px2, py2, 1.5, `rgba(0,255,136,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
+        drawNode(px2, py2, 1.5, `rgba(230,180,17,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
       }
 
       // === CENTRAL FUSION HEXAGON — vibrant ===
