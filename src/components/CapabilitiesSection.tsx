@@ -127,8 +127,8 @@ const FusionHexagonGraphic = () => {
 
       // === CONNECTING LINES from clusters to center ===
       const lineAlpha = 0.15 + 0.1 * Math.sin(t * 1.2);
-      drawLine(lx + baseR * 1.3, ly, cx - baseR * 1.1, cy, `rgba(0,255,136,${lineAlpha})`, 0.8);
-      drawLine(rx - baseR * 1.3, ry, cx + baseR * 1.1, cy, `rgba(0,255,136,${lineAlpha})`, 0.8);
+      drawLine(lx + baseR * 1.3, ly, cx - baseR * 1.1, cy, `rgba(230,180,17,${lineAlpha})`, 0.8);
+      drawLine(rx - baseR * 1.3, ry, cx + baseR * 1.1, cy, `rgba(230,180,17,${lineAlpha})`, 0.8);
 
       // Data flow particles along connection lines
       for (let p = 0; p < 3; p++) {
