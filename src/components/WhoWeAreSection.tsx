@@ -29,59 +29,52 @@ const Hexagon = ({ className, strokeColor, children }: { className?: string; str
 /* ─── Data Transfer Cable — animated particles traveling along a curved path ─── */
 const DataCable = ({ direction, inView }: { direction: "left" | "right"; inView: boolean }) => {
   const isLeft = direction === "left";
-  // Curved path from outer hex toward center
-  const path = isLeft
-    ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25"
-    : "M 130,25 C 100,25 80,15 60,25 S 20,20 0,25";
+  // Long organic wave curve spanning the full gap
+  const cablePath = "M 0,30 C 40,30 60,10 100,18 S 160,40 200,25 S 260,10 300,30";
+  const particlePath = isLeft
+    ? cablePath
+    : "M 300,30 C 260,30 240,10 200,18 S 140,40 100,25 S 40,10 0,30";
 
   return (
-    <div className="hidden lg:block w-28 relative h-[50px]">
-      <svg viewBox="0 0 130 50" className="w-full h-full overflow-visible" preserveAspectRatio="none">
-        {/* Base cable */}
+    <div className="hidden lg:flex items-center flex-1 relative h-[60px] -mx-4">
+      <svg viewBox="0 0 300 60" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+        {/* Base cable (dim) */}
         <motion.path
-          d={isLeft ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25" : "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25"}
+          d={cablePath}
           fill="none"
           stroke="hsl(var(--border))"
           strokeWidth="1"
           initial={{ pathLength: 0 }}
           animate={inView ? { pathLength: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 1, delay: 0.8 }}
         />
         {/* Glowing cable overlay */}
         <motion.path
-          d={isLeft ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25" : "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25"}
+          d={cablePath}
           fill="none"
           stroke="hsl(var(--primary))"
           strokeWidth="1.5"
           strokeLinecap="round"
           initial={{ pathLength: 0 }}
           animate={inView ? { pathLength: 1 } : {}}
-          transition={{ duration: 0.8, delay: 1.0 }}
-          style={{ filter: "drop-shadow(0 0 4px hsl(var(--primary)))" }}
+          transition={{ duration: 1, delay: 1.0 }}
+          style={{ filter: "drop-shadow(0 0 6px hsl(var(--primary)))" }}
         />
         {/* Traveling data particles */}
         {inView && [0, 1, 2].map((i) => (
-          <motion.circle
+          <circle
             key={i}
-            r="2.5"
+            r="3"
             fill="hsl(var(--primary))"
-            style={{ filter: "drop-shadow(0 0 6px hsl(var(--primary)))" }}
-            initial={{ offsetDistance: "0%" }}
-            animate={{ offsetDistance: "100%" }}
-            transition={{
-              duration: 1.8,
-              delay: 1.4 + i * 0.6,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+            style={{ filter: "drop-shadow(0 0 8px hsl(var(--primary)))" }}
           >
             <animateMotion
-              dur="1.8s"
-              begin={`${1.4 + i * 0.6}s`}
+              dur="2.2s"
+              begin={`${1.4 + i * 0.7}s`}
               repeatCount="indefinite"
-              path={isLeft ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25" : "M 130,25 C 100,25 80,15 60,25 S 20,20 0,25"}
+              path={particlePath}
             />
-          </motion.circle>
+          </circle>
         ))}
       </svg>
     </div>
