@@ -53,19 +53,12 @@ const Navbar = () => {
 
         {/* Right actions */}
         <div className="hidden lg:flex items-center gap-1 ml-1">
-          <button
-            className="flex items-center justify-center w-8 h-8 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
-            aria-label="Search"
-          >
-            <Search className="w-4 h-4" />
-          </button>
           <a
-            href="#plans"
-            className="flex items-center justify-center w-8 h-8 rounded-full overflow-hidden"
+            href="#"
+            className="flex items-center justify-center w-8 h-8 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+            aria-label="Help"
           >
-            <div className="w-full h-full rounded-full bg-primary/20 flex items-center justify-center text-primary font-heading text-[10px] font-bold">
-              →
-            </div>
+            <CircleHelp className="w-4 h-4" />
           </a>
         </div>
 
