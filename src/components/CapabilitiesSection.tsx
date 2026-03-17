@@ -262,10 +262,7 @@ const CapabilitiesSection = () => (
             {[
               "WHERE LEGACY",
               "MEETS",
-              "INFRASTRUCTURE:",
-              "REDEFINING",
-              "THE ARTIST",
-              "EXPERIENCE",
+              "INFRASTRUCTURE",
             ].map((line, i) => (
               <motion.div
                 key={line}
