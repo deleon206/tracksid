@@ -267,8 +267,8 @@ const HeroSection = () => {
       onMouseLeave={handleMouseLeave}
       className="relative h-screen flex flex-col overflow-hidden bg-background"
     >
-      {/* TRON interactive dot grid */}
-      <TronGridCanvas mousePos={mousePos} />
+      {/* Onion Skin 3D background */}
+      <OnionSkinBackground />
 
       <div className="relative z-10 flex flex-col flex-1 h-full container">
         {/* Main content — headline left, wave graphic right */}
