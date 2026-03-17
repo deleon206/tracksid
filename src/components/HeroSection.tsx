@@ -57,7 +57,7 @@ const MusicWaveGraphic = () => {
           if (i === 0) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = `rgba(0,255,136,${layerAlpha})`;
+        ctx.strokeStyle = `rgba(230,180,17,${layerAlpha})`;
         ctx.lineWidth = layer === 0 ? 1.5 : 1;
         ctx.stroke();
       }
@@ -66,7 +66,7 @@ const MusicWaveGraphic = () => {
       ctx.beginPath();
       ctx.moveTo(0, midY);
       ctx.lineTo(w, midY);
-      ctx.strokeStyle = "rgba(0,255,136,0.08)";
+      ctx.strokeStyle = "rgba(230,180,17,0.08)";
       ctx.lineWidth = 0.5;
       ctx.stroke();
 

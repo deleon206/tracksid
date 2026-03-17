@@ -127,8 +127,8 @@ const FusionHexagonGraphic = () => {
 
       // === CONNECTING LINES from clusters to center ===
       const lineAlpha = 0.15 + 0.1 * Math.sin(t * 1.2);
-      drawLine(lx + baseR * 1.3, ly, cx - baseR * 1.1, cy, `rgba(0,255,136,${lineAlpha})`, 0.8);
-      drawLine(rx - baseR * 1.3, ry, cx + baseR * 1.1, cy, `rgba(0,255,136,${lineAlpha})`, 0.8);
+      drawLine(lx + baseR * 1.3, ly, cx - baseR * 1.1, cy, `rgba(230,180,17,${lineAlpha})`, 0.8);
+      drawLine(rx - baseR * 1.3, ry, cx + baseR * 1.1, cy, `rgba(230,180,17,${lineAlpha})`, 0.8);
 
       // Data flow particles along connection lines
       for (let p = 0; p < 3; p++) {
@@ -136,37 +136,37 @@ const FusionHexagonGraphic = () => {
         // Left to center
         const px1 = (lx + baseR * 1.3) + ((cx - baseR * 1.1) - (lx + baseR * 1.3)) * prog;
         const py1 = ly + (cy - ly) * prog;
-        drawNode(px1, py1, 1.5, `rgba(0,255,136,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
+        drawNode(px1, py1, 1.5, `rgba(230,180,17,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
         // Right to center
         const px2 = (rx - baseR * 1.3) + ((cx + baseR * 1.1) - (rx - baseR * 1.3)) * prog;
         const py2 = ry + (cy - ry) * prog;
-        drawNode(px2, py2, 1.5, `rgba(0,255,136,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
+        drawNode(px2, py2, 1.5, `rgba(230,180,17,${0.6 * (1 - Math.abs(prog - 0.5) * 2)})`);
       }
 
       // === CENTRAL FUSION HEXAGON — vibrant ===
       // Outer glow
       if (hover) {
         const grad = ctx.createRadialGradient(cx, cy, baseR * 0.5, cx, cy, baseR * 2);
-        grad.addColorStop(0, `rgba(0,255,136,${glowPulse * 0.15})`);
-        grad.addColorStop(1, "rgba(0,255,136,0)");
+        grad.addColorStop(0, `rgba(230,180,17,${glowPulse * 0.15})`);
+        grad.addColorStop(1, "rgba(230,180,17,0)");
         ctx.fillStyle = grad;
         ctx.fillRect(cx - baseR * 2, cy - baseR * 2, baseR * 4, baseR * 4);
       }
 
       // Large center hex
       const centerR = baseR * 1.1;
-      drawHex(cx, cy, centerR, `rgba(0,255,136,${glowPulse})`, `rgba(0,255,136,${0.06 + (hover ? 0.06 : 0)})`, 2);
+      drawHex(cx, cy, centerR, `rgba(230,180,17,${glowPulse})`, `rgba(230,180,17,${0.06 + (hover ? 0.06 : 0)})`, 2);
 
       // Inner detail hex
-      drawHex(cx, cy, centerR * 0.6, `rgba(0,255,136,${glowPulse * 0.6})`, "", 1);
+      drawHex(cx, cy, centerR * 0.6, `rgba(230,180,17,${glowPulse * 0.6})`, "", 1);
 
       // Inner crosshairs
-      drawLine(cx - centerR * 0.3, cy, cx + centerR * 0.3, cy, `rgba(0,255,136,${glowPulse * 0.4})`, 0.5);
-      drawLine(cx, cy - centerR * 0.3, cx, cy + centerR * 0.3, `rgba(0,255,136,${glowPulse * 0.4})`, 0.5);
+      drawLine(cx - centerR * 0.3, cy, cx + centerR * 0.3, cy, `rgba(230,180,17,${glowPulse * 0.4})`, 0.5);
+      drawLine(cx, cy - centerR * 0.3, cx, cy + centerR * 0.3, `rgba(230,180,17,${glowPulse * 0.4})`, 0.5);
 
       // T/ID logo text in center
       ctx.font = `900 ${Math.max(10, baseR * 0.35)}px 'Montserrat', sans-serif`;
-      ctx.fillStyle = `rgba(0,255,136,${pulse})`;
+      ctx.fillStyle = `rgba(230,180,17,${pulse})`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText("T/ID", cx, cy);
@@ -177,7 +177,7 @@ const FusionHexagonGraphic = () => {
         const angle = (Math.PI / 3) * i - Math.PI / 2;
         const nx = cx + centerR * Math.cos(angle);
         const ny = cy + centerR * Math.sin(angle);
-        drawNode(nx, ny, 3.5 * pulse, `rgba(0,255,136,${glowPulse})`);
+        drawNode(nx, ny, 3.5 * pulse, `rgba(230,180,17,${glowPulse})`);
       }
 
       // Orbiting small hexes around center
@@ -186,8 +186,8 @@ const FusionHexagonGraphic = () => {
         const orbitR = centerR * 1.7;
         const ox = cx + orbitR * Math.cos(orbitAngle);
         const oy = cy + orbitR * Math.sin(orbitAngle);
-        drawHex(ox, oy, baseR * 0.3, `rgba(0,255,136,${0.15 + 0.1 * Math.sin(t + i)})`, "", 0.6);
-        drawLine(cx + centerR * Math.cos(orbitAngle) * 0.95, cy + centerR * Math.sin(orbitAngle) * 0.95, ox, oy, `rgba(0,255,136,${0.1})`, 0.5);
+        drawHex(ox, oy, baseR * 0.3, `rgba(230,180,17,${0.15 + 0.1 * Math.sin(t + i)})`, "", 0.6);
+        drawLine(cx + centerR * Math.cos(orbitAngle) * 0.95, cy + centerR * Math.sin(orbitAngle) * 0.95, ox, oy, `rgba(230,180,17,${0.1})`, 0.5);
       }
 
       t += 0.015;
