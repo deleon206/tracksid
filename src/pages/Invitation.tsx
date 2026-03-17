@@ -262,72 +262,63 @@ const BenefitItem = ({ title, desc, index }: { title: string; desc: string; inde
    FLOATING REVIEWS BACKGROUND — globe-like rotating reviews
    ═══════════════════════════════════════════════════════════ */
 const floatingReviews = [
-  { text: "My track got signed and I couldn't be happier with the results!", stars: 5, lang: "en" },
-  { text: "Mi track salió publicado en DJMAG, increíble experiencia", stars: 5, lang: "es" },
-  { text: "Martin Garrix played my track at Tomorrowland!", stars: 5, lang: "en" },
-  { text: "Featured on Protocol Radio — a dream come true", stars: 4, lang: "en" },
-  { text: "Estoy muy satisfecho con el proceso de firma del sello", stars: 5, lang: "es" },
-  { text: "Got featured on Beatport's top 100 within the first week", stars: 5, lang: "en" },
-  { text: "Mi música fue seleccionada para un editorial de Spotify", stars: 4, lang: "es" },
-  { text: "The A&R team gave me incredible feedback on my production", stars: 4, lang: "en" },
-  { text: "Firmé mi primer track y ya tengo playlist placement", stars: 5, lang: "es" },
-  { text: "Content ID protection saved me from unauthorized uploads", stars: 4, lang: "en" },
-  { text: "Mi release llegó a las playlists más importantes de Beatport", stars: 5, lang: "es" },
-  { text: "The royalty split is the fairest I've seen in the industry", stars: 5, lang: "en" },
-  { text: "Tiësto dropped my track on his radio show!", stars: 5, lang: "en" },
-  { text: "Recibí artwork profesional y promoción desde el día uno", stars: 4, lang: "es" },
-  { text: "My track reached #3 on the Beatport Techno chart", stars: 5, lang: "en" },
-  { text: "El equipo de marketing posicionó mi release perfectamente", stars: 5, lang: "es" },
-  { text: "Got booked for my first festival after signing here", stars: 4, lang: "en" },
-  { text: "La transparencia en los royalties es impecable", stars: 5, lang: "es" },
+  { text: "My track got signed and I couldn't be happier with the results!", stars: 5, name: "AXEL M.", country: "🇩🇪 Germany" },
+  { text: "Mi track salió publicado en DJMAG, increíble experiencia", stars: 5, name: "CARLOS R.", country: "🇲🇽 Mexico" },
+  { text: "Martin Garrix played my track at Tomorrowland!", stars: 5, name: "LUCAS V.", country: "🇳🇱 Netherlands" },
+  { text: "Featured on Protocol Radio — a dream come true", stars: 4, name: "SVEN K.", country: "🇸🇪 Sweden" },
+  { text: "Estoy muy satisfecho con el proceso de firma del sello", stars: 5, name: "MATEO D.", country: "🇨🇴 Colombia" },
+  { text: "Got featured on Beatport's top 100 within the first week", stars: 5, name: "JAMES T.", country: "🇬🇧 UK" },
+  { text: "Mi música fue seleccionada para un editorial de Spotify", stars: 4, name: "SOFIA L.", country: "🇦🇷 Argentina" },
+  { text: "The A&R team gave me incredible feedback on my production", stars: 4, name: "NOAH B.", country: "🇺🇸 USA" },
+  { text: "Firmé mi primer track y ya tengo playlist placement", stars: 5, name: "DIEGO F.", country: "🇪🇸 Spain" },
+  { text: "Content ID protection saved me from unauthorized uploads", stars: 4, name: "YUKI H.", country: "🇯🇵 Japan" },
+  { text: "Mi release llegó a las playlists más importantes de Beatport", stars: 5, name: "ANDRÉS P.", country: "🇨🇱 Chile" },
+  { text: "The royalty split is the fairest I've seen in the industry", stars: 5, name: "EMMA W.", country: "🇦🇺 Australia" },
+  { text: "Tiësto dropped my track on his radio show!", stars: 5, name: "ROBIN A.", country: "🇧🇪 Belgium" },
+  { text: "Recibí artwork profesional y promoción desde el día uno", stars: 4, name: "VALENTINA G.", country: "🇵🇪 Peru" },
+  { text: "My track reached #3 on the Beatport Techno chart", stars: 5, name: "FELIX R.", country: "🇫🇷 France" },
+  { text: "El equipo de marketing posicionó mi release perfectamente", stars: 5, name: "RAFAEL N.", country: "🇧🇷 Brazil" },
+  { text: "Got booked for my first festival after signing here", stars: 4, name: "LIAM O.", country: "🇮🇪 Ireland" },
+  { text: "La transparencia en los royalties es impecable", stars: 5, name: "MARCO T.", country: "🇮🇹 Italy" },
 ];
 
 const ReviewStar = ({ filled }: { filled: boolean }) => (
-  <svg className="w-2.5 h-2.5 inline-block" viewBox="0 0 24 24" fill={filled ? "hsl(48 90% 50%)" : "none"} stroke={filled ? "hsl(48 90% 50%)" : "hsl(0 0% 25%)"} strokeWidth="2">
+  <svg className="w-3 h-3 inline-block" viewBox="0 0 24 24" fill={filled ? "hsl(48 90% 50%)" : "none"} stroke={filled ? "hsl(48 90% 50%)" : "hsl(0 0% 25%)"} strokeWidth="2">
     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
   </svg>
 );
 
 const FloatingReviews = () => {
-  /* 
-    Satellite-style diagonal streams — reviews travel across the full screen
-    in sweeping diagonal paths with slight tilt, like satellites orbiting Earth.
-    Directions based on reference: bottom-left→top-right, top-right→bottom-left, etc.
-  */
   const streams = [
-    // Bottom-left to top-right (main upward sweep)
     {
       reviews: floatingReviews.slice(0, 5),
       from: { x: "-30%", y: "110%" },
       to: { x: "130%", y: "-20%" },
-      duration: 70,
+      duration: 55,
       staggerOffset: 0,
       tilt: "-12deg",
     },
-    // Top-right to bottom-left (counter sweep)
     {
       reviews: floatingReviews.slice(5, 10),
       from: { x: "130%", y: "-15%" },
       to: { x: "-30%", y: "115%" },
-      duration: 80,
+      duration: 62,
       staggerOffset: 0.15,
       tilt: "-8deg",
     },
-    // Bottom-right to top-left (crossing diagonal)
     {
       reviews: floatingReviews.slice(10, 15),
       from: { x: "125%", y: "110%" },
       to: { x: "-25%", y: "-15%" },
-      duration: 75,
+      duration: 58,
       staggerOffset: 0.3,
       tilt: "10deg",
     },
-    // Top-left to bottom-right
     {
       reviews: floatingReviews.slice(15, 18),
       from: { x: "-25%", y: "-10%" },
       to: { x: "130%", y: "115%" },
-      duration: 85,
+      duration: 65,
       staggerOffset: 0.1,
       tilt: "6deg",
     },
@@ -341,7 +332,7 @@ const FloatingReviews = () => {
           return (
             <motion.div
               key={`${sIdx}-${i}`}
-              className="absolute max-w-[200px] px-3 py-2 border border-border/15 bg-card/20 backdrop-blur-[1px] rounded-sm"
+              className="absolute max-w-[260px] px-4 py-3 border border-border/20 bg-card/25 backdrop-blur-[1px] rounded-sm"
               style={{
                 rotate: stream.tilt,
                 opacity: 0,
@@ -349,7 +340,7 @@ const FloatingReviews = () => {
               animate={{
                 left: [stream.from.x, stream.to.x],
                 top: [stream.from.y, stream.to.y],
-                opacity: [0, 0.15, 0.15, 0],
+                opacity: [0, 0.25, 0.25, 0],
               }}
               transition={{
                 duration: stream.duration,
@@ -359,14 +350,18 @@ const FloatingReviews = () => {
                 times: [0, 0.1, 0.9, 1],
               }}
             >
-              <div className="flex gap-0.5 mb-1">
+              <div className="flex gap-0.5 mb-1.5">
                 {[...Array(5)].map((_, s) => (
                   <ReviewStar key={s} filled={s < review.stars} />
                 ))}
               </div>
-              <p className="font-body text-[9px] leading-snug text-foreground/60 whitespace-normal">
+              <p className="font-body text-[10px] leading-snug text-foreground/70 whitespace-normal mb-2">
                 "{review.text}"
               </p>
+              <div className="flex items-center justify-between">
+                <span className="font-heading text-[8px] font-bold tracking-wider text-foreground/50">{review.name}</span>
+                <span className="font-body text-[8px] text-muted-foreground/60">{review.country}</span>
+              </div>
             </motion.div>
           );
         })
