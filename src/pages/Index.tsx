@@ -6,6 +6,7 @@ import CapabilitiesSection from "@/components/CapabilitiesSection";
 import HybridPlatformSection from "@/components/HybridPlatformSection";
 import UserTypeSolutions from "@/components/UserTypeSolutions";
 import PlatformShowcase from "@/components/PlatformShowcase";
+import SwitchBonusSection from "@/components/SwitchBonusSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FaqSection from "@/components/FaqSection";
 import FinalCta from "@/components/FinalCta";
@@ -26,6 +27,7 @@ const Index = () => {
       <HybridPlatformSection />
       <UserTypeSolutions />
       <PlatformShowcase />
+      <SwitchBonusSection />
       <TestimonialsSection />
       <FaqSection />
       <FinalCta />
