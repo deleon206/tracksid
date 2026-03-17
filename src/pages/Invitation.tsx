@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
+import logoWhite from "@/assets/logo-white.png";
 
 /* ═══════════════════════════════════════════════════════════
    DOT GRID BACKGROUND — subtle encrypted-node aesthetic
@@ -56,25 +57,25 @@ const HexLockIcon = () => (
     viewBox="0 0 64 72"
     fill="none"
     className="mb-8"
-    animate={{ filter: ["drop-shadow(0 0 8px hsl(152 100% 50% / 0.3))", "drop-shadow(0 0 20px hsl(152 100% 50% / 0.6))", "drop-shadow(0 0 8px hsl(152 100% 50% / 0.3))"] }}
+    animate={{ filter: ["drop-shadow(0 0 8px hsl(48 90% 50% / 0.3))", "drop-shadow(0 0 20px hsl(48 90% 50% / 0.6))", "drop-shadow(0 0 8px hsl(48 90% 50% / 0.3))"] }}
     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
   >
     {/* Hexagon outline */}
     <motion.path
       d="M32 2L60 19V53L32 70L4 53V19L32 2Z"
-      stroke="hsl(152 100% 50%)"
+      stroke="hsl(48 90% 50%)"
       strokeWidth="1.5"
       fill="none"
       animate={{ opacity: [0.5, 1, 0.5] }}
       transition={{ duration: 3, repeat: Infinity }}
     />
     {/* Lock body */}
-    <rect x="22" y="34" width="20" height="16" rx="2" stroke="hsl(152 100% 50%)" strokeWidth="1.2" fill="none" />
+    <rect x="22" y="34" width="20" height="16" rx="2" stroke="hsl(48 90% 50%)" strokeWidth="1.2" fill="none" />
     {/* Lock shackle */}
-    <path d="M26 34V28C26 24.7 28.7 22 32 22C35.3 22 38 24.7 38 28V34" stroke="hsl(152 100% 50%)" strokeWidth="1.2" fill="none" />
+    <path d="M26 34V28C26 24.7 28.7 22 32 22C35.3 22 38 24.7 38 28V34" stroke="hsl(48 90% 50%)" strokeWidth="1.2" fill="none" />
     {/* Keyhole */}
-    <circle cx="32" cy="41" r="2" fill="hsl(152 100% 50%)" />
-    <rect x="31.2" y="42" width="1.6" height="4" rx="0.8" fill="hsl(152 100% 50%)" />
+    <circle cx="32" cy="41" r="2" fill="hsl(48 90% 50%)" />
+    <rect x="31.2" y="42" width="1.6" height="4" rx="0.8" fill="hsl(48 90% 50%)" />
   </motion.svg>
 );
 
@@ -83,21 +84,19 @@ const HexLockIcon = () => (
    ═══════════════════════════════════════════════════════════ */
 const HexSeal = () => (
   <motion.div
-    className="relative w-20 h-20 mx-auto mb-6"
-    animate={{ filter: ["drop-shadow(0 0 12px hsl(152 100% 50% / 0.4))", "drop-shadow(0 0 24px hsl(152 100% 50% / 0.7))", "drop-shadow(0 0 12px hsl(152 100% 50% / 0.4))"] }}
+    className="relative w-20 h-20 mx-auto mb-6 flex items-center justify-center"
+    animate={{ filter: ["drop-shadow(0 0 12px hsl(48 90% 50% / 0.4))", "drop-shadow(0 0 24px hsl(48 90% 50% / 0.7))", "drop-shadow(0 0 12px hsl(48 90% 50% / 0.4))"] }}
     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
   >
-    <svg width="80" height="88" viewBox="0 0 80 88" fill="none">
+    <svg width="80" height="88" viewBox="0 0 80 88" fill="none" className="absolute inset-0">
       <path
         d="M40 2L76 22V66L40 86L4 66V22L40 2Z"
-        stroke="hsl(152 100% 50%)"
+        stroke="hsl(48 90% 50%)"
         strokeWidth="2"
-        fill="hsl(152 100% 50% / 0.08)"
+        fill="hsl(48 90% 50% / 0.08)"
       />
-      <text x="40" y="50" textAnchor="middle" fill="hsl(152 100% 50%)" fontFamily="Montserrat" fontWeight="800" fontSize="14">
-        T/ID
-      </text>
     </svg>
+    <img src={logoWhite} alt="DENAR RCRDS" className="relative z-10 w-10 h-10 object-contain" />
   </motion.div>
 );
 
@@ -160,7 +159,7 @@ const LockScreen = ({
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder={`Insert Artist Alias to Decrypt for ${artistAlias}`}
-              className="w-full bg-transparent border border-primary/60 text-foreground font-heading text-sm font-bold tracking-wider px-5 py-4 text-center placeholder:text-muted-foreground placeholder:font-normal placeholder:text-xs placeholder:tracking-widest focus:outline-none focus:border-primary focus:shadow-[0_0_20px_hsl(152_100%_50%_/_0.15)] transition-all duration-500"
+              className="w-full bg-transparent border border-primary/60 text-foreground font-heading text-sm font-bold tracking-wider px-5 py-4 text-center placeholder:text-muted-foreground placeholder:font-normal placeholder:text-xs placeholder:tracking-widest focus:outline-none focus:border-primary focus:shadow-[0_0_20px_hsl(48_90%_50%_/_0.15)] transition-all duration-500"
               autoFocus
             />
             {/* Corner brackets */}
