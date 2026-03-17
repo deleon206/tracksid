@@ -380,6 +380,7 @@ const ProposalCarta = ({ artistAlias }: { artistAlias: string }) => {
       transition={{ duration: 1, delay: 0.3 }}
     >
       <DotGrid />
+      <FloatingReviews />
 
       <motion.article
         className="relative z-10 w-full max-w-2xl border border-border/40 bg-card/40 backdrop-blur-sm"
