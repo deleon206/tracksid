@@ -177,7 +177,7 @@ const FusionHexagonGraphic = () => {
         const angle = (Math.PI / 3) * i - Math.PI / 2;
         const nx = cx + centerR * Math.cos(angle);
         const ny = cy + centerR * Math.sin(angle);
-        drawNode(nx, ny, 3.5 * pulse, `rgba(0,255,136,${glowPulse})`);
+        drawNode(nx, ny, 3.5 * pulse, `rgba(230,180,17,${glowPulse})`);
       }
 
       // Orbiting small hexes around center
