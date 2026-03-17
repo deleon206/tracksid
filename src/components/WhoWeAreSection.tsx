@@ -141,7 +141,7 @@ const WhoWeAreSection = () => {
 
           {/* ── FUSION CENTER ── */}
           <motion.div
-            className="relative flex flex-col items-center text-center lg:w-1/3 z-20"
+            className="relative flex flex-col items-center text-center z-20"
             initial={{ opacity: 0, scale: 0.6 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.7, delay: 1.2, type: "spring", stiffness: 120 }}
