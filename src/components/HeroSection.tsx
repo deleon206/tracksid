@@ -139,23 +139,10 @@ const LiveBadge = () => (
    ═══════════════════════════════════════════════════════════ */
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const mousePos = useRef({ x: -1000, y: -1000 });
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    if (!sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    mousePos.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    mousePos.current = { x: -1000, y: -1000 };
-  }, []);
 
   return (
     <section
       ref={sectionRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       className="relative h-screen flex flex-col overflow-hidden bg-background"
     >
       {/* Onion Skin 3D background */}
