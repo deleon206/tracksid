@@ -177,6 +177,24 @@ const LockScreen = ({
           >
             Press ENTER to decrypt
           </motion.p>
+
+          {/* Notes */}
+          <motion.div
+            className="mt-8 space-y-3 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            transition={{ delay: 1.8 }}
+          >
+            <p className="font-body text-[10px] text-foreground/70 leading-relaxed">
+              * Para visualizar el contenido de la propuesta, por favor ingrese el nombre visible que tenga en LabelRadar como artista.
+            </p>
+            <p className="font-body text-[10px] text-foreground/70 leading-relaxed">
+              * En caso de ser una colaboración de más de 1 artista en el track, la propuesta y los beneficios se aplicarán equitativamente.
+            </p>
+            <p className="font-body text-[10px] text-foreground/70 leading-relaxed">
+              * En caso de tener problemas con el acceso, por favor comuníquelo a su A&R asignado mediante LabelRadar.
+            </p>
+          </motion.div>
         </form>
 
         {/* Brand */}
