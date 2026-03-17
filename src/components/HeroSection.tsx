@@ -148,13 +148,12 @@ const HeroSection = () => {
       {/* Onion Skin 3D background */}
       <OnionSkinBackground />
 
-      <div className="relative z-10 flex flex-col flex-1 h-full container">
-        {/* Main content — headline left, wave graphic right */}
+      <div className="relative z-10 flex flex-col flex-1 h-full container px-4 sm:px-6 md:px-8">
+        {/* Main content — headline left */}
         <div className="flex-1 flex items-end relative pt-20">
 
-
           {/* Headline — bottom left */}
-          <div className="flex flex-col gap-6 pb-4 max-w-[70%]">
+          <div className="flex flex-col gap-4 sm:gap-6 pb-4 max-w-full sm:max-w-[70%]">
             {/* Tag badge */}
             <motion.div
               className="inline-flex items-center bg-primary px-3 py-1 mb-4 w-fit"
