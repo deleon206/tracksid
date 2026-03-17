@@ -259,6 +259,91 @@ const BenefitItem = ({ title, desc, index }: { title: string; desc: string; inde
 );
 
 /* ═══════════════════════════════════════════════════════════
+   FLOATING REVIEWS BACKGROUND — globe-like rotating reviews
+   ═══════════════════════════════════════════════════════════ */
+const floatingReviews = [
+  { text: "My track got signed and I couldn't be happier with the results!", stars: 5, lang: "en" },
+  { text: "Mi track salió publicado en DJMAG, increíble experiencia", stars: 5, lang: "es" },
+  { text: "Martin Garrix played my track at Tomorrowland!", stars: 5, lang: "en" },
+  { text: "Featured on Protocol Radio — a dream come true", stars: 4, lang: "en" },
+  { text: "Estoy muy satisfecho con el proceso de firma del sello", stars: 5, lang: "es" },
+  { text: "Got featured on Beatport's top 100 within the first week", stars: 5, lang: "en" },
+  { text: "Mi música fue seleccionada para un editorial de Spotify", stars: 4, lang: "es" },
+  { text: "The A&R team gave me incredible feedback on my production", stars: 4, lang: "en" },
+  { text: "Firmé mi primer track y ya tengo playlist placement", stars: 5, lang: "es" },
+  { text: "Content ID protection saved me from unauthorized uploads", stars: 4, lang: "en" },
+  { text: "Mi release llegó a las playlists más importantes de Beatport", stars: 5, lang: "es" },
+  { text: "The royalty split is the fairest I've seen in the industry", stars: 5, lang: "en" },
+  { text: "Tiësto dropped my track on his radio show!", stars: 5, lang: "en" },
+  { text: "Recibí artwork profesional y promoción desde el día uno", stars: 4, lang: "es" },
+  { text: "My track reached #3 on the Beatport Techno chart", stars: 5, lang: "en" },
+  { text: "El equipo de marketing posicionó mi release perfectamente", stars: 5, lang: "es" },
+  { text: "Got booked for my first festival after signing here", stars: 4, lang: "en" },
+  { text: "La transparencia en los royalties es impecable", stars: 5, lang: "es" },
+];
+
+const ReviewStar = ({ filled }: { filled: boolean }) => (
+  <svg className="w-2.5 h-2.5 inline-block" viewBox="0 0 24 24" fill={filled ? "hsl(48 90% 50%)" : "none"} stroke={filled ? "hsl(48 90% 50%)" : "hsl(0 0% 25%)"} strokeWidth="2">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </svg>
+);
+
+const FloatingReviews = () => {
+  // Create 3 orbital rings with different speeds and directions
+  const rings = [
+    { reviews: floatingReviews.slice(0, 6), duration: 45, reverse: false, radius: 420, tilt: 12 },
+    { reviews: floatingReviews.slice(6, 12), duration: 55, reverse: true, radius: 520, tilt: -8 },
+    { reviews: floatingReviews.slice(12, 18), duration: 50, reverse: false, radius: 460, tilt: 5 },
+  ];
+
+  return (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true" style={{ perspective: "1200px" }}>
+      {rings.map((ring, ringIdx) => (
+        <motion.div
+          key={ringIdx}
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ transformStyle: "preserve-3d", rotateX: `${ring.tilt}deg` }}
+          animate={{ rotateZ: ring.reverse ? [360, 0] : [0, 360] }}
+          transition={{ duration: ring.duration, repeat: Infinity, ease: "linear" }}
+        >
+          {ring.reviews.map((review, i) => {
+            const angle = (360 / ring.reviews.length) * i;
+            const rad = (angle * Math.PI) / 180;
+            const x = Math.cos(rad) * ring.radius;
+            const y = Math.sin(rad) * ring.radius * 0.35;
+            return (
+              <motion.div
+                key={i}
+                className="absolute max-w-[220px] px-3 py-2.5 border border-border/20 bg-card/30 backdrop-blur-[2px] rounded-sm"
+                style={{
+                  left: `calc(50% + ${x}px)`,
+                  top: `calc(50% + ${y}px)`,
+                  transform: `translate(-50%, -50%)`,
+                  opacity: 0.12 + (ringIdx * 0.03),
+                }}
+                animate={{
+                  rotateZ: ring.reverse ? [-360, 0] : [0, -360],
+                }}
+                transition={{ duration: ring.duration, repeat: Infinity, ease: "linear" }}
+              >
+                <div className="flex gap-0.5 mb-1">
+                  {[...Array(5)].map((_, s) => (
+                    <ReviewStar key={s} filled={s < review.stars} />
+                  ))}
+                </div>
+                <p className="font-body text-[9px] leading-snug text-foreground/70">
+                  "{review.text}"
+                </p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+/* ═══════════════════════════════════════════════════════════
    THE ELEGANT CARTA — Part 2: The Unlocked Proposal
    ═══════════════════════════════════════════════════════════ */
 const ProposalCarta = ({ artistAlias }: { artistAlias: string }) => {
