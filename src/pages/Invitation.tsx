@@ -84,21 +84,19 @@ const HexLockIcon = () => (
    ═══════════════════════════════════════════════════════════ */
 const HexSeal = () => (
   <motion.div
-    className="relative w-20 h-20 mx-auto mb-6"
-    animate={{ filter: ["drop-shadow(0 0 12px hsl(152 100% 50% / 0.4))", "drop-shadow(0 0 24px hsl(152 100% 50% / 0.7))", "drop-shadow(0 0 12px hsl(152 100% 50% / 0.4))"] }}
+    className="relative w-20 h-20 mx-auto mb-6 flex items-center justify-center"
+    animate={{ filter: ["drop-shadow(0 0 12px hsl(48 90% 50% / 0.4))", "drop-shadow(0 0 24px hsl(48 90% 50% / 0.7))", "drop-shadow(0 0 12px hsl(48 90% 50% / 0.4))"] }}
     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
   >
-    <svg width="80" height="88" viewBox="0 0 80 88" fill="none">
+    <svg width="80" height="88" viewBox="0 0 80 88" fill="none" className="absolute inset-0">
       <path
         d="M40 2L76 22V66L40 86L4 66V22L40 2Z"
-        stroke="hsl(152 100% 50%)"
+        stroke="hsl(48 90% 50%)"
         strokeWidth="2"
-        fill="hsl(152 100% 50% / 0.08)"
+        fill="hsl(48 90% 50% / 0.08)"
       />
-      <text x="40" y="50" textAnchor="middle" fill="hsl(152 100% 50%)" fontFamily="Montserrat" fontWeight="800" fontSize="14">
-        T/ID
-      </text>
     </svg>
+    <img src={logoWhite} alt="DENAR RCRDS" className="relative z-10 w-10 h-10 object-contain" />
   </motion.div>
 );
 
