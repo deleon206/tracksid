@@ -145,18 +145,12 @@ const MagArticle = () => {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <div className="flex gap-16">
               <div className="w-full">
-                <div className="font-mono text-[10px] tracking-widest text-muted-foreground mb-4">
+                <div className="font-mono text-[10px] tracking-widest text-primary mb-4">
                   // LATEST — {formattedDate}
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black text-foreground leading-[0.92] mb-6 tracking-tight max-w-4xl">
+                <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black text-foreground leading-[0.92] tracking-tight max-w-4xl">
                   {article.title}
                 </h1>
-                <Link
-                  to="/mag"
-                  className="inline-flex items-center gap-2 font-heading text-xs font-bold tracking-wider text-primary hover:brightness-110 transition-all"
-                >
-                  READ ARTICLE →
-                </Link>
               </div>
               {/* Spacer matching sidebar width */}
               <div className="hidden xl:block w-[220px] shrink-0" />
