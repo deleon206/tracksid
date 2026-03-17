@@ -115,36 +115,104 @@
 }
 
 /* Prose styles for Mag articles rendered from HTML */
+/* ═══ Prose styles for Mag articles ═══ */
 .prose-mag {
-  @apply text-foreground/80;
+  color: #E0E0E0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.8;
 }
+
+/* Drop Cap — first letter of the first paragraph */
+.prose-mag > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-heading);
+  font-size: 4.5em;
+  line-height: 0.8;
+  font-weight: 900;
+  margin-right: 12px;
+  margin-top: 6px;
+  color: hsl(var(--primary));
+}
+
+/* Headings as "Technical Dividers" */
 .prose-mag h1 {
-  @apply font-heading text-3xl md:text-5xl font-black text-foreground mt-12 mb-6 leading-[0.95];
+  @apply font-heading text-3xl md:text-4xl font-black text-foreground mt-16 mb-8 leading-[0.95] uppercase tracking-tight;
+  border-left: 2px solid hsl(var(--primary));
+  padding-left: 16px;
 }
 .prose-mag h2 {
-  @apply font-heading text-2xl md:text-3xl font-black text-foreground mt-12 mb-6;
+  @apply font-heading text-2xl md:text-3xl font-black text-foreground mt-16 mb-8 uppercase tracking-tight;
+  border-left: 2px solid hsl(var(--primary));
+  padding-left: 16px;
 }
 .prose-mag h3 {
-  @apply font-heading text-xl md:text-2xl font-bold text-foreground mt-8 mb-4;
+  @apply font-heading text-xl md:text-2xl font-bold text-foreground mt-12 mb-6 uppercase;
+  border-left: 2px solid hsl(var(--primary) / 0.5);
+  padding-left: 12px;
 }
+
+/* Body paragraphs */
 .prose-mag p {
-  @apply font-body text-lg leading-[1.7] mb-6;
+  @apply mb-7;
 }
+
+/* Pull Quotes */
 .prose-mag blockquote {
-  @apply border-l-4 border-primary pl-6 py-2 my-8 italic font-body text-lg text-foreground/90 leading-relaxed;
+  @apply my-12 py-6 italic text-center;
+  font-size: 1.5em;
+  line-height: 1.5;
+  color: hsl(var(--foreground) / 0.9);
+  border-left: none;
+  border-top: 1px solid hsl(var(--primary) / 0.3);
+  border-bottom: 1px solid hsl(var(--primary) / 0.3);
+  padding-left: 0;
+  padding-right: 0;
 }
+.prose-mag blockquote p {
+  margin-bottom: 0;
+}
+
+/* Images */
 .prose-mag img {
-  @apply w-full object-cover my-10;
+  @apply w-full object-cover my-12;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 0 60px 10px hsl(var(--primary) / 0.06);
 }
+
+/* Lists */
 .prose-mag ul, .prose-mag ol {
-  @apply font-body text-lg leading-[1.7] mb-6 pl-6;
+  @apply mb-7 pl-6;
 }
 .prose-mag li {
-  @apply mb-2;
+  @apply mb-3;
 }
+
+/* Links — neon green underline animation */
 .prose-mag a {
-  @apply text-primary underline hover:brightness-110 transition-all;
+  @apply text-primary no-underline relative transition-colors;
 }
+.prose-mag a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background: hsl(var(--primary));
+  transition: width 0.3s ease;
+}
+.prose-mag a:hover::after {
+  width: 100%;
+}
+
+/* Strong */
 .prose-mag strong {
   @apply text-foreground font-bold;
+}
+
+/* Horizontal rules */
+.prose-mag hr {
+  @apply my-12;
+  border-color: hsl(var(--border));
 }
