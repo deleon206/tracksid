@@ -181,6 +181,10 @@ const Distribution = () => {
         </div>
       </section>
 
+      <UserTypeSolutions />
+      <PlatformShowcase />
+      <div className="w-full border-t border-border" />
+      <SwitchBonusSection />
       <Footer />
     </div>
   );
