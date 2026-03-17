@@ -1,32 +1,38 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { Globe, Headphones, Film, Wrench, Newspaper } from "lucide-react";
 
+/* ─── Service data ─── */
 const services = [
   {
+    key: "D",
     icon: Globe,
-    title: "Global Distribution",
+    title: "Distribution",
     kicker: "150+ STORES",
     description:
-      "Distribute your music to over 150 digital stores worldwide — Spotify, Apple Music, Beatport, Amazon, Deezer, and more. Full catalog management with real-time analytics.",
-    highlights: ["Spotify", "Apple Music", "Beatport", "Amazon", "150+ stores"],
+      "Deliver your music to 150+ platforms worldwide. Real-time analytics, release scheduling, and automated delivery — built to scale without chaos.",
+    highlights: ["Spotify", "Apple Music", "Beatport", "Amazon", "Deezer"],
   },
   {
+    key: "B",
     icon: Headphones,
-    title: "Artist Bookings",
+    title: "Bookings",
     kicker: "WORLDWIDE",
     description:
-      "Book artists for events, festivals, and clubs around the world. Our booking agency connects talent with promoters across Europe, LATAM, Asia, and beyond.",
+      "Book artists for festivals, clubs, and events around the world. Our agency connects talent with promoters across Europe, LATAM, Asia, and beyond.",
     highlights: ["Festivals", "Clubs", "Global tours", "Event management"],
   },
   {
+    key: "L",
     icon: Film,
-    title: "Music Licensing",
+    title: "Licensing",
     kicker: "SYNC & PLACEMENT",
     description:
-      "License your music for films, TV shows, commercials, retail stores, and digital content. We handle sync deals, mechanical rights, and placement negotiations.",
-    highlights: ["Film & TV sync", "Commercial use", "Retail placement", "Rights management"],
+      "License your music for films, TV, commercials, and retail stores. We handle sync deals, mechanical rights, and placement negotiations globally.",
+    highlights: ["Film & TV sync", "Commercial use", "Retail placement"],
   },
   {
+    key: "T",
     icon: Wrench,
     title: "Artist Tools",
     kicker: "ALL-IN-ONE",
@@ -35,113 +41,152 @@ const services = [
     highlights: ["Pre-save", "Playlist pitching", "Artwork generator", "Smart links"],
   },
   {
+    key: "P",
     icon: Newspaper,
     title: "Press & PR",
     kicker: "MEDIA NETWORK",
     description:
-      "Leverage our network of media partners including DJ Mag, We Rave You, MixMag, and more. Get featured editorial coverage, reviews, and premiere placements.",
+      "Leverage our network of media partners including DJ Mag, We Rave You, MixMag and more. Get editorial coverage, reviews, and premiere placements.",
     highlights: ["DJ Mag", "MixMag", "We Rave You", "Editorial premieres"],
   },
 ];
 
-const ServiceCard = ({
-  service,
-  index,
-}: {
-  service: (typeof services)[0];
-  index: number;
-}) => {
-  const Icon = service.icon;
-
+/* ─── Geometric graphic per service ─── */
+const ServiceGraphic = ({ serviceKey }: { serviceKey: string }) => {
+  const Icon = services.find((s) => s.key === serviceKey)!.icon;
   return (
-    <motion.article
-      className="group relative bg-secondary/30 border border-border/40 p-6 sm:p-8 flex flex-col gap-4 hover:border-primary/40 transition-colors duration-300"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-    >
-      {/* Number + Icon */}
-      <div className="flex items-center justify-between">
-        <div className="w-12 h-12 border border-primary/30 rounded-full flex items-center justify-center group-hover:border-primary/60 transition-colors duration-300">
-          <Icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
-        </div>
-        <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground">
-          0{index + 1}
-        </span>
+    <div className="relative w-full h-full flex items-center justify-center">
+      {/* Decorative lines */}
+      <div className="absolute w-32 h-32 sm:w-40 sm:h-40 border border-primary-foreground/20 rotate-12" />
+      <div className="absolute w-24 h-24 sm:w-32 sm:h-32 border border-primary-foreground/15 -rotate-6 translate-x-4 translate-y-4" />
+      <div className="absolute w-16 h-16 sm:w-20 sm:h-20 border border-primary-foreground/10 rotate-45 -translate-x-6 translate-y-8" />
+      {/* Dot accents */}
+      <div className="absolute top-1/4 right-1/4 w-2 h-2 rounded-full bg-primary-foreground/40" />
+      <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 rounded-full bg-primary-foreground/30" />
+      {/* Center icon */}
+      <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 border-2 border-primary-foreground/30 rounded-full flex items-center justify-center bg-primary/80">
+        <Icon className="w-7 h-7 sm:w-9 sm:h-9 text-primary-foreground" strokeWidth={1.5} />
       </div>
-
-      {/* Kicker */}
-      <span className="font-heading text-[10px] tracking-[0.3em] text-primary font-bold">
-        // {service.kicker}
-      </span>
-
-      {/* Title */}
-      <h3 className="font-heading text-xl sm:text-2xl font-black text-foreground leading-tight uppercase">
-        {service.title}
-      </h3>
-
-      {/* Description */}
-      <p className="font-body text-sm text-muted-foreground leading-relaxed">
-        {service.description}
-      </p>
-
-      {/* Highlight tags */}
-      <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-border/30">
-        {service.highlights.map((tag) => (
-          <span
-            key={tag}
-            className="inline-flex items-center gap-1.5 text-[10px] font-mono tracking-wider text-muted-foreground border border-border/60 rounded-full px-3 py-1 bg-secondary/60"
-          >
-            <span className="w-1 h-1 rounded-full bg-primary" />
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      {/* Hover glow line */}
-      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-    </motion.article>
+    </div>
   );
 };
 
-const CapabilitiesSection = () => (
-  <section id="services" className="py-24 border-t border-border" aria-labelledby="what-we-do-heading">
-    <div className="container">
-      {/* Section header */}
-      <motion.div
-        className="mb-16 max-w-3xl"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-      >
-        <p className="font-heading text-[10px] tracking-[0.3em] text-primary mb-6 border border-primary/40 inline-block px-3 py-1">
-          // OUR SERVICES
-        </p>
-        <h2
-          id="what-we-do-heading"
-          className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-foreground leading-[0.95]"
-        >
-          WHAT WE DO
-        </h2>
-        <p className="font-body text-sm md:text-base text-muted-foreground mt-6 max-w-2xl leading-relaxed">
-          From <strong className="text-foreground">music distribution</strong> across 150+ digital stores to{" "}
-          <strong className="text-foreground">artist bookings</strong>,{" "}
-          <strong className="text-foreground">sync licensing</strong>, and a full suite of{" "}
-          <strong className="text-foreground">artist tools</strong> — we provide the complete infrastructure
-          for independent artists and record labels to grow globally.
-        </p>
-      </motion.div>
+const CapabilitiesSection = () => {
+  const [active, setActive] = useState(0);
+  const current = services[active];
 
-      {/* Services grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        {services.map((service, i) => (
-          <ServiceCard key={service.title} service={service} index={i} />
-        ))}
+  return (
+    <section id="services" className="border-t border-border" aria-labelledby="what-we-do-heading">
+      <div className="grid lg:grid-cols-2 min-h-[600px] lg:min-h-[700px]">
+        {/* ─── LEFT: Black panel ─── */}
+        <motion.div
+          className="flex flex-col justify-between p-8 sm:p-12 lg:p-16 bg-background"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div>
+            {/* Kicker */}
+            <motion.p
+              className="font-heading text-[10px] tracking-[0.3em] text-primary mb-8 border border-primary/40 inline-block px-3 py-1"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              // WHAT WE DO
+            </motion.p>
+
+            {/* Headline */}
+            <h2
+              id="what-we-do-heading"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black text-foreground leading-[0.9]"
+            >
+              BUILT FOR
+              <br />
+              MODERN
+              <br />
+              ARTISTS
+            </h2>
+
+            {/* CTA */}
+            <motion.a
+              href="/distribution"
+              className="inline-flex items-center gap-2 mt-10 font-heading text-[11px] font-bold uppercase tracking-[0.15em] border border-primary text-primary px-6 py-3 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.4 }}
+            >
+              Learn More About Distribution
+              <span>→</span>
+            </motion.a>
+          </div>
+
+          {/* Tab circles */}
+          <div className="flex items-center gap-3 mt-12">
+            {services.map((s, i) => (
+              <button
+                key={s.key}
+                onClick={() => setActive(i)}
+                className={`w-10 h-10 rounded-full border-2 flex items-center justify-center font-heading text-xs font-bold transition-all duration-300 ${
+                  active === i
+                    ? "border-primary text-primary bg-primary/10"
+                    : "border-border/60 text-muted-foreground hover:border-muted-foreground"
+                }`}
+                aria-label={s.title}
+              >
+                {s.key}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* ─── RIGHT: Gold panel with active service ─── */}
+        <div className="relative bg-primary overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.key}
+              className="flex flex-col h-full p-8 sm:p-12 lg:p-16"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.35 }}
+            >
+              {/* Geometric graphic */}
+              <div className="flex-1 flex items-center justify-center min-h-[180px] lg:min-h-[250px]">
+                <ServiceGraphic serviceKey={current.key} />
+              </div>
+
+              {/* Service info */}
+              <div className="mt-8">
+                <h3 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-black text-primary-foreground leading-tight uppercase">
+                  {current.title}
+                </h3>
+                <p className="font-body text-sm sm:text-base text-primary-foreground/70 mt-4 max-w-lg leading-relaxed">
+                  {current.description}
+                </p>
+
+                {/* Highlight tags */}
+                <div className="flex flex-wrap gap-2 mt-6">
+                  {current.highlights.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1.5 text-[10px] font-mono tracking-wider text-primary-foreground/60 border border-primary-foreground/20 rounded-full px-3 py-1"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-primary-foreground/50" />
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default CapabilitiesSection;
