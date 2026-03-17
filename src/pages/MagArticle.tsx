@@ -166,10 +166,10 @@ const MagArticle = () => {
       </motion.section>
 
       <main className="relative z-10">
-        <div className="container">
-          <div className="flex gap-16 justify-center">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <div className="flex gap-16">
             {/* ═══ Main Article Column ═══ */}
-            <article className="w-full max-w-[720px] pb-24">
+            <article className="w-full min-w-0 pb-24">
               {/* Breadcrumbs */}
               <motion.nav
                 className="mt-10 mb-10"
