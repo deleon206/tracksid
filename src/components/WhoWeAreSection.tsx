@@ -26,7 +26,69 @@ const Hexagon = ({ className, strokeColor, children }: { className?: string; str
   </div>
 );
 
-const WhoWeAreSection = () => {
+/* ─── Data Transfer Cable — animated particles traveling along a curved path ─── */
+const DataCable = ({ direction, inView }: { direction: "left" | "right"; inView: boolean }) => {
+  const isLeft = direction === "left";
+  // Curved path from outer hex toward center
+  const path = isLeft
+    ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25"
+    : "M 130,25 C 100,25 80,15 60,25 S 20,20 0,25";
+
+  return (
+    <div className="hidden lg:block w-28 relative h-[50px]">
+      <svg viewBox="0 0 130 50" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+        {/* Base cable */}
+        <motion.path
+          d={isLeft ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25" : "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25"}
+          fill="none"
+          stroke="hsl(var(--border))"
+          strokeWidth="1"
+          initial={{ pathLength: 0 }}
+          animate={inView ? { pathLength: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        />
+        {/* Glowing cable overlay */}
+        <motion.path
+          d={isLeft ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25" : "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25"}
+          fill="none"
+          stroke="hsl(var(--primary))"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          initial={{ pathLength: 0 }}
+          animate={inView ? { pathLength: 1 } : {}}
+          transition={{ duration: 0.8, delay: 1.0 }}
+          style={{ filter: "drop-shadow(0 0 4px hsl(var(--primary)))" }}
+        />
+        {/* Traveling data particles */}
+        {inView && [0, 1, 2].map((i) => (
+          <motion.circle
+            key={i}
+            r="2.5"
+            fill="hsl(var(--primary))"
+            style={{ filter: "drop-shadow(0 0 6px hsl(var(--primary)))" }}
+            initial={{ offsetDistance: "0%" }}
+            animate={{ offsetDistance: "100%" }}
+            transition={{
+              duration: 1.8,
+              delay: 1.4 + i * 0.6,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          >
+            <animateMotion
+              dur="1.8s"
+              begin={`${1.4 + i * 0.6}s`}
+              repeatCount="indefinite"
+              path={isLeft ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25" : "M 130,25 C 100,25 80,15 60,25 S 20,20 0,25"}
+            />
+          </motion.circle>
+        ))}
+      </svg>
+    </div>
+  );
+};
+
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-100px" });
 
