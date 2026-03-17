@@ -145,18 +145,12 @@ const MagArticle = () => {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <div className="flex gap-16">
               <div className="w-full">
-                <div className="font-mono text-[10px] tracking-widest text-muted-foreground mb-4">
+                <div className="font-mono text-[10px] tracking-widest text-primary mb-4">
                   // LATEST — {formattedDate}
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black text-foreground leading-[0.92] mb-6 tracking-tight max-w-4xl">
+                <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black text-foreground leading-[0.92] tracking-tight max-w-4xl">
                   {article.title}
                 </h1>
-                <Link
-                  to="/mag"
-                  className="inline-flex items-center gap-2 font-heading text-xs font-bold tracking-wider text-primary hover:brightness-110 transition-all"
-                >
-                  READ ARTICLE →
-                </Link>
               </div>
               {/* Spacer matching sidebar width */}
               <div className="hidden xl:block w-[220px] shrink-0" />
@@ -172,7 +166,7 @@ const MagArticle = () => {
             <article className="w-full min-w-0 pb-24">
               {/* Breadcrumbs */}
               <motion.nav
-                className="mt-10 mb-10"
+                className="mt-6 mb-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
@@ -233,17 +227,29 @@ const MagArticle = () => {
                         to={`/mag/${a.slug}`}
                         className="block group"
                       >
-                        <p className="font-mono text-[11px] leading-snug text-foreground/60 group-hover:text-primary transition-colors line-clamp-2">
-                          {a.title}
-                        </p>
-                        <span className="font-mono text-[9px] text-muted-foreground mt-1 block">
-                          {a.created_at
-                            ? new Date(a.created_at).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                              })
-                            : ""}
-                        </span>
+                        <div className="flex gap-3 items-start">
+                          {a.image_url && (
+                            <img
+                              src={a.image_url}
+                              alt={a.title || ""}
+                              className="w-16 h-10 object-cover shrink-0 grayscale group-hover:grayscale-0 transition-all duration-300"
+                              loading="lazy"
+                            />
+                          )}
+                          <div className="min-w-0">
+                            <p className="font-mono text-[11px] leading-snug text-foreground/60 group-hover:text-primary transition-colors line-clamp-2">
+                              {a.title}
+                            </p>
+                            <span className="font-mono text-[9px] text-muted-foreground mt-1 block">
+                              {a.created_at
+                                ? new Date(a.created_at).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                  })
+                                : ""}
+                            </span>
+                          </div>
+                        </div>
                       </Link>
                     ))}
                   </div>
