@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 
 /* ─── Partner badges ─── */
 const partners = [
@@ -25,6 +25,68 @@ const Hexagon = ({ className, strokeColor, children }: { className?: string; str
     )}
   </div>
 );
+
+/* ─── Data Transfer Cable — animated particles traveling along a curved path ─── */
+const DataCable = ({ direction, inView }: { direction: "left" | "right"; inView: boolean }) => {
+  const isLeft = direction === "left";
+  // Curved path from outer hex toward center
+  const path = isLeft
+    ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25"
+    : "M 130,25 C 100,25 80,15 60,25 S 20,20 0,25";
+
+  return (
+    <div className="hidden lg:block w-28 relative h-[50px]">
+      <svg viewBox="0 0 130 50" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+        {/* Base cable */}
+        <motion.path
+          d={isLeft ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25" : "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25"}
+          fill="none"
+          stroke="hsl(var(--border))"
+          strokeWidth="1"
+          initial={{ pathLength: 0 }}
+          animate={inView ? { pathLength: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        />
+        {/* Glowing cable overlay */}
+        <motion.path
+          d={isLeft ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25" : "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25"}
+          fill="none"
+          stroke="hsl(var(--primary))"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          initial={{ pathLength: 0 }}
+          animate={inView ? { pathLength: 1 } : {}}
+          transition={{ duration: 0.8, delay: 1.0 }}
+          style={{ filter: "drop-shadow(0 0 4px hsl(var(--primary)))" }}
+        />
+        {/* Traveling data particles */}
+        {inView && [0, 1, 2].map((i) => (
+          <motion.circle
+            key={i}
+            r="2.5"
+            fill="hsl(var(--primary))"
+            style={{ filter: "drop-shadow(0 0 6px hsl(var(--primary)))" }}
+            initial={{ offsetDistance: "0%" }}
+            animate={{ offsetDistance: "100%" }}
+            transition={{
+              duration: 1.8,
+              delay: 1.4 + i * 0.6,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          >
+            <animateMotion
+              dur="1.8s"
+              begin={`${1.4 + i * 0.6}s`}
+              repeatCount="indefinite"
+              path={isLeft ? "M 0,25 C 30,25 50,15 70,25 S 110,20 130,25" : "M 130,25 C 100,25 80,15 60,25 S 20,20 0,25"}
+            />
+          </motion.circle>
+        ))}
+      </svg>
+    </div>
+  );
+};
 
 const WhoWeAreSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -81,30 +143,8 @@ const WhoWeAreSection = () => {
             </p>
           </motion.div>
 
-          {/* ── Connecting lines + merge pulse ── */}
-          <div className="hidden lg:flex items-center w-24 relative">
-            {/* Left line */}
-            <motion.div
-              className="h-[1px] flex-1 bg-muted-foreground/30 origin-left"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            />
-            {/* Pulse dot */}
-            <motion.div
-              className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary"
-              initial={{ scale: 0 }}
-              animate={inView ? { scale: [0, 1.5, 1] } : {}}
-              transition={{ duration: 0.5, delay: 1.4 }}
-            />
-            {/* Right line */}
-            <motion.div
-              className="h-[1px] flex-1 bg-muted-foreground/30 origin-right"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            />
-          </div>
+          {/* ── Left data cable ── */}
+          <DataCable direction="left" inView={inView} />
 
           {/* ── FUSION CENTER ── */}
           <motion.div
@@ -113,29 +153,61 @@ const WhoWeAreSection = () => {
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.7, delay: 1.2, type: "spring", stiffness: 120 }}
           >
-            {/* Glow ring */}
+            {/* Outer glow pulse — "receiving data" */}
             <motion.div
-              className="absolute w-40 h-44 sm:w-48 sm:h-52 rounded-full"
+              className="absolute w-44 h-48 sm:w-52 sm:h-56 rounded-full pointer-events-none"
               style={{
-                background: "radial-gradient(circle, hsl(var(--primary) / 0.15) 0%, transparent 70%)",
+                background: "radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, transparent 70%)",
               }}
-              animate={inView ? { scale: [1, 1.15, 1] } : {}}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              animate={inView ? {
+                scale: [1, 1.25, 1],
+                opacity: [0.5, 1, 0.5],
+              } : {}}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            />
+            {/* Secondary receiving ring */}
+            <motion.div
+              className="absolute w-36 h-40 sm:w-44 sm:h-48 border border-primary/20 rounded-full pointer-events-none"
+              animate={inView ? {
+                scale: [1, 1.3, 1],
+                opacity: [0.4, 0, 0.4],
+              } : {}}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut", delay: 0.3 }}
             />
             <div className="relative w-32 h-36 sm:w-40 sm:h-44 mb-6">
-              {/* Outer hex */}
-              <Hexagon strokeColor="hsl(var(--primary))" className="absolute inset-0 w-full h-full">
-                <span className="font-heading text-lg sm:text-xl font-black text-primary tracking-tight">
-                  T/ID
-                </span>
-              </Hexagon>
+              {/* Outer hex with glow */}
+              <motion.div
+                className="absolute inset-0"
+                animate={inView ? {
+                  filter: [
+                    "drop-shadow(0 0 4px hsl(var(--primary) / 0.3))",
+                    "drop-shadow(0 0 12px hsl(var(--primary) / 0.6))",
+                    "drop-shadow(0 0 4px hsl(var(--primary) / 0.3))",
+                  ],
+                } : {}}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Hexagon strokeColor="hsl(var(--primary))" className="w-full h-full">
+                  <span className="font-heading text-lg sm:text-xl font-black text-primary tracking-tight">
+                    T/ID
+                  </span>
+                </Hexagon>
+              </motion.div>
               {/* Inner hex pulse */}
               <motion.div
                 className="absolute inset-3"
-                animate={inView ? { opacity: [0.3, 0.7, 0.3] } : {}}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                animate={inView ? { opacity: [0.2, 0.6, 0.2] } : {}}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Hexagon strokeColor="hsl(var(--primary) / 0.4)" className="relative w-full h-full" />
+              </motion.div>
+              {/* Innermost hex — fast pulse */}
+              <motion.div
+                className="absolute inset-6"
+                animate={inView ? { opacity: [0, 0.5, 0], scale: [0.8, 1.05, 0.8] } : {}}
+                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+              >
+                <Hexagon strokeColor="hsl(var(--primary) / 0.25)" className="relative w-full h-full" />
               </motion.div>
             </div>
             <h3 className="font-heading text-xl sm:text-2xl font-black text-primary">THE MERGE</h3>
@@ -144,27 +216,8 @@ const WhoWeAreSection = () => {
             </p>
           </motion.div>
 
-          {/* ── Connecting lines right ── */}
-          <div className="hidden lg:flex items-center w-24 relative">
-            <motion.div
-              className="h-[1px] flex-1 bg-muted-foreground/30 origin-left"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            />
-            <motion.div
-              className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary"
-              initial={{ scale: 0 }}
-              animate={inView ? { scale: [0, 1.5, 1] } : {}}
-              transition={{ duration: 0.5, delay: 1.4 }}
-            />
-            <motion.div
-              className="h-[1px] flex-1 bg-muted-foreground/30 origin-right"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            />
-          </div>
+          {/* ── Right data cable ── */}
+          <DataCable direction="right" inView={inView} />
 
           {/* ── TRACKS/ID (Right) ── */}
           <motion.div
