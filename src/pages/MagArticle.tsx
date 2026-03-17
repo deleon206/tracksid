@@ -162,7 +162,7 @@ const MagArticle = () => {
 
       <main className="relative z-10">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <div className="flex gap-16">
+          <div className="flex gap-16 items-start">
             {/* ═══ Main Article Column ═══ */}
             <article className="w-full min-w-0 pb-24">
               {/* Breadcrumbs */}
@@ -202,12 +202,12 @@ const MagArticle = () => {
               </footer>
             </article>
 
-            {/* Vertical divider */}
-            <div className="hidden xl:block w-px bg-border shrink-0" />
+            {/* Vertical divider — same height as article */}
+            <div className="hidden xl:block w-px bg-border shrink-0 self-stretch" />
 
             {/* ═══ Sticky Sidebar (Desktop) ═══ */}
-            <aside className="hidden xl:block w-[220px] shrink-0">
-              <div className="sticky top-28 space-y-10" style={{ maxHeight: 'calc(100vh - 10rem)', overflowY: 'auto' }}>
+            <aside className="hidden xl:block w-[220px] shrink-0 self-start pb-24">
+              <div className="sticky top-28 space-y-10">
                 {/* Search */}
                 <MagSidebarSearch />
 
