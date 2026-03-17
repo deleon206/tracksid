@@ -151,14 +151,14 @@ const WhoWeAreSection = () => {
           </motion.div>
 
           {/* ── RIGHT: Symmetric triangle layout ── */}
-          <div className="flex items-center justify-center">
-            <div className="flex flex-col items-center">
+          <div className="flex items-center justify-center w-full">
+            <div className="flex flex-col items-center w-full max-w-[320px]">
 
               {/* Top row: DENAR + TRACKS/ID symmetrically spaced */}
-              <div className="flex items-start gap-14 sm:gap-20">
+              <div className="flex items-start justify-between w-full">
                 {/* DENAR */}
                 <motion.div
-                  className="flex flex-col items-center text-center"
+                  className="flex flex-col items-center text-center w-[120px]"
                   initial={{ opacity: 0, x: -30 }}
                   animate={inView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.7, ease: "easeOut" }}
@@ -167,14 +167,14 @@ const WhoWeAreSection = () => {
                     <span className="font-heading text-xs font-black text-muted-foreground">DENAR</span>
                   </Hexagon>
                   <h3 className="font-heading text-[11px] font-black text-foreground mt-2">DENAR RCRDS</h3>
-                  <p className="font-body text-[10px] text-muted-foreground mt-0.5 max-w-[120px] leading-snug">
+                  <p className="font-body text-[10px] text-muted-foreground mt-0.5 leading-snug">
                     <strong className="text-foreground">+1,000 artists</strong> signed
                   </p>
                 </motion.div>
 
                 {/* TRACKS/ID */}
                 <motion.div
-                  className="flex flex-col items-center text-center"
+                  className="flex flex-col items-center text-center w-[120px]"
                   initial={{ opacity: 0, x: 30 }}
                   animate={inView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.7, ease: "easeOut" }}
@@ -183,27 +183,27 @@ const WhoWeAreSection = () => {
                     <span className="font-heading text-xs font-black text-muted-foreground">T/</span>
                   </Hexagon>
                   <h3 className="font-heading text-[11px] font-black text-foreground mt-2">TRACKS/ID</h3>
-                  <p className="font-body text-[10px] text-muted-foreground mt-0.5 max-w-[120px] leading-snug">
+                  <p className="font-body text-[10px] text-muted-foreground mt-0.5 leading-snug">
                     Next-gen <strong className="text-foreground">music tech</strong>
                   </p>
                 </motion.div>
               </div>
 
               {/* Diagonal cables converging to center */}
-              <div className="flex items-start gap-4 -mt-1">
+              <div className="flex items-start justify-center gap-0 -mt-1">
                 <DiagonalCable inView={inView} delay={0} direction="left" />
                 <DiagonalCable inView={inView} delay={0.3} direction="right" />
               </div>
 
               {/* Center-bottom: THE MERGE */}
               <motion.div
-                className="flex flex-col items-center text-center -mt-1"
+                className="relative flex flex-col items-center text-center -mt-1"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.7, delay: 1.2, type: "spring", stiffness: 120 }}
               >
                 <motion.div
-                  className="absolute w-36 h-40 rounded-full pointer-events-none"
+                  className="absolute -inset-4 rounded-full pointer-events-none"
                   style={{
                     background: "radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, transparent 70%)",
                   }}
