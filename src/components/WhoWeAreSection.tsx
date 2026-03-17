@@ -88,7 +88,7 @@ const DataCable = ({ direction, inView }: { direction: "left" | "right"; inView:
   );
 };
 
-
+const WhoWeAreSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-100px" });
 
