@@ -84,11 +84,11 @@ const HexLockIcon = () => (
    ═══════════════════════════════════════════════════════════ */
 const HexSeal = () => (
   <motion.div
-    className="relative w-20 h-20 mx-auto mb-6 flex items-center justify-center"
+    className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center"
     animate={{ filter: ["drop-shadow(0 0 12px hsl(48 90% 50% / 0.4))", "drop-shadow(0 0 24px hsl(48 90% 50% / 0.7))", "drop-shadow(0 0 12px hsl(48 90% 50% / 0.4))"] }}
     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
   >
-    <svg width="80" height="88" viewBox="0 0 80 88" fill="none" className="absolute inset-0">
+    <svg width="96" height="106" viewBox="0 0 80 88" fill="none" className="absolute inset-0 w-full h-full">
       <path
         d="M40 2L76 22V66L40 86L4 66V22L40 2Z"
         stroke="hsl(48 90% 50%)"
@@ -96,7 +96,7 @@ const HexSeal = () => (
         fill="hsl(48 90% 50% / 0.08)"
       />
     </svg>
-    <img src={logoWhite} alt="DENAR RCRDS" className="relative z-10 w-10 h-10 object-contain" />
+    <img src={logoWhite} alt="DENAR RCRDS" className="relative z-10 w-14 h-14 object-contain" />
   </motion.div>
 );
 
