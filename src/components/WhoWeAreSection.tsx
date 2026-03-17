@@ -153,29 +153,61 @@ const WhoWeAreSection = () => {
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.7, delay: 1.2, type: "spring", stiffness: 120 }}
           >
-            {/* Glow ring */}
+            {/* Outer glow pulse — "receiving data" */}
             <motion.div
-              className="absolute w-40 h-44 sm:w-48 sm:h-52 rounded-full"
+              className="absolute w-44 h-48 sm:w-52 sm:h-56 rounded-full pointer-events-none"
               style={{
-                background: "radial-gradient(circle, hsl(var(--primary) / 0.15) 0%, transparent 70%)",
+                background: "radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, transparent 70%)",
               }}
-              animate={inView ? { scale: [1, 1.15, 1] } : {}}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              animate={inView ? {
+                scale: [1, 1.25, 1],
+                opacity: [0.5, 1, 0.5],
+              } : {}}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            />
+            {/* Secondary receiving ring */}
+            <motion.div
+              className="absolute w-36 h-40 sm:w-44 sm:h-48 border border-primary/20 rounded-full pointer-events-none"
+              animate={inView ? {
+                scale: [1, 1.3, 1],
+                opacity: [0.4, 0, 0.4],
+              } : {}}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut", delay: 0.3 }}
             />
             <div className="relative w-32 h-36 sm:w-40 sm:h-44 mb-6">
-              {/* Outer hex */}
-              <Hexagon strokeColor="hsl(var(--primary))" className="absolute inset-0 w-full h-full">
-                <span className="font-heading text-lg sm:text-xl font-black text-primary tracking-tight">
-                  T/ID
-                </span>
-              </Hexagon>
+              {/* Outer hex with glow */}
+              <motion.div
+                className="absolute inset-0"
+                animate={inView ? {
+                  filter: [
+                    "drop-shadow(0 0 4px hsl(var(--primary) / 0.3))",
+                    "drop-shadow(0 0 12px hsl(var(--primary) / 0.6))",
+                    "drop-shadow(0 0 4px hsl(var(--primary) / 0.3))",
+                  ],
+                } : {}}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Hexagon strokeColor="hsl(var(--primary))" className="w-full h-full">
+                  <span className="font-heading text-lg sm:text-xl font-black text-primary tracking-tight">
+                    T/ID
+                  </span>
+                </Hexagon>
+              </motion.div>
               {/* Inner hex pulse */}
               <motion.div
                 className="absolute inset-3"
-                animate={inView ? { opacity: [0.3, 0.7, 0.3] } : {}}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                animate={inView ? { opacity: [0.2, 0.6, 0.2] } : {}}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Hexagon strokeColor="hsl(var(--primary) / 0.4)" className="relative w-full h-full" />
+              </motion.div>
+              {/* Innermost hex — fast pulse */}
+              <motion.div
+                className="absolute inset-6"
+                animate={inView ? { opacity: [0, 0.5, 0], scale: [0.8, 1.05, 0.8] } : {}}
+                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+              >
+                <Hexagon strokeColor="hsl(var(--primary) / 0.25)" className="relative w-full h-full" />
               </motion.div>
             </div>
             <h3 className="font-heading text-xl sm:text-2xl font-black text-primary">THE MERGE</h3>
