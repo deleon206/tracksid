@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown, CircleHelp } from "lucide-react";
 
 const navLinks = [
   { label: "PRODUCT", href: "#services", hasDropdown: true },
