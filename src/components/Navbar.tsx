@@ -1,13 +1,12 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown, CircleHelp } from "lucide-react";
 
 const navLinks = [
-  { label: "PRODUCT", href: "#services", hasDropdown: true },
-  { label: "INDUSTRIES", href: "#plans", hasDropdown: true },
-  { label: "WHO WE ARE", href: "#", hasDropdown: true },
+  { label: "LABEL", href: "#", hasDropdown: true },
+  { label: "ROOSTER", href: "#", hasDropdown: true },
   { label: "MAG", href: "/mag", accent: true },
-  { label: "RESOURCES", href: "#", hasDropdown: true },
+  { label: "SEND YOUR DEMO", href: "/demos" },
 ];
 
 const Navbar = () => {
@@ -54,19 +53,12 @@ const Navbar = () => {
 
         {/* Right actions */}
         <div className="hidden lg:flex items-center gap-1 ml-1">
-          <button
-            className="flex items-center justify-center w-8 h-8 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
-            aria-label="Search"
-          >
-            <Search className="w-4 h-4" />
-          </button>
           <a
-            href="#plans"
-            className="flex items-center justify-center w-8 h-8 rounded-full overflow-hidden"
+            href="#"
+            className="flex items-center justify-center w-8 h-8 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+            aria-label="Help"
           >
-            <div className="w-full h-full rounded-full bg-primary/20 flex items-center justify-center text-primary font-heading text-[10px] font-bold">
-              →
-            </div>
+            <CircleHelp className="w-4 h-4" />
           </a>
         </div>
 
