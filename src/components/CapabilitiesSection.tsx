@@ -166,7 +166,7 @@ const FusionHexagonGraphic = () => {
 
       // T/ID logo text in center
       ctx.font = `900 ${Math.max(10, baseR * 0.35)}px 'Montserrat', sans-serif`;
-      ctx.fillStyle = `rgba(0,255,136,${pulse})`;
+      ctx.fillStyle = `rgba(230,180,17,${pulse})`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText("T/ID", cx, cy);
