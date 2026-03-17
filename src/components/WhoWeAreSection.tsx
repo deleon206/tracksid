@@ -114,7 +114,7 @@ const WhoWeAreSection = () => {
         </motion.div>
 
         {/* ─── Merge visual: 3 columns ─── */}
-        <div className="relative flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-0 mb-20">
+        <div className="relative flex flex-col lg:grid lg:grid-cols-[1fr_auto_1.2fr_auto_1fr] items-center gap-8 lg:gap-0 mb-20">
 
           {/* ── DENAR RCRDS (Left) ── */}
           <motion.div
