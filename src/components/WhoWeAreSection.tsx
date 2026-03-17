@@ -34,16 +34,18 @@ const Hexagon = ({ className, strokeColor, size = "md", children }: {
   );
 };
 
-/* ─── Vertical data cable with traveling particles ─── */
-const VerticalCable = ({ inView, delay = 0 }: { inView: boolean; delay?: number }) => {
-  const cablePath = "M 25,0 C 25,20 15,35 25,50 S 35,70 25,90";
-  const particlePath = "M 25,0 C 25,20 15,35 25,50 S 35,70 25,90";
+/* ─── Diagonal cable connecting a top node to the center merge node ─── */
+const DiagonalCable = ({ inView, delay = 0, direction }: { inView: boolean; delay?: number; direction: "left" | "right" }) => {
+  // Left cable goes from top-right to bottom-left; right cable mirrors
+  const path = direction === "left"
+    ? "M 45,0 C 40,25 20,50 5,80"
+    : "M 5,0 C 10,25 30,50 45,80";
 
   return (
-    <div className="w-[50px] h-[90px] relative mx-auto">
-      <svg viewBox="0 0 50 90" className="w-full h-full overflow-visible">
+    <div className="w-[50px] h-[80px]">
+      <svg viewBox="0 0 50 80" className="w-full h-full overflow-visible">
         <motion.path
-          d={cablePath}
+          d={path}
           fill="none"
           stroke="hsl(var(--border))"
           strokeWidth="1"
@@ -52,7 +54,7 @@ const VerticalCable = ({ inView, delay = 0 }: { inView: boolean; delay?: number 
           transition={{ duration: 0.8, delay: delay + 0.4 }}
         />
         <motion.path
-          d={cablePath}
+          d={path}
           fill="none"
           stroke="hsl(var(--primary))"
           strokeWidth="1.5"
@@ -73,7 +75,7 @@ const VerticalCable = ({ inView, delay = 0 }: { inView: boolean; delay?: number 
               dur="1.6s"
               begin={`${delay + 1 + i * 0.8}s`}
               repeatCount="indefinite"
-              path={particlePath}
+              path={path}
             />
           </circle>
         ))}
