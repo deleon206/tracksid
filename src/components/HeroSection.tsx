@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
+import OnionSkinBackground from "./OnionSkinBackground";
 
 /* ─── Headline lines ─── */
 const headlineLines = ["MUSIC", "DISTRIBUTION", "FOR ARTISTS"];
