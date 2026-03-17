@@ -207,14 +207,9 @@ const MagArticle = () => {
 
             {/* ═══ Sticky Sidebar (Desktop) ═══ */}
             <aside className="hidden xl:block w-[220px] shrink-0">
-              <div className="sticky top-28 space-y-10">
-                {/* Search icon */}
-                <button
-                  className="w-10 h-10 border border-primary/30 flex items-center justify-center hover:border-primary hover:bg-primary/5 transition-all group"
-                  aria-label="Search"
-                >
-                  <Search className="w-4 h-4 text-primary/60 group-hover:text-primary transition-colors" />
-                </button>
+              <div className="sticky top-28 space-y-10" style={{ maxHeight: 'calc(100vh - 10rem)', overflowY: 'auto' }}>
+                {/* Search */}
+                <MagSidebarSearch />
 
                 {/* Latest Logs */}
                 <div>
