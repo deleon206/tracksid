@@ -2,7 +2,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
-import CapabilitiesSection from "@/components/CapabilitiesSection";
+import LatestMagSection from "@/components/LatestMagSection";
 import HybridPlatformSection from "@/components/HybridPlatformSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FaqSection from "@/components/FaqSection";
@@ -18,7 +18,7 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <TrustBar />
-      <CapabilitiesSection />
+      <LatestMagSection />
       <HybridPlatformSection />
       <TestimonialsSection />
       <FaqSection />
