@@ -3,11 +3,10 @@ import { useState } from "react";
 import { ChevronDown, CircleHelp } from "lucide-react";
 
 const navLinks = [
-  { label: "PRODUCT", href: "#services", hasDropdown: true },
-  { label: "INDUSTRIES", href: "#plans", hasDropdown: true },
-  { label: "WHO WE ARE", href: "#", hasDropdown: true },
+  { label: "LABEL", href: "#", hasDropdown: true },
+  { label: "ROOSTER", href: "#", hasDropdown: true },
   { label: "MAG", href: "/mag", accent: true },
-  { label: "RESOURCES", href: "#", hasDropdown: true },
+  { label: "SEND YOUR DEMO", href: "/demos" },
 ];
 
 const Navbar = () => {
