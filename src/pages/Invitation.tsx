@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
+import logoWhite from "@/assets/logo-white.png";
 
 /* ═══════════════════════════════════════════════════════════
    DOT GRID BACKGROUND — subtle encrypted-node aesthetic
