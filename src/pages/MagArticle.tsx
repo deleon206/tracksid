@@ -166,7 +166,7 @@ const MagArticle = () => {
             <article className="w-full min-w-0 pb-24">
               {/* Breadcrumbs */}
               <motion.nav
-                className="mt-10 mb-10"
+                className="mt-6 mb-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
