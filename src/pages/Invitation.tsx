@@ -511,25 +511,91 @@ const TypewriterParagraph = ({ text, speed = 12 }: { text: string; speed?: numbe
 };
 
 /* ═══════════════════════════════════════════════════════════
+   WELCOME SCREEN — Transition between lock and proposal
+   ═══════════════════════════════════════════════════════════ */
+const WelcomeScreen = ({
+  artistAlias,
+  onComplete,
+}: {
+  artistAlias: string;
+  onComplete: () => void;
+}) => {
+  const displayName = artistAlias.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+  useEffect(() => {
+    const timer = setTimeout(onComplete, 3200);
+    return () => clearTimeout(timer);
+  }, [onComplete]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 2.5, filter: "blur(20px)" }}
+      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <motion.h1
+        className="font-heading text-3xl sm:text-5xl font-black tracking-tight text-foreground text-center"
+        initial={{ opacity: 0, y: 30, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+      >
+        WELCOME, <span className="text-primary">{displayName.toUpperCase()}</span>
+      </motion.h1>
+      <motion.p
+        className="font-body text-base sm:text-lg text-muted-foreground mt-4 tracking-wide"
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.9, ease: "easeOut" }}
+      >
+        Glad to see you :)
+      </motion.p>
+      <motion.div
+        className="w-12 h-[1px] bg-primary mt-6"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 0.6, delay: 1.4 }}
+      />
+    </motion.div>
+  );
+};
+
+/* ═══════════════════════════════════════════════════════════
    MAIN PAGE COMPONENT
    ═══════════════════════════════════════════════════════════ */
 const Invitation = () => {
   const { artistAlias } = useParams<{ artistAlias: string }>();
-  const [unlocked, setUnlocked] = useState(false);
+  const [phase, setPhase] = useState<"lock" | "welcome" | "proposal">("lock");
   const alias = artistAlias || "Artist";
 
   return (
     <>
       <AnimatePresence mode="wait">
-        {!unlocked && (
+        {phase === "lock" && (
           <LockScreen
             key="lock"
             artistAlias={alias}
-            onUnlock={() => setUnlocked(true)}
+            onUnlock={() => setPhase("welcome")}
+          />
+        )}
+        {phase === "welcome" && (
+          <WelcomeScreen
+            key="welcome"
+            artistAlias={alias}
+            onComplete={() => setPhase("proposal")}
           />
         )}
       </AnimatePresence>
-      {unlocked && <ProposalCarta artistAlias={alias} />}
+      {phase === "proposal" && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <ProposalCarta artistAlias={alias} />
+        </motion.div>
+      )}
     </>
   );
 };
