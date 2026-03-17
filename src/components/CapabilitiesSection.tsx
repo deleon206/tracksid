@@ -147,8 +147,8 @@ const FusionHexagonGraphic = () => {
       // Outer glow
       if (hover) {
         const grad = ctx.createRadialGradient(cx, cy, baseR * 0.5, cx, cy, baseR * 2);
-        grad.addColorStop(0, `rgba(0,255,136,${glowPulse * 0.15})`);
-        grad.addColorStop(1, "rgba(0,255,136,0)");
+        grad.addColorStop(0, `rgba(230,180,17,${glowPulse * 0.15})`);
+        grad.addColorStop(1, "rgba(230,180,17,0)");
         ctx.fillStyle = grad;
         ctx.fillRect(cx - baseR * 2, cy - baseR * 2, baseR * 4, baseR * 4);
       }
