@@ -27,10 +27,10 @@ const Index = () => {
       <HybridPlatformSection />
       <UserTypeSolutions />
       <PlatformShowcase />
-      <SwitchBonusSection />
       <TestimonialsSection />
       <FaqSection />
       <FinalCta />
+      <SwitchBonusSection />
       <Footer />
     </div>
   );
