@@ -148,75 +148,67 @@ const WhoWeAreSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* ── RIGHT: Merge visual (vertical triangle layout) ── */}
+          {/* ── RIGHT: Compact triangle layout ── */}
           <div className="flex items-center justify-center">
-            <div className="flex flex-col items-center gap-0">
+            <div className="relative w-[280px] h-[320px] sm:w-[320px] sm:h-[360px]">
 
-              {/* Top row: DENAR + TRACKS/ID side by side */}
-              <div className="flex items-start gap-10 sm:gap-16">
-                {/* DENAR */}
-                <motion.div
-                  className="flex flex-col items-center text-center"
-                  initial={{ opacity: 0, x: -40 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                >
-                  <Hexagon strokeColor="hsl(var(--muted-foreground))" size="sm">
-                    <span className="font-heading text-xs font-black text-muted-foreground">DENAR</span>
-                  </Hexagon>
-                  <h3 className="font-heading text-sm font-black text-foreground mt-3">DENAR RCRDS</h3>
-                  <p className="font-body text-[11px] text-muted-foreground mt-1 max-w-[140px] leading-relaxed">
-                    <strong className="text-foreground">+1,000 artists</strong> signed worldwide
-                  </p>
-                </motion.div>
+              {/* Top-left: DENAR */}
+              <motion.div
+                className="absolute top-0 left-0 flex flex-col items-center text-center"
+                initial={{ opacity: 0, x: -30 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+              >
+                <Hexagon strokeColor="hsl(var(--muted-foreground))" size="sm">
+                  <span className="font-heading text-xs font-black text-muted-foreground">DENAR</span>
+                </Hexagon>
+                <h3 className="font-heading text-[11px] font-black text-foreground mt-2">DENAR RCRDS</h3>
+                <p className="font-body text-[10px] text-muted-foreground mt-0.5 max-w-[120px] leading-snug">
+                  <strong className="text-foreground">+1,000 artists</strong> signed
+                </p>
+              </motion.div>
 
-                {/* TRACKS/ID */}
-                <motion.div
-                  className="flex flex-col items-center text-center"
-                  initial={{ opacity: 0, x: 40 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                >
-                  <Hexagon strokeColor="hsl(var(--muted-foreground))" size="sm">
-                    <span className="font-heading text-xs font-black text-muted-foreground">T/</span>
-                  </Hexagon>
-                  <h3 className="font-heading text-sm font-black text-foreground mt-3">TRACKS/ID</h3>
-                  <p className="font-body text-[11px] text-muted-foreground mt-1 max-w-[140px] leading-relaxed">
-                    Next-gen <strong className="text-foreground">music tech</strong> infrastructure
-                  </p>
-                </motion.div>
-              </div>
+              {/* Top-right: TRACKS/ID */}
+              <motion.div
+                className="absolute top-0 right-0 flex flex-col items-center text-center"
+                initial={{ opacity: 0, x: 30 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+              >
+                <Hexagon strokeColor="hsl(var(--muted-foreground))" size="sm">
+                  <span className="font-heading text-xs font-black text-muted-foreground">T/</span>
+                </Hexagon>
+                <h3 className="font-heading text-[11px] font-black text-foreground mt-2">TRACKS/ID</h3>
+                <p className="font-body text-[10px] text-muted-foreground mt-0.5 max-w-[120px] leading-snug">
+                  Next-gen <strong className="text-foreground">music tech</strong>
+                </p>
+              </motion.div>
 
-              {/* Cables converging down */}
-              <div className="flex items-start gap-6 sm:gap-10 -mt-1">
+              {/* Cables from each node converging to center bottom */}
+              <div className="absolute top-[100px] left-[40px] sm:left-[50px]">
                 <VerticalCable inView={inView} delay={0} />
+              </div>
+              <div className="absolute top-[100px] right-[40px] sm:right-[50px]">
                 <VerticalCable inView={inView} delay={0.3} />
               </div>
 
-              {/* Center: THE MERGE */}
+              {/* Center-bottom: THE MERGE */}
               <motion.div
-                className="relative flex flex-col items-center text-center -mt-1"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center text-center"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.7, delay: 1.2, type: "spring", stiffness: 120 }}
               >
                 {/* Glow pulse */}
                 <motion.div
-                  className="absolute w-44 h-48 rounded-full pointer-events-none"
+                  className="absolute w-36 h-40 rounded-full pointer-events-none"
                   style={{
                     background: "radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, transparent 70%)",
                   }}
                   animate={inView ? { scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] } : {}}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 />
-                {/* Receiving ring */}
-                <motion.div
-                  className="absolute w-40 h-44 border border-primary/15 rounded-full pointer-events-none"
-                  animate={inView ? { scale: [1, 1.3, 1], opacity: [0.3, 0, 0.3] } : {}}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut", delay: 0.3 }}
-                />
-                <div className="relative w-36 h-40 mb-4">
-                  {/* Outer hex glow */}
+                <div className="relative w-28 h-32 mb-2">
                   <motion.div
                     className="absolute inset-0"
                     animate={inView ? {
@@ -228,27 +220,25 @@ const WhoWeAreSection = () => {
                     } : {}}
                     transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    <Hexagon strokeColor="hsl(var(--primary))" className="w-full h-full" size="lg">
-                      <span className="font-heading text-xl font-black text-primary tracking-tight">T/ID</span>
+                    <Hexagon strokeColor="hsl(var(--primary))" className="w-full h-full" size="md">
+                      <span className="font-heading text-lg font-black text-primary tracking-tight">T/ID</span>
                     </Hexagon>
                   </motion.div>
-                  {/* Inner pulse */}
                   <motion.div
-                    className="absolute inset-4"
+                    className="absolute inset-3"
                     animate={inView ? { opacity: [0.2, 0.6, 0.2] } : {}}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    <Hexagon strokeColor="hsl(var(--primary) / 0.35)" className="w-full h-full" size="lg" />
+                    <Hexagon strokeColor="hsl(var(--primary) / 0.35)" className="w-full h-full" size="md" />
                   </motion.div>
                 </div>
-                <h3 className="font-heading text-lg sm:text-xl font-black text-primary">THE MERGE</h3>
-                <p className="font-body text-[11px] text-muted-foreground mt-1 max-w-[220px] leading-relaxed">
+                <h3 className="font-heading text-base sm:text-lg font-black text-primary">THE MERGE</h3>
+                <p className="font-body text-[10px] text-muted-foreground mt-0.5 max-w-[200px] leading-snug">
                   The industry's first <strong className="text-foreground">all-in-one hybrid label</strong> infrastructure
                 </p>
               </motion.div>
             </div>
           </div>
-        </div>
       </div>
     </section>
   );
