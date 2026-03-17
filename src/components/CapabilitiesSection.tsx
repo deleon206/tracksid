@@ -186,8 +186,8 @@ const FusionHexagonGraphic = () => {
         const orbitR = centerR * 1.7;
         const ox = cx + orbitR * Math.cos(orbitAngle);
         const oy = cy + orbitR * Math.sin(orbitAngle);
-        drawHex(ox, oy, baseR * 0.3, `rgba(0,255,136,${0.15 + 0.1 * Math.sin(t + i)})`, "", 0.6);
-        drawLine(cx + centerR * Math.cos(orbitAngle) * 0.95, cy + centerR * Math.sin(orbitAngle) * 0.95, ox, oy, `rgba(0,255,136,${0.1})`, 0.5);
+        drawHex(ox, oy, baseR * 0.3, `rgba(230,180,17,${0.15 + 0.1 * Math.sin(t + i)})`, "", 0.6);
+        drawLine(cx + centerR * Math.cos(orbitAngle) * 0.95, cy + centerR * Math.sin(orbitAngle) * 0.95, ox, oy, `rgba(230,180,17,${0.1})`, 0.5);
       }
 
       t += 0.015;
