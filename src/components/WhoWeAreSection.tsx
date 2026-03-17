@@ -214,7 +214,7 @@ const WhoWeAreSection = () => {
 
           {/* ── TRACKS/ID (Right) ── */}
           <motion.div
-            className="relative flex flex-col items-center text-center lg:w-1/3 z-10"
+            className="relative flex flex-col items-center text-center z-10"
             initial={{ opacity: 0, x: 80 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease: "easeOut" }}
