@@ -180,23 +180,6 @@ const MagArticle = () => {
                 </ol>
               </motion.nav>
 
-              {/* Header */}
-              <motion.header
-                className="mb-16"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7 }}
-              >
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-foreground leading-[0.92] mb-8 tracking-tight">
-                  {article.title}
-                </h1>
-
-                <div className="flex flex-wrap items-center gap-6 font-mono text-[10px] tracking-widest text-muted-foreground">
-                  <span>{formattedDate}</span>
-                  <span className="w-1 h-1 rounded-full bg-primary" />
-                  <span>TRACKS/ID</span>
-                </div>
-              </motion.header>
 
               {/* Article body — renders HTML from Supabase */}
               <motion.section
