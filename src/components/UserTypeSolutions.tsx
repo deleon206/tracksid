@@ -139,9 +139,9 @@ const UserTypeSolutions = () => {
             id="how-it-works-heading"
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-foreground"
           >
-            DISTRIBUTE YOUR MUSIC
+            OUR 3-STEP
             <br />
-            <span className="text-primary">IN 3 SIMPLE STEPS</span>
+            <span className="text-primary">DISTRIBUTION INFRASTRUCTURE</span>
           </h2>
         </motion.div>
 

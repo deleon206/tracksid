@@ -40,7 +40,8 @@ const SwitchBonusSection = () => {
           transition={{ delay: 0.1 }}
           className="font-heading text-2xl sm:text-3xl md:text-5xl font-black text-center text-foreground mb-3 sm:mb-4"
         >
-          Switch & Get <span className="text-primary">Bonus Credits</span>
+          Switch to TRACKS/ID and{" "}
+          <span className="text-primary">Scale Your Catalog</span>
         </motion.h2>
 
         {/* Subtitle */}

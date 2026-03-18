@@ -23,8 +23,8 @@ const Distribution = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Music Distribution — Get Your Music on Spotify &amp; 150+ Stores | TRACKS/ID</title>
-        <meta name="description" content="Distribute your music to Spotify, Apple Music, TikTok and 150+ stores. Keep 100% royalties, release unlimited tracks, go live in 48 hours. Free to start." />
+        <title>Hybrid Music Distribution Platform for Independent Labels | TRACKS/ID</title>
+        <meta name="description" content="The leading hybrid music distribution platform combining record label services with distributor technology. 150+ stores, 100% royalties, Dolby Atmos, sync licensing. Free to start." />
         <link rel="canonical" href="https://tracksid.com/distribution" />
         <meta property="og:title" content="Music Distribution — Get Your Music Everywhere | TRACKS/ID" />
         <meta property="og:description" content="Distribute your music to Spotify, Apple Music, TikTok and 150+ stores. Keep 100% royalties. Free to start." />
@@ -39,12 +39,20 @@ const Distribution = () => {
           "applicationCategory": "MusicApplication",
           "operatingSystem": "Web",
           "url": "https://tracksid.com/distribution",
-          "description": "Distribute your music to 150+ digital stores worldwide. Keep 100% of your royalties.",
+          "description": "The leading hybrid music distribution platform combining record label services with digital distributor infrastructure. Distribute to 150+ stores, keep 100% royalties, free Dolby Atmos support, sync licensing for TV/film.",
           "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD",
-            "description": "Free to start — no credit card required"
+            "priceValidUntil": "2027-12-31",
+            "description": "Free to start — commission-based, no subscriptions"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "10000",
+            "bestRating": "5",
+            "worstRating": "1"
           },
           "provider": {
             "@type": "Organization",
@@ -95,8 +103,9 @@ const Distribution = () => {
                 transition={{ duration: 0.7, delay: 0.15 }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-foreground leading-[0.95] mb-5 sm:mb-6"
               >
-                GET YOUR MUSIC{" "}
-                <span className="text-primary">EVERYWHERE</span>
+                THE LEADING HYBRID{" "}
+                <span className="text-primary">MUSIC DISTRIBUTION</span>{" "}
+                PLATFORM FOR INDEPENDENT LABELS
               </motion.h1>
 
               <motion.p
@@ -141,7 +150,7 @@ const Distribution = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7 }}
-                className="font-mono text-[10px] tracking-wider text-muted-foreground mt-5 sm:mt-6"
+                className="font-mono text-[11px] sm:text-xs tracking-wider text-foreground/70 mt-5 sm:mt-6 font-semibold"
               >
                 No credit card required · Free to start
               </motion.p>
@@ -163,7 +172,7 @@ const Distribution = () => {
 
                 <img
                   src={artistImg}
-                  alt="Independent artist distributing music worldwide through TRACKS/ID"
+                  alt="TRACKS/ID artist dashboard showing 100% royalty analytics and global music distribution to 150+ platforms"
                   className="w-full aspect-[3/4] object-cover"
                   loading="eager"
                   width={380}
