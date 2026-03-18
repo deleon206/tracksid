@@ -261,8 +261,8 @@ const ComparisonSection = () => {
             // WHY WE'RE DIFFERENT
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-neutral-900 leading-[0.95] mb-5">
-            LABEL + DISTRIBUTOR.{" "}
-            <span className="text-[hsl(48,90%,50%)]">ALL IN ONE.</span>
+            COMPARE TRACKS/ID VS{" "}
+            <span className="text-[hsl(48,90%,50%)]">THE INDUSTRY STANDARDS</span>
           </h2>
           <p className="font-body text-sm sm:text-base text-neutral-500 max-w-2xl mx-auto leading-relaxed">
             We're the only option on the market that combines record label services with digital distributor infrastructure and technology. No subscriptions, no hidden fees.
