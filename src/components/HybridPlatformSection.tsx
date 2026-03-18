@@ -136,14 +136,16 @@ const HybridPlatformSection = () => {
   return (
     <section ref={sectionRef} className="relative border-t border-border" style={{ height: `${services.length * 100}vh` }}>
       <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="grid lg:grid-cols-2 h-full">
-          {/* Left side */}
-          <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-12 xl:p-16 bg-background relative">
+
+        {/* ═══ DESKTOP: side-by-side ═══ */}
+        <div className="hidden lg:grid lg:grid-cols-2 h-full">
+          {/* Left */}
+          <div className="flex flex-col justify-between p-12 xl:p-16 bg-background relative">
             <div>
               <AnimatePresence mode="wait">
                 <motion.p
                   key={activeService.tag}
-                  className="font-heading text-[10px] tracking-[0.3em] text-primary mb-4 lg:mb-6 border border-primary/40 inline-block px-3 py-1"
+                  className="font-heading text-[10px] tracking-[0.3em] text-primary mb-6 border border-primary/40 inline-block px-3 py-1"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
@@ -152,89 +154,60 @@ const HybridPlatformSection = () => {
                   {activeService.tag}
                 </motion.p>
               </AnimatePresence>
-
-              <div className="relative mt-2 lg:mt-4">
+              <div className="relative mt-4">
                 <div className="absolute -left-2 top-0 bottom-0 w-[1px] bg-border" />
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black leading-[0.9] text-foreground pl-6">
+                <h2 className="text-5xl lg:text-6xl font-heading font-black leading-[0.9] text-foreground pl-6">
                   WHAT WE DO
                 </h2>
               </div>
             </div>
 
-            {/* Mobile: show description + title inline */}
-            <div className="lg:hidden mt-4 flex-1 flex flex-col justify-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeService.id + "-mobile"}
-                  className="rounded-sm p-5 border"
-                  style={{ borderColor: `${activeService.color}40`, backgroundColor: `${activeService.color}10` }}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <h3
-                    className="font-heading text-xl sm:text-2xl font-black uppercase whitespace-pre-line mb-2"
-                    style={{ color: activeService.color }}
-                  >
-                    {activeService.title}
-                  </h3>
-                  <p className="font-body text-xs sm:text-sm leading-relaxed text-muted-foreground">
-                    {activeService.description}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.a
+                key={activeService.id}
+                href={activeService.id === "distribution" ? "/distribution" : "#plans"}
+                className="inline-flex items-center gap-2 font-heading text-[11px] font-bold tracking-[0.15em] px-6 py-3 border transition-all duration-200 self-start"
+                style={{ borderColor: activeService.color, color: activeService.color }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ backgroundColor: activeService.color, color: "hsl(0,0%,0%)" }}
+              >
+                LEARN MORE ABOUT {activeService.title.split("\n")[0]} <span>→</span>
+              </motion.a>
+            </AnimatePresence>
 
-            <div className="flex flex-col gap-4 mt-4 lg:mt-8">
-              <AnimatePresence mode="wait">
-                <motion.a
-                  key={activeService.id}
-                  href={activeService.id === "distribution" ? "/distribution" : "#plans"}
-                  className="inline-flex items-center gap-2 font-heading text-[11px] font-bold tracking-[0.15em] px-6 py-3 border transition-all duration-200 self-start"
-                  style={{ borderColor: activeService.color, color: activeService.color }}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                  whileHover={{ backgroundColor: activeService.color, color: "hsl(0,0%,0%)" }}
+            <div className="flex items-center gap-8 mt-8">
+              {navLetters.map((item, i) => (
+                <button
+                  key={item.letter}
+                  onClick={() => {
+                    if (!sectionRef.current) return;
+                    const sectionTop = sectionRef.current.offsetTop;
+                    const sectionHeight = sectionRef.current.offsetHeight;
+                    const targetScroll = sectionTop + (sectionHeight * i) / services.length + 10;
+                    window.scrollTo({ top: targetScroll, behavior: "smooth" });
+                  }}
+                  className="relative flex items-center justify-center w-10 h-10 rounded-full border-2 font-heading text-xs font-bold tracking-wider transition-all duration-300"
+                  style={{
+                    borderColor: i === activeIndex ? item.color : "hsl(var(--border))",
+                    color: i === activeIndex ? item.color : "hsl(var(--muted-foreground))",
+                    backgroundColor: i === activeIndex ? `${item.color}15` : "transparent",
+                  }}
                 >
-                  LEARN MORE ABOUT {activeService.title.split("\n")[0]} <span>→</span>
-                </motion.a>
-              </AnimatePresence>
-
-              {/* Nav letters */}
-              <div className="flex items-center gap-4 sm:gap-6 lg:gap-8">
-                {navLetters.map((item, i) => (
-                  <button
-                    key={item.letter}
-                    onClick={() => {
-                      if (!sectionRef.current) return;
-                      const sectionTop = sectionRef.current.offsetTop;
-                      const sectionHeight = sectionRef.current.offsetHeight;
-                      const targetScroll = sectionTop + (sectionHeight * i) / services.length + 10;
-                      window.scrollTo({ top: targetScroll, behavior: "smooth" });
-                    }}
-                    className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 font-heading text-xs font-bold tracking-wider transition-all duration-300"
-                    style={{
-                      borderColor: i === activeIndex ? item.color : "hsl(var(--border))",
-                      color: i === activeIndex ? item.color : "hsl(var(--muted-foreground))",
-                      backgroundColor: i === activeIndex ? `${item.color}15` : "transparent",
-                    }}
-                  >
-                    {item.letter}
-                  </button>
-                ))}
-              </div>
+                  {item.letter}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Right side — desktop only */}
-          <div className="relative overflow-hidden hidden lg:block">
+          {/* Right — colored panel */}
+          <div className="relative overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeService.id}
-                className="absolute inset-0 flex flex-col justify-between p-8 lg:p-12 xl:p-16"
+                className="absolute inset-0 flex flex-col justify-between p-12 xl:p-16"
                 style={{ backgroundColor: activeService.color, color: "hsl(0, 0%, 0%)" }}
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -250,7 +223,7 @@ const HybridPlatformSection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
                 >
-                  <h3 className="font-heading text-2xl md:text-3xl lg:text-4xl font-black uppercase whitespace-pre-line mb-4">
+                  <h3 className="font-heading text-3xl lg:text-4xl font-black uppercase whitespace-pre-line mb-4">
                     {activeService.title}
                   </h3>
                   <p className="font-body text-sm md:text-base leading-relaxed opacity-70 max-w-md">
@@ -261,6 +234,119 @@ const HybridPlatformSection = () => {
             </AnimatePresence>
           </div>
         </div>
+
+        {/* ═══ MOBILE / TABLET: full-screen immersive layout ═══ */}
+        <div className="lg:hidden flex flex-col h-full bg-background relative">
+          {/* Background SVG graphic — subtle watermark */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeService.id + "-bg"}
+                className="w-48 h-48 sm:w-64 sm:h-64 opacity-[0.06]"
+                style={{ color: activeService.color }}
+                initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                animate={{ opacity: 0.06, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 1.1, rotate: 10 }}
+                transition={{ duration: 0.5 }}
+              >
+                {activeService.graphic}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Top: tag + heading */}
+          <div className="relative z-10 px-5 pt-6 sm:pt-8">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={activeService.tag}
+                className="font-heading text-[9px] sm:text-[10px] tracking-[0.3em] text-primary mb-3 border border-primary/40 inline-block px-2.5 py-1"
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 15 }}
+                transition={{ duration: 0.25 }}
+              >
+                {activeService.tag}
+              </motion.p>
+            </AnimatePresence>
+            <div className="relative">
+              <div className="absolute -left-1 top-0 bottom-0 w-[2px]" style={{ backgroundColor: activeService.color }} />
+              <h2 className="text-3xl sm:text-4xl font-heading font-black leading-[0.9] text-foreground pl-5">
+                WHAT WE DO
+              </h2>
+            </div>
+          </div>
+
+          {/* Center: service content card */}
+          <div className="relative z-10 flex-1 flex items-center px-5 py-4">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeService.id + "-card"}
+                className="w-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+              >
+                {/* Colored accent bar */}
+                <div className="h-[2px] w-12 mb-4" style={{ backgroundColor: activeService.color }} />
+                <h3
+                  className="font-heading text-2xl sm:text-3xl font-black uppercase whitespace-pre-line mb-3 leading-[0.95]"
+                  style={{ color: activeService.color }}
+                >
+                  {activeService.title}
+                </h3>
+                <p className="font-body text-sm leading-relaxed text-muted-foreground max-w-sm">
+                  {activeService.description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Bottom: CTA + nav pills */}
+          <div className="relative z-10 px-5 pb-6 sm:pb-8 flex flex-col gap-4">
+            {/* Separator */}
+            <div className="h-[1px] w-full bg-border" />
+
+            <AnimatePresence mode="wait">
+              <motion.a
+                key={activeService.id + "-cta"}
+                href={activeService.id === "distribution" ? "/distribution" : "#plans"}
+                className="inline-flex items-center justify-center gap-2 font-heading text-[10px] sm:text-[11px] font-bold tracking-[0.15em] px-5 py-3 border transition-all duration-200 w-full sm:w-auto sm:self-start"
+                style={{ borderColor: activeService.color, color: activeService.color }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                LEARN MORE ABOUT {activeService.title.split("\n")[0]} <span>→</span>
+              </motion.a>
+            </AnimatePresence>
+
+            <div className="flex items-center justify-between sm:justify-start sm:gap-6">
+              {navLetters.map((item, i) => (
+                <button
+                  key={item.letter}
+                  onClick={() => {
+                    if (!sectionRef.current) return;
+                    const sectionTop = sectionRef.current.offsetTop;
+                    const sectionHeight = sectionRef.current.offsetHeight;
+                    const targetScroll = sectionTop + (sectionHeight * i) / services.length + 10;
+                    window.scrollTo({ top: targetScroll, behavior: "smooth" });
+                  }}
+                  className="relative flex items-center justify-center w-10 h-10 rounded-full border-2 font-heading text-xs font-bold tracking-wider transition-all duration-300"
+                  style={{
+                    borderColor: i === activeIndex ? item.color : "hsl(var(--border))",
+                    color: i === activeIndex ? item.color : "hsl(var(--muted-foreground))",
+                    backgroundColor: i === activeIndex ? `${item.color}15` : "transparent",
+                  }}
+                >
+                  {item.letter}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );
