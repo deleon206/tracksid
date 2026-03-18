@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -19,7 +20,9 @@ const App = () => {
   return (
     <HelmetProvider>
       <TooltipProvider>
-        {loading && <Loader onComplete={() => setLoading(false)} />}
+        <AnimatePresence>
+          {loading && <Loader onComplete={() => setLoading(false)} />}
+        </AnimatePresence>
         <Toaster />
         <Sonner />
         <BrowserRouter>
