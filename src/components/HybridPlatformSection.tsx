@@ -156,11 +156,7 @@ const HybridPlatformSection = () => {
               <div className="relative mt-4">
                 <div className="absolute -left-2 top-0 bottom-0 w-[1px] bg-border" />
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black leading-[0.9] text-foreground pl-6">
-                  BUILT FOR
-                  <br />
-                  MODERN
-                  <br />
-                  ARTISTS
+                  WHAT WE DO
                 </h2>
               </div>
             </div>
