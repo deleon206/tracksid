@@ -354,7 +354,7 @@ const ComparisonSection = () => {
                         <td className="p-3 lg:p-4 font-body text-xs lg:text-sm text-neutral-700 leading-snug">
                           {f.feature}
                         </td>
-                        <td className="p-3 lg:p-4 text-center bg-[hsl(48,90%,97%)]">
+                        <td className="p-3 lg:p-4 text-center bg-[hsl(48,90%,97%)] border-l-2 border-r-2 border-[hsl(48,90%,50%)]/40">
                           <div className="flex justify-center">
                             <ValueCell value={f.tracksId} isTracksId />
                           </div>
