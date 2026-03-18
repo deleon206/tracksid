@@ -338,11 +338,12 @@ const ComparisonSection = () => {
                 <>
                   <tr key={`cat-${cat}`}>
                     <td
-                      colSpan={6}
                       className="pt-6 pb-2 px-3 lg:px-4 font-heading text-[9px] font-bold tracking-[0.25em] uppercase text-[hsl(48,90%,50%)]"
                     >
                       {categoryLabels[cat]}
                     </td>
+                    <td className="bg-[hsl(48,90%,97%)] border-l-2 border-r-2 border-[hsl(48,90%,50%)]/40" />
+                    <td colSpan={4} />
                   </tr>
                   {features
                     .filter((f) => f.category === cat)
