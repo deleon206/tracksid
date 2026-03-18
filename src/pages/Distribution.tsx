@@ -95,8 +95,9 @@ const Distribution = () => {
                 transition={{ duration: 0.7, delay: 0.15 }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-foreground leading-[0.95] mb-5 sm:mb-6"
               >
-                GET YOUR MUSIC{" "}
-                <span className="text-primary">EVERYWHERE</span>
+                THE LEADING HYBRID{" "}
+                <span className="text-primary">MUSIC DISTRIBUTION</span>{" "}
+                PLATFORM FOR INDEPENDENT LABELS
               </motion.h1>
 
               <motion.p
