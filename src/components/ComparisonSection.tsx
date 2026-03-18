@@ -308,8 +308,8 @@ const ComparisonSection = () => {
                 <th className="text-left p-3 lg:p-4 font-heading text-[10px] tracking-[0.15em] text-neutral-400 uppercase w-[30%]">
                   Feature
                 </th>
-                <th className="p-3 lg:p-4 text-center w-[17.5%]">
-                  <div className="inline-flex flex-col items-center gap-1.5 bg-neutral-900 text-white px-4 py-2.5 rounded-xl -mt-2 shadow-lg shadow-neutral-900/20">
+                <th className="p-3 lg:p-4 text-center w-[17.5%] border-l-2 border-r-2 border-t-2 border-[hsl(48,90%,50%)]/40 rounded-t-xl bg-[hsl(48,90%,97%)]">
+                  <div className="inline-flex flex-col items-center gap-1.5 bg-neutral-900 text-white px-4 py-2.5 rounded-xl -mt-2 shadow-lg shadow-[hsl(48,90%,50%)]/20">
                     <span className="font-heading text-[11px] font-black tracking-[0.1em]">TRACKS/ID</span>
                     <span className="text-[9px] text-[hsl(48,90%,50%)] font-bold tracking-wider">LABEL + DISTRO</span>
                   </div>
