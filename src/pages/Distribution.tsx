@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import UserTypeSolutions from "@/components/UserTypeSolutions";
 import PlatformShowcase from "@/components/PlatformShowcase";
+import ComparisonSection from "@/components/ComparisonSection";
 import SwitchBonusSection from "@/components/SwitchBonusSection";
 import artistImg from "@/assets/distribution-hero-artist.jpg";
 
