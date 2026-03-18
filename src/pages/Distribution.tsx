@@ -23,8 +23,8 @@ const Distribution = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Music Distribution — Get Your Music on Spotify &amp; 150+ Stores | TRACKS/ID</title>
-        <meta name="description" content="Distribute your music to Spotify, Apple Music, TikTok and 150+ stores. Keep 100% royalties, release unlimited tracks, go live in 48 hours. Free to start." />
+        <title>Hybrid Music Distribution Platform for Independent Labels | TRACKS/ID</title>
+        <meta name="description" content="The leading hybrid music distribution platform combining record label services with distributor technology. 150+ stores, 100% royalties, Dolby Atmos, sync licensing. Free to start." />
         <link rel="canonical" href="https://tracksid.com/distribution" />
         <meta property="og:title" content="Music Distribution — Get Your Music Everywhere | TRACKS/ID" />
         <meta property="og:description" content="Distribute your music to Spotify, Apple Music, TikTok and 150+ stores. Keep 100% royalties. Free to start." />
