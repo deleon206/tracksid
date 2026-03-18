@@ -230,6 +230,7 @@ const Distribution = () => {
 
       <UserTypeSolutions />
       <PlatformShowcase />
+      <ComparisonSection />
       <div className="w-full border-t border-border" aria-hidden="true" />
       <SwitchBonusSection />
       <Footer />
