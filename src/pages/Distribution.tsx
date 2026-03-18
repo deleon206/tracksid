@@ -150,7 +150,7 @@ const Distribution = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7 }}
-                className="font-mono text-[10px] tracking-wider text-muted-foreground mt-5 sm:mt-6"
+                className="font-mono text-[11px] sm:text-xs tracking-wider text-foreground/70 mt-5 sm:mt-6 font-semibold"
               >
                 No credit card required · Free to start
               </motion.p>
