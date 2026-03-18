@@ -20,7 +20,9 @@ const App = () => {
   return (
     <HelmetProvider>
       <TooltipProvider>
-        {loading && <Loader onComplete={() => setLoading(false)} />}
+        <AnimatePresence>
+          {loading && <Loader onComplete={() => setLoading(false)} />}
+        </AnimatePresence>
         <Toaster />
         <Sonner />
         <BrowserRouter>
