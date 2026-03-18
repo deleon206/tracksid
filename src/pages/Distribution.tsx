@@ -172,7 +172,7 @@ const Distribution = () => {
 
                 <img
                   src={artistImg}
-                  alt="Independent artist distributing music worldwide through TRACKS/ID"
+                  alt="TRACKS/ID artist dashboard showing 100% royalty analytics and global music distribution to 150+ platforms"
                   className="w-full aspect-[3/4] object-cover"
                   loading="eager"
                   width={380}
