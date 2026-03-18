@@ -228,9 +228,9 @@ const Distribution = () => {
         </div>
       </section>
 
+      <ComparisonSection />
       <UserTypeSolutions />
       <PlatformShowcase />
-      <ComparisonSection />
       <div className="w-full border-t border-border" aria-hidden="true" />
       <SwitchBonusSection />
       <Footer />
