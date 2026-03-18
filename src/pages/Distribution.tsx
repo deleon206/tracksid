@@ -39,12 +39,20 @@ const Distribution = () => {
           "applicationCategory": "MusicApplication",
           "operatingSystem": "Web",
           "url": "https://tracksid.com/distribution",
-          "description": "Distribute your music to 150+ digital stores worldwide. Keep 100% of your royalties.",
+          "description": "The leading hybrid music distribution platform combining record label services with digital distributor infrastructure. Distribute to 150+ stores, keep 100% royalties, free Dolby Atmos support, sync licensing for TV/film.",
           "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD",
-            "description": "Free to start — no credit card required"
+            "priceValidUntil": "2027-12-31",
+            "description": "Free to start — commission-based, no subscriptions"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "10000",
+            "bestRating": "5",
+            "worstRating": "1"
           },
           "provider": {
             "@type": "Organization",
