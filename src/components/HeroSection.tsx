@@ -146,8 +146,11 @@ const HeroSection = () => {
       ref={sectionRef}
       className="relative h-screen flex flex-col overflow-hidden bg-background"
     >
-      {/* Onion Skin 3D background */}
-      <OnionSkinBackground />
+      {/* Hero background image */}
+      <div className="absolute inset-0 z-0">
+        <img src={heroBgNew} alt="" className="w-full h-full object-cover" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+      </div>
 
       <div className="relative z-10 flex flex-col flex-1 h-full container px-4 sm:px-6 md:px-8">
         {/* Main content — headline left */}
