@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import OnionSkinBackground from "./OnionSkinBackground";
+import heroBgNew from "@/assets/hero-bg-new.png";
 
 /* ─── Headline lines ─── */
 const headlineLines = ["THE #1", "ALL-IN-ONE", "RECORD LABEL"];
