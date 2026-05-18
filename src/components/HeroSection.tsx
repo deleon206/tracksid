@@ -405,17 +405,15 @@ const HeroSection = () => {
         <img
           src={heroBgNew}
           alt=""
-          className="w-full h-full object-cover opacity-55"
-          style={{ filter: "blur(1.5px) grayscale(35%) contrast(1.05)" }}
+          className="w-full h-full object-cover opacity-40"
+          style={{ filter: "blur(2px) grayscale(45%) contrast(1.05)" }}
           aria-hidden="true"
         />
-        {/* Cinematic dark gradients keeping image visible */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/55 to-background/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-background/70" />
-        {/* Subtle vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background))_95%)]" />
-        {/* Soft gold glow */}
-        <div className="absolute top-1/4 right-[5%] w-[600px] h-[600px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
+        {/* Cinematic dark gradients — symmetrical for centered comp */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/40 to-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,hsl(var(--background))_85%)]" />
+        {/* Soft gold glow centered */}
+        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/[0.07] rounded-full blur-[160px] pointer-events-none" />
         {/* Grain */}
         <div
           className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none"
@@ -426,110 +424,100 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-28 sm:pt-32 pb-16">
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-          {/* LEFT — Headline */}
-          <div className="lg:col-span-6 xl:col-span-7 flex flex-col gap-7">
-            <motion.div
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-3 w-fit rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm px-3.5 py-1.5"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="font-heading text-[10px] font-bold tracking-[0.25em] text-white/70 uppercase">
-                Hybrid Distribution · Built for Labels
-              </span>
-            </motion.div>
+      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-28 sm:pt-32 pb-20">
+        {/* CENTERED EDITORIAL COMPOSITION */}
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto w-full">
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm px-4 py-1.5"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            <span className="font-heading text-[10px] font-bold tracking-[0.28em] text-white/70 uppercase">
+              Hybrid Distribution · Built for Labels
+            </span>
+          </motion.div>
 
-            <h1 className="font-heading font-black uppercase tracking-[-0.035em] leading-[0.9] text-[clamp(2.75rem,7.5vw,6.25rem)] text-foreground">
-              <motion.span
-                className="block"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              >
-                Start your
-              </motion.span>
-              <motion.span
-                className="block"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              >
-                next release
-              </motion.span>
-              <motion.span
-                className="block text-primary italic font-light normal-case tracking-tight"
-                style={{ fontFamily: "'Inter', serif" }}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
-              >
-                without friction.
-              </motion.span>
-            </h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
+          <h1 className="mt-8 font-heading font-black uppercase tracking-[-0.035em] leading-[0.92] text-[clamp(2.5rem,8vw,6.75rem)] text-foreground">
+            <motion.span
+              className="block"
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.55 }}
-              className="font-body text-base text-white/65 max-w-md leading-relaxed"
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              The hybrid distribution platform engineered for independent labels. Upload, distribute to 180+
-              stores, and grow your catalog with a real record-label infrastructure.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              Start your next release
+            </motion.span>
+            <motion.span
+              className="block text-primary italic font-light normal-case tracking-tight mt-1"
+              style={{ fontFamily: "'Inter', serif" }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="flex flex-wrap items-center gap-3"
+              transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
             >
-              <a
-                href="#plans"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-heading text-[11px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)]"
-              >
-                Start distributing
-                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href="#services"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] backdrop-blur-sm text-white/80 px-6 py-3.5 font-heading text-[11px] font-bold uppercase tracking-[0.2em] hover:border-white/40 hover:text-white transition-all"
-              >
-                Explore platform
-              </a>
-            </motion.div>
+              without friction.
+            </motion.span>
+          </h1>
 
-            {/* Trust strip */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.95 }}
-              className="flex items-center gap-7 pt-7 border-t border-white/10 max-w-md mt-2"
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.45 }}
+            className="mt-7 font-body text-base sm:text-lg text-white/65 max-w-xl leading-relaxed"
+          >
+            The hybrid distribution platform engineered for independent labels and artists.
+            Upload, distribute to 180+ stores, and grow your catalog with real record-label infrastructure.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-9 flex flex-wrap items-center justify-center gap-3"
+          >
+            <a
+              href="#plans"
+              className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-heading text-[11px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)]"
             >
-              {[
-                { v: "10K+", l: "Artists" },
-                { v: "1.2K", l: "Labels" },
-                { v: "180+", l: "Stores" },
-              ].map((s, i) => (
-                <div key={s.l} className="flex items-center gap-7">
-                  {i > 0 && <div className="w-px h-8 bg-white/10" />}
-                  <div>
-                    <p className="font-heading text-xl font-black text-white tabular-nums">{s.v}</p>
-                    <p className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase mt-0.5">
-                      {s.l}
-                    </p>
-                  </div>
+              Start distributing
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+            </a>
+            <a
+              href="#services"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] backdrop-blur-sm text-white/80 px-6 py-3.5 font-heading text-[11px] font-bold uppercase tracking-[0.2em] hover:border-white/40 hover:text-white transition-all"
+            >
+              Explore platform
+            </a>
+          </motion.div>
+
+          {/* Trust strip */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.8 }}
+            className="mt-10 flex items-center justify-center gap-8 sm:gap-10"
+          >
+            {[
+              { v: "10K+", l: "Artists" },
+              { v: "1.2K", l: "Labels" },
+              { v: "180+", l: "Stores" },
+            ].map((s, i) => (
+              <div key={s.l} className="flex items-center gap-8 sm:gap-10">
+                {i > 0 && <div className="w-px h-8 bg-white/10" />}
+                <div className="text-center">
+                  <p className="font-heading text-lg sm:text-xl font-black text-white tabular-nums">{s.v}</p>
+                  <p className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase mt-0.5">
+                    {s.l}
+                  </p>
                 </div>
-              ))}
-            </motion.div>
-          </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
 
-          {/* RIGHT — Workflow */}
-          <div className="lg:col-span-6 xl:col-span-5">
-            <WorkflowPanel />
-          </div>
+        {/* FLOATING WORKFLOW PANEL — embedded into the scene */}
+        <div className="mt-16 sm:mt-20 w-full">
+          <WorkflowPanel />
         </div>
       </div>
 
