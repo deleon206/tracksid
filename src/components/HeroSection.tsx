@@ -24,6 +24,8 @@ const WorkflowPanel = () => {
   const [progress, setProgress] = useState(0);
   const [fileName, setFileName] = useState<string>("");
   const [trackTitle, setTrackTitle] = useState<string>("");
+  const [artistName, setArtistName] = useState<string>("Your Name");
+  const [releaseDate, setReleaseDate] = useState<string>("2026-05-22");
   const [selectedStores, setSelectedStores] = useState<string[]>(["spotify", "apple", "tiktok"]);
 
   const openPicker = () => fileInputRef.current?.click();
@@ -82,6 +84,7 @@ const WorkflowPanel = () => {
     setSelectedStores((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
 
   const hasFile = phase !== "idle";
+  const isUploading = phase === "uploading";
   const showMeta = phase === "detected";
   const showStores = phase === "stores";
   const showReady = phase === "ready";
@@ -127,15 +130,30 @@ const WorkflowPanel = () => {
         {/* Header */}
         <div className="relative flex items-center justify-between px-6 py-4 border-b border-white/[0.07]">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-full border border-primary/40 flex items-center justify-center bg-primary/10">
-              <span className="font-heading text-[9px] font-black text-primary">T/</span>
+            <div className="w-7 h-7 rounded-full border border-primary/40 flex items-center justify-center bg-primary/10 shrink-0">
+              {hasFile && !isUploading ? (
+                <Check className="w-3.5 h-3.5 text-primary" strokeWidth={2.5} />
+              ) : (
+                <span className="font-heading text-[9px] font-black text-primary">T/</span>
+              )}
             </div>
-            <div>
-              <p className="font-heading text-[10px] font-bold tracking-[0.2em] text-white/80 uppercase">
-                New release
+            <div className="min-w-0">
+              <p className="font-heading text-[10px] font-bold tracking-[0.2em] text-white/80 uppercase truncate max-w-[260px] sm:max-w-[420px]">
+                {hasFile ? (trackTitle || fileName) : "New release"}
               </p>
-              <p className="font-body text-[9px] text-white/40 -mt-0.5">tracks/id studio</p>
+              <p className="font-body text-[9px] text-white/40 -mt-0.5 truncate max-w-[260px] sm:max-w-[420px]">
+                {hasFile ? fileName : "tracks/id studio"}
+              </p>
             </div>
+            {hasFile && (
+              <button
+                onClick={reset}
+                className="ml-1 p-1 rounded-full text-white/30 hover:text-white/80 hover:bg-white/5 transition-colors"
+                aria-label="Remove file"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            )}
           </div>
           <span className="font-heading text-[9px] tracking-[0.25em] text-white/40 font-bold uppercase">
             Step {String(stepIndex + 1).padStart(2, "0")} / 04
@@ -143,7 +161,7 @@ const WorkflowPanel = () => {
         </div>
 
         {/* Body */}
-        <div className="relative p-6 sm:p-7 space-y-5">
+        <div className="relative p-6 sm:p-7 space-y-5 min-h-[360px]">
           {/* Step rail */}
           <div className="flex items-center gap-2">
             {["Upload", "Metadata", "Stores", "Release"].map((s, i) => {
@@ -182,7 +200,7 @@ const WorkflowPanel = () => {
               className="hidden"
             />
 
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               {!hasFile && (
                 <motion.button
                   key="dropzone"
@@ -223,79 +241,38 @@ const WorkflowPanel = () => {
                 </motion.button>
               )}
 
-              {hasFile && (
+              {isUploading && (
                 <motion.div
-                  key="file"
+                  key="uploading"
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="rounded-2xl border border-white/10 bg-black/40 px-5 py-4"
+                  className="rounded-2xl border border-white/10 bg-black/40 px-5 py-6"
                 >
                   <div className="flex items-center gap-4">
                     <div className="relative w-12 h-12 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0">
-                      <AnimatePresence mode="wait">
-                        {phase === "uploading" ? (
-                          <motion.div
-                            key="m"
-                            initial={{ scale: 0.6, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.6, opacity: 0 }}
-                          >
-                            <Music className="w-5 h-5 text-primary" />
-                          </motion.div>
-                        ) : (
-                          <motion.div
-                            key="c"
-                            initial={{ scale: 0.4, rotate: -30, opacity: 0 }}
-                            animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                          >
-                            <Check className="w-5 h-5 text-primary" strokeWidth={2.5} />
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                      {phase === "uploading" && (
-                        <motion.div
-                          className="absolute inset-0 rounded-xl border border-primary/50"
-                          animate={{ opacity: [0.2, 0.9, 0.2], scale: [1, 1.08, 1] }}
-                          transition={{ duration: 1.4, repeat: Infinity }}
-                        />
-                      )}
+                      <Music className="w-5 h-5 text-primary" />
+                      <motion.div
+                        className="absolute inset-0 rounded-xl border border-primary/50"
+                        animate={{ opacity: [0.2, 0.9, 0.2], scale: [1, 1.08, 1] }}
+                        transition={{ duration: 1.4, repeat: Infinity }}
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-heading text-xs font-bold text-white truncate tracking-wide">
                         {fileName}
                       </p>
-                      {phase === "uploading" ? (
-                        <>
-                          <div className="mt-2 h-[3px] rounded-full bg-white/10 overflow-hidden">
-                            <motion.div
-                              className="h-full bg-primary rounded-full"
-                              animate={{ width: `${progress}%` }}
-                              transition={{ duration: 0.1 }}
-                            />
-                          </div>
-                          <p className="font-body text-[10px] text-white/45 mt-1 tabular-nums">
-                            {Math.round(progress)}% · analyzing waveform
-                          </p>
-                        </>
-                      ) : (
-                        <motion.p
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="font-body text-[10px] text-primary mt-1 flex items-center gap-1.5"
-                        >
-                          <Sparkles className="w-3 h-3" />
-                          Metadata detected · ready to distribute
-                        </motion.p>
-                      )}
+                      <div className="mt-2 h-[3px] rounded-full bg-white/10 overflow-hidden">
+                        <motion.div
+                          className="h-full bg-primary rounded-full"
+                          animate={{ width: `${progress}%` }}
+                          transition={{ duration: 0.1 }}
+                        />
+                      </div>
+                      <p className="font-body text-[10px] text-white/45 mt-1 tabular-nums">
+                        {Math.round(progress)}% · analyzing waveform
+                      </p>
                     </div>
-                    <button
-                      onClick={reset}
-                      className="p-1.5 rounded-full text-white/30 hover:text-white/80 hover:bg-white/5 transition-colors shrink-0"
-                      aria-label="Remove file"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
                   </div>
                 </motion.div>
               )}
@@ -303,7 +280,7 @@ const WorkflowPanel = () => {
           </div>
 
           {/* Progressive reveal: metadata */}
-          <AnimatePresence>
+          <AnimatePresence initial={false}>
             {showMeta && (
               <motion.div
                 key="meta"
@@ -311,30 +288,49 @@ const WorkflowPanel = () => {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="grid grid-cols-2 gap-3"
+                className="grid grid-cols-1 sm:grid-cols-3 gap-3"
               >
                 <div className="space-y-1.5">
                   <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase flex items-center gap-1.5">
-                    <Sparkles className="w-2.5 h-2.5 text-primary" /> Track · auto-detected
+                    <Sparkles className="w-2.5 h-2.5 text-primary" /> Track title
                   </label>
-                  <div className="rounded-xl bg-white/[0.03] border border-white/10 px-3.5 py-2.5 font-body text-xs text-white/90 truncate min-h-[38px] flex items-center">
-                    {trackTitle || "—"}
-                  </div>
+                  <input
+                    type="text"
+                    value={trackTitle}
+                    onChange={(e) => setTrackTitle(e.target.value)}
+                    placeholder="Untitled"
+                    className="w-full rounded-xl bg-white/[0.03] border border-white/10 focus:border-primary/50 focus:bg-white/[0.05] outline-none px-3.5 py-2.5 font-body text-xs text-white/90 transition-colors"
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase flex items-center gap-1.5">
                     <Sparkles className="w-2.5 h-2.5 text-primary" /> Artist
                   </label>
-                  <div className="rounded-xl bg-white/[0.03] border border-white/10 px-3.5 py-2.5 font-body text-xs text-white/90 truncate min-h-[38px] flex items-center">
-                    Your Name
-                  </div>
+                  <input
+                    type="text"
+                    value={artistName}
+                    onChange={(e) => setArtistName(e.target.value)}
+                    placeholder="Artist name"
+                    className="w-full rounded-xl bg-white/[0.03] border border-white/10 focus:border-primary/50 focus:bg-white/[0.05] outline-none px-3.5 py-2.5 font-body text-xs text-white/90 transition-colors"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase flex items-center gap-1.5">
+                    <Sparkles className="w-2.5 h-2.5 text-primary" /> Release date
+                  </label>
+                  <input
+                    type="date"
+                    value={releaseDate}
+                    onChange={(e) => setReleaseDate(e.target.value)}
+                    className="w-full rounded-xl bg-white/[0.03] border border-white/10 focus:border-primary/50 focus:bg-white/[0.05] outline-none px-3.5 py-2.5 font-body text-xs text-white/90 transition-colors [color-scheme:dark]"
+                  />
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Progressive reveal: stores */}
-          <AnimatePresence>
+          <AnimatePresence initial={false}>
             {showStores && (
               <motion.div
                 key="stores"
@@ -386,7 +382,7 @@ const WorkflowPanel = () => {
           </AnimatePresence>
 
           {/* Progressive reveal: ready / account prompt */}
-          <AnimatePresence>
+          <AnimatePresence initial={false}>
             {showReady && (
               <motion.div
                 key="ready"
@@ -402,7 +398,13 @@ const WorkflowPanel = () => {
                       Release ready
                     </span>
                   </div>
-                  <span className="font-body text-xs text-white/70 tabular-nums">Friday · May 22</span>
+                  <span className="font-body text-xs text-white/70 tabular-nums">
+                    {new Date(releaseDate).toLocaleDateString("en-US", {
+                      weekday: "long",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
                 </div>
                 <motion.a
                   href="#plans"
