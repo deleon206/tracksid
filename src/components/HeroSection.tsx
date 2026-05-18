@@ -479,10 +479,10 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 pb-24">
+      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-20 sm:pt-24 pb-16">
         {/* CENTERED EDITORIAL COMPOSITION */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto w-full">
-          <h1 className="font-heading font-black uppercase tracking-[-0.03em] leading-[0.95] text-[clamp(1.85rem,4.6vw,3.75rem)] text-foreground">
+          <h1 className="font-heading font-black uppercase tracking-[-0.03em] leading-[0.95] text-[clamp(2.4rem,5.8vw,4.75rem)] text-foreground">
             <motion.span
               className="block"
               initial={{ opacity: 0, y: 24 }}
@@ -492,7 +492,7 @@ const HeroSection = () => {
               Start your next release
             </motion.span>
             <motion.span
-              className="block text-primary italic font-light normal-case tracking-tight mt-1"
+              className="block text-primary italic font-light normal-case tracking-tight mt-2"
               style={{ fontFamily: "'Inter', serif" }}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -506,14 +506,36 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45 }}
-            className="mt-4 font-body text-sm sm:text-[15px] text-white/60 max-w-md leading-relaxed"
+            className="mt-5 font-body text-base sm:text-[17px] text-white/65 max-w-xl leading-relaxed"
           >
             Hybrid distribution built for labels and artists who refuse to compromise.
           </motion.p>
+
+          {/* Primary + secondary CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-7 flex items-center gap-3 flex-wrap justify-center"
+          >
+            <a
+              href="#plans"
+              className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 font-heading text-[11px] font-black uppercase tracking-[0.22em] shadow-[0_10px_40px_-12px_hsl(var(--primary)/0.6)] hover:bg-primary/90 transition-colors"
+            >
+              Start distributing
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+            </a>
+            <a
+              href="/distribution"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] text-white/80 hover:text-white hover:border-white/30 px-5 py-3 font-heading text-[11px] font-black uppercase tracking-[0.22em] transition-colors"
+            >
+              Explore platform
+            </a>
+          </motion.div>
         </div>
 
         {/* FLOATING WORKFLOW PANEL — emotional centerpiece */}
-        <div className="mt-6 sm:mt-8 w-full relative">
+        <div className="mt-10 sm:mt-12 w-full relative">
           <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[80%] h-48 bg-primary/[0.08] rounded-full blur-[140px] pointer-events-none" />
           <div className="absolute -inset-x-10 -top-24 bottom-0 bg-gradient-to-b from-transparent via-background/0 to-background/40 pointer-events-none" />
           <WorkflowPanel />
