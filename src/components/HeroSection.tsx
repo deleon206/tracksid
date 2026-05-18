@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Upload, Music, Check, Calendar, ArrowRight, Sparkles, X } from "lucide-react";
+import { Upload, Music, Check, ArrowRight, Sparkles, X, Radio } from "lucide-react";
 import heroBgNew from "@/assets/hero-bg-new.png";
 
 /* ─── Stores ─── */
@@ -67,7 +67,11 @@ const WorkflowPanel = () => {
   // Auto-advance: detected → stores
   useEffect(() => {
     if (phase === "detected") {
-      const t = setTimeout(() => setPhase("stores"), 1800);
+      const t = setTimeout(() => setPhase("stores"), 1600);
+      return () => clearTimeout(t);
+    }
+    if (phase === "stores") {
+      const t = setTimeout(() => setPhase("ready"), 2600);
       return () => clearTimeout(t);
     }
   }, [phase]);
@@ -84,13 +88,16 @@ const WorkflowPanel = () => {
     setSelectedStores((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
 
   const hasFile = phase !== "idle";
+  const showMeta = phase === "detected" || phase === "stores" || phase === "ready";
+  const showStores = phase === "stores" || phase === "ready";
+  const showReady = phase === "ready";
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 30, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-    className="relative w-full max-w-[640px] mx-auto"
+    className="relative w-full max-w-[1080px] mx-auto"
     >
       {/* Floating soft glow halo */}
       <motion.div
@@ -98,8 +105,8 @@ const WorkflowPanel = () => {
         animate={{ opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="absolute top-0 right-0 w-72 h-72 bg-primary/15 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-0 w-60 h-60 bg-primary/[0.06] rounded-full blur-[80px]" />
+        <div className="absolute top-0 right-0 w-[28rem] h-[28rem] bg-primary/15 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary/[0.06] rounded-full blur-[100px]" />
       </motion.div>
 
       {/* Floating layered shadow card */}
@@ -138,7 +145,7 @@ const WorkflowPanel = () => {
         </div>
 
         {/* Body */}
-        <div className="relative p-6 space-y-5">
+        <div className="relative p-6 sm:p-7 space-y-5">
           {/* Step rail */}
           <div className="flex items-center gap-2">
             {["Upload", "Metadata", "Stores", "Release"].map((s, i) => {
@@ -185,23 +192,44 @@ const WorkflowPanel = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="group w-full rounded-2xl border border-dashed border-white/15 hover:border-primary/60 bg-black/30 hover:bg-primary/[0.03] transition-all px-6 py-7 text-left"
+                  className="group relative w-full rounded-2xl border border-dashed border-white/15 hover:border-primary/60 bg-black/30 hover:bg-primary/[0.03] transition-all px-7 py-10 text-left overflow-hidden"
                 >
-                  <div className="flex items-center gap-4">
+                  {/* breathing glow */}
+                  <motion.div
+                    className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.10),transparent_70%)]"
+                    animate={{ opacity: [0.35, 0.75, 0.35] }}
+                    transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  {/* subtle waveform */}
+                  <div className="absolute inset-x-7 bottom-4 flex items-end justify-center gap-[3px] h-8 opacity-60 pointer-events-none">
+                    {Array.from({ length: 56 }).map((_, i) => (
+                      <motion.span
+                        key={i}
+                        className="w-[2px] rounded-full bg-primary/50"
+                        animate={{ height: [`${20 + ((i * 13) % 60)}%`, `${40 + ((i * 7) % 50)}%`, `${20 + ((i * 13) % 60)}%`] }}
+                        transition={{ duration: 1.6 + (i % 5) * 0.18, repeat: Infinity, ease: "easeInOut", delay: i * 0.02 }}
+                      />
+                    ))}
+                  </div>
+                  <div className="relative flex items-center gap-5">
                     <motion.div
-                      className="w-14 h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-white/70 group-hover:text-primary group-hover:border-primary/40 transition-colors"
+                      className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-white/80 group-hover:text-primary group-hover:border-primary/40 transition-colors shadow-[0_0_40px_-10px_hsl(var(--primary)/0.4)]"
                       animate={{ y: [0, -4, 0] }}
                       transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <Upload className="w-5 h-5" strokeWidth={1.8} />
+                      <Upload className="w-6 h-6" strokeWidth={1.6} />
                     </motion.div>
-                    <div>
-                      <p className="font-heading text-sm font-bold text-white tracking-wide">
-                        Upload your track
+                    <div className="flex-1">
+                      <p className="font-heading text-base font-bold text-white tracking-wide uppercase">
+                        Drop your track to begin
                       </p>
-                      <p className="font-body text-xs text-white/45 mt-1">
-                        WAV · FLAC · MP3 · AIFF — drop a file to start your release
+                      <p className="font-body text-xs text-white/45 mt-1.5">
+                        WAV · FLAC · MP3 · AIFF — up to 96 kHz / 24-bit
                       </p>
+                    </div>
+                    <div className="hidden sm:flex flex-col items-end gap-1 pr-1">
+                      <span className="font-heading text-[9px] tracking-[0.25em] text-primary uppercase">Step 01</span>
+                      <span className="font-body text-[10px] text-white/40">of 04</span>
                     </div>
                   </div>
                 </motion.button>
@@ -286,108 +314,123 @@ const WorkflowPanel = () => {
             </AnimatePresence>
           </div>
 
-          {/* Metadata fields */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase">
-                Track
-              </label>
-              <div className="rounded-xl bg-white/[0.03] border border-white/10 px-3.5 py-2.5 font-body text-xs text-white/90 truncate min-h-[38px] flex items-center">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={trackTitle || "empty"}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={trackTitle ? "" : "text-white/30"}
-                  >
+          {/* Progressive reveal: metadata */}
+          <AnimatePresence>
+            {showMeta && (
+              <motion.div
+                key="meta"
+                initial={{ opacity: 0, y: 12, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="grid grid-cols-2 gap-3"
+              >
+                <div className="space-y-1.5">
+                  <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase flex items-center gap-1.5">
+                    <Sparkles className="w-2.5 h-2.5 text-primary" /> Track · auto-detected
+                  </label>
+                  <div className="rounded-xl bg-white/[0.03] border border-white/10 px-3.5 py-2.5 font-body text-xs text-white/90 truncate min-h-[38px] flex items-center">
                     {trackTitle || "—"}
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-            </div>
-            <div className="space-y-1.5">
-              <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase">
-                Artist
-              </label>
-              <div className="rounded-xl bg-white/[0.03] border border-white/10 px-3.5 py-2.5 font-body text-xs text-white/90 truncate min-h-[38px] flex items-center">
-                <span className={hasFile ? "" : "text-white/30"}>
-                  {hasFile ? "Your Name" : "—"}
-                </span>
-              </div>
-            </div>
-          </div>
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase flex items-center gap-1.5">
+                    <Sparkles className="w-2.5 h-2.5 text-primary" /> Artist
+                  </label>
+                  <div className="rounded-xl bg-white/[0.03] border border-white/10 px-3.5 py-2.5 font-body text-xs text-white/90 truncate min-h-[38px] flex items-center">
+                    Your Name
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {/* Stores */}
-          <div className="space-y-2.5">
-            <div className="flex items-center justify-between">
-              <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase">
-                Distribute to
-              </label>
-              <span className="font-heading text-[9px] tracking-[0.15em] text-primary uppercase">
-                +180 stores
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {STORES.map((s) => {
-                const active = selectedStores.includes(s.id);
-                return (
-                  <button
-                    key={s.id}
-                    onClick={() => toggleStore(s.id)}
-                    className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-heading tracking-wider uppercase transition-all ${
-                      active
-                        ? "border-primary/50 bg-primary/10 text-white"
-                        : "border-white/10 bg-white/[0.02] text-white/50 hover:border-white/25 hover:text-white/80"
-                    }`}
-                  >
-                    <span
-                      className="w-1.5 h-1.5 rounded-full transition-all"
-                      style={{
-                        backgroundColor: s.color,
-                        opacity: active ? 1 : 0.3,
-                        boxShadow: active ? `0 0 8px ${s.color}99` : "none",
-                      }}
-                    />
-                    {s.name}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          {/* Progressive reveal: stores */}
+          <AnimatePresence>
+            {showStores && (
+              <motion.div
+                key="stores"
+                initial={{ opacity: 0, y: 12, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-2.5"
+              >
+                <div className="flex items-center justify-between">
+                  <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase flex items-center gap-1.5">
+                    <Radio className="w-2.5 h-2.5 text-primary" /> Distribute to
+                  </label>
+                  <span className="font-heading text-[9px] tracking-[0.15em] text-primary uppercase">
+                    +180 stores
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {STORES.map((s, i) => {
+                    const active = selectedStores.includes(s.id);
+                    return (
+                      <motion.button
+                        key={s.id}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 + i * 0.06 }}
+                        onClick={() => toggleStore(s.id)}
+                        className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-heading tracking-wider uppercase transition-all ${
+                          active
+                            ? "border-primary/50 bg-primary/10 text-white"
+                            : "border-white/10 bg-white/[0.02] text-white/50 hover:border-white/25 hover:text-white/80"
+                        }`}
+                      >
+                        <span
+                          className="w-1.5 h-1.5 rounded-full transition-all"
+                          style={{
+                            backgroundColor: s.color,
+                            opacity: active ? 1 : 0.3,
+                            boxShadow: active ? `0 0 8px ${s.color}99` : "none",
+                          }}
+                        />
+                        {s.name}
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {/* Release date */}
-          <div className="flex items-center justify-between rounded-xl bg-white/[0.03] border border-white/10 px-4 py-3">
-            <div className="flex items-center gap-2.5">
-              <Calendar className="w-3.5 h-3.5 text-white/40" />
-              <span className="font-heading text-[10px] tracking-[0.18em] text-white/60 uppercase">
-                Release
-              </span>
-            </div>
-            <span className="font-body text-xs text-white tabular-nums">Friday · May 22</span>
-          </div>
-
-          {/* CTA */}
-          <motion.button
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            onClick={openPicker}
-            className="group relative w-full rounded-full bg-primary text-primary-foreground py-3.5 font-heading text-[11px] font-black uppercase tracking-[0.22em] flex items-center justify-center gap-2 overflow-hidden shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)]"
-          >
-            <span className="relative z-10">
-              {phase === "idle" ? "Start your release" : "Continue distribution"}
-            </span>
-            <ArrowRight className="w-3.5 h-3.5 relative z-10 transition-transform group-hover:translate-x-1" />
-            <motion.span
-              className="absolute inset-0 bg-white/25"
-              initial={{ x: "-110%" }}
-              whileHover={{ x: "110%" }}
-              transition={{ duration: 0.7 }}
-            />
-          </motion.button>
-          <p className="text-center font-body text-[10px] text-white/55">
-            Create your free account to publish.{" "}
-            <span className="text-primary">No credit card required.</span>
-          </p>
+          {/* Progressive reveal: ready / account prompt */}
+          <AnimatePresence>
+            {showReady && (
+              <motion.div
+                key="ready"
+                initial={{ opacity: 0, y: 12, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-3 pt-1"
+              >
+                <div className="flex items-center justify-between rounded-xl bg-primary/[0.06] border border-primary/25 px-4 py-3">
+                  <div className="flex items-center gap-2.5">
+                    <Check className="w-3.5 h-3.5 text-primary" strokeWidth={2.5} />
+                    <span className="font-heading text-[10px] tracking-[0.18em] text-white uppercase">
+                      Release ready
+                    </span>
+                  </div>
+                  <span className="font-body text-xs text-white/70 tabular-nums">Friday · May 22</span>
+                </div>
+                <motion.a
+                  href="#plans"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                  className="group relative w-full rounded-full bg-primary text-primary-foreground py-3.5 font-heading text-[11px] font-black uppercase tracking-[0.22em] flex items-center justify-center gap-2 overflow-hidden shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)]"
+                >
+                  <span className="relative z-10">Create account to publish</span>
+                  <ArrowRight className="w-3.5 h-3.5 relative z-10 transition-transform group-hover:translate-x-1" />
+                </motion.a>
+                <p className="text-center font-body text-[10px] text-white/55">
+                  Free to start · <span className="text-primary">No credit card required.</span>
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
     </motion.div>
@@ -427,19 +470,7 @@ const HeroSection = () => {
       <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 pb-24">
         {/* CENTERED EDITORIAL COMPOSITION */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto w-full">
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm px-4 py-1.5"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="font-heading text-[10px] font-bold tracking-[0.28em] text-white/70 uppercase">
-              Hybrid Distribution · Built for Labels
-            </span>
-          </motion.div>
-
-          <h1 className="mt-6 font-heading font-black uppercase tracking-[-0.03em] leading-[0.95] text-[clamp(2rem,5.2vw,4.25rem)] text-foreground">
+          <h1 className="font-heading font-black uppercase tracking-[-0.03em] leading-[0.95] text-[clamp(1.85rem,4.6vw,3.75rem)] text-foreground">
             <motion.span
               className="block"
               initial={{ opacity: 0, y: 24 }}
@@ -463,38 +494,16 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45 }}
-            className="mt-5 font-body text-sm sm:text-base text-white/60 max-w-md leading-relaxed"
+            className="mt-4 font-body text-sm sm:text-[15px] text-white/60 max-w-md leading-relaxed"
           >
             Hybrid distribution built for labels and artists who refuse to compromise.
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-7 flex flex-wrap items-center justify-center gap-5"
-          >
-            <a
-              href="#plans"
-              className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-heading text-[11px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)]"
-            >
-              Start distributing
-              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#services"
-              className="group inline-flex items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55 hover:text-white transition-colors"
-            >
-              Explore platform <ArrowRight className="w-3 h-3 opacity-60 transition-transform group-hover:translate-x-0.5" />
-            </a>
-          </motion.div>
         </div>
 
-        {/* FLOATING WORKFLOW PANEL — focal point, embedded into the scene */}
-        <div className="mt-8 sm:mt-10 w-full relative">
-          {/* Atmospheric integration glow behind panel */}
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[90%] h-40 bg-primary/[0.06] rounded-full blur-[120px] pointer-events-none" />
-          <div className="absolute -inset-x-10 -top-20 bottom-0 bg-gradient-to-b from-transparent via-background/0 to-background/40 pointer-events-none" />
+        {/* FLOATING WORKFLOW PANEL — emotional centerpiece */}
+        <div className="mt-6 sm:mt-8 w-full relative">
+          <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[80%] h-48 bg-primary/[0.08] rounded-full blur-[140px] pointer-events-none" />
+          <div className="absolute -inset-x-10 -top-24 bottom-0 bg-gradient-to-b from-transparent via-background/0 to-background/40 pointer-events-none" />
           <WorkflowPanel />
         </div>
       </div>
