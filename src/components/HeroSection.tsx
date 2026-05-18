@@ -13,7 +13,7 @@ const STORES = [
   { id: "deezer", name: "Deezer", color: "#A238FF" },
 ];
 
-type Phase = "idle" | "uploading" | "detected" | "stores" | "schedule" | "ready";
+type Phase = "idle" | "uploading" | "detected" | "stores" | "ready";
 
 /* ═══════════════════════════════════════════════════════════
    WORKFLOW PANEL — cinematic interactive distribution UI
@@ -64,17 +64,11 @@ const WorkflowPanel = () => {
     return () => clearInterval(id);
   }, [phase]);
 
-  // Auto-advance: detected → stores
-  useEffect(() => {
-    if (phase === "detected") {
-      const t = setTimeout(() => setPhase("stores"), 1600);
-      return () => clearTimeout(t);
-    }
-    if (phase === "stores") {
-      const t = setTimeout(() => setPhase("ready"), 2600);
-      return () => clearTimeout(t);
-    }
-  }, [phase]);
+  // Step-by-step: user advances manually via "Next" after upload completes.
+
+  const goNext = () => {
+    setPhase((p) => (p === "detected" ? "stores" : p === "stores" ? "ready" : p));
+  };
 
   const reset = () => {
     setPhase("idle");
@@ -88,16 +82,25 @@ const WorkflowPanel = () => {
     setSelectedStores((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
 
   const hasFile = phase !== "idle";
-  const showMeta = phase === "detected" || phase === "stores" || phase === "ready";
-  const showStores = phase === "stores" || phase === "ready";
+  const showMeta = phase === "detected";
+  const showStores = phase === "stores";
   const showReady = phase === "ready";
+
+  const stepIndex =
+    phase === "idle" || phase === "uploading"
+      ? 0
+      : phase === "detected"
+        ? 1
+        : phase === "stores"
+          ? 2
+          : 3;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 30, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-    className="relative w-full max-w-[1080px] mx-auto"
+    className="relative w-full max-w-[920px] mx-auto"
     >
       {/* Floating soft glow halo */}
       <motion.div
@@ -134,14 +137,9 @@ const WorkflowPanel = () => {
               <p className="font-body text-[9px] text-white/40 -mt-0.5">tracks/id studio</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <motion.div
-              className="w-1.5 h-1.5 rounded-full bg-primary"
-              animate={{ opacity: [1, 0.3, 1], scale: [1, 1.2, 1] }}
-              transition={{ duration: 1.6, repeat: Infinity }}
-            />
-            <span className="font-heading text-[9px] tracking-[0.25em] text-primary font-bold">LIVE</span>
-          </div>
+          <span className="font-heading text-[9px] tracking-[0.25em] text-white/40 font-bold uppercase">
+            Step {String(stepIndex + 1).padStart(2, "0")} / 04
+          </span>
         </div>
 
         {/* Body */}
@@ -149,8 +147,7 @@ const WorkflowPanel = () => {
           {/* Step rail */}
           <div className="flex items-center gap-2">
             {["Upload", "Metadata", "Stores", "Release"].map((s, i) => {
-              const states: Phase[] = ["uploading", "detected", "stores", "schedule"];
-              const reached = states.indexOf(phase) >= i || phase === "ready";
+              const reached = stepIndex >= i;
               return (
                 <div key={s} className="flex items-center gap-2 flex-1">
                   <div
@@ -163,10 +160,12 @@ const WorkflowPanel = () => {
             })}
           </div>
           <div className="flex justify-between -mt-3 px-0.5">
-            {["Upload", "Metadata", "Stores", "Release"].map((s) => (
+            {["Upload", "Metadata", "Stores", "Release"].map((s, i) => (
               <span
                 key={s}
-                className="font-heading text-[8px] tracking-[0.18em] text-white/40 uppercase"
+                className={`font-heading text-[8px] tracking-[0.18em] uppercase transition-colors ${
+                  stepIndex === i ? "text-primary" : "text-white/40"
+                }`}
               >
                 {s}
               </span>
@@ -200,17 +199,6 @@ const WorkflowPanel = () => {
                     animate={{ opacity: [0.35, 0.75, 0.35] }}
                     transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
                   />
-                  {/* subtle waveform */}
-                  <div className="absolute inset-x-7 bottom-4 flex items-end justify-center gap-[3px] h-8 opacity-60 pointer-events-none">
-                    {Array.from({ length: 56 }).map((_, i) => (
-                      <motion.span
-                        key={i}
-                        className="w-[2px] rounded-full bg-primary/50"
-                        animate={{ height: [`${20 + ((i * 13) % 60)}%`, `${40 + ((i * 7) % 50)}%`, `${20 + ((i * 13) % 60)}%`] }}
-                        transition={{ duration: 1.6 + (i % 5) * 0.18, repeat: Infinity, ease: "easeInOut", delay: i * 0.02 }}
-                      />
-                    ))}
-                  </div>
                   <div className="relative flex items-center gap-5">
                     <motion.div
                       className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-white/80 group-hover:text-primary group-hover:border-primary/40 transition-colors shadow-[0_0_40px_-10px_hsl(var(--primary)/0.4)]"
@@ -431,6 +419,30 @@ const WorkflowPanel = () => {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Step navigation — manual next */}
+          {(phase === "detected" || phase === "stores") && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="flex items-center justify-between pt-1"
+            >
+              <span className="font-body text-[10px] text-white/45">
+                {phase === "detected"
+                  ? "Review metadata and continue"
+                  : "Confirm stores to finalize"}
+              </span>
+              <button
+                type="button"
+                onClick={goNext}
+                className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2 font-heading text-[10px] font-black uppercase tracking-[0.22em] shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.6)] hover:bg-primary/90 transition-colors"
+              >
+                Next
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </motion.div>
+          )}
         </div>
       </motion.div>
     </motion.div>
@@ -467,10 +479,10 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 pb-24">
+      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-20 sm:pt-24 pb-16">
         {/* CENTERED EDITORIAL COMPOSITION */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto w-full">
-          <h1 className="font-heading font-black uppercase tracking-[-0.03em] leading-[0.95] text-[clamp(1.85rem,4.6vw,3.75rem)] text-foreground">
+          <h1 className="font-heading font-black uppercase tracking-[-0.03em] leading-[0.95] text-[clamp(2.4rem,5.8vw,4.75rem)] text-foreground">
             <motion.span
               className="block"
               initial={{ opacity: 0, y: 24 }}
@@ -480,7 +492,7 @@ const HeroSection = () => {
               Start your next release
             </motion.span>
             <motion.span
-              className="block text-primary italic font-light normal-case tracking-tight mt-1"
+              className="block text-primary italic font-light normal-case tracking-tight mt-2"
               style={{ fontFamily: "'Inter', serif" }}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -494,14 +506,36 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45 }}
-            className="mt-4 font-body text-sm sm:text-[15px] text-white/60 max-w-md leading-relaxed"
+            className="mt-5 font-body text-base sm:text-[17px] text-white/65 max-w-xl leading-relaxed"
           >
             Hybrid distribution built for labels and artists who refuse to compromise.
           </motion.p>
+
+          {/* Primary + secondary CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-7 flex items-center gap-3 flex-wrap justify-center"
+          >
+            <a
+              href="#plans"
+              className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 font-heading text-[11px] font-black uppercase tracking-[0.22em] shadow-[0_10px_40px_-12px_hsl(var(--primary)/0.6)] hover:bg-primary/90 transition-colors"
+            >
+              Start distributing
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+            </a>
+            <a
+              href="/distribution"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] text-white/80 hover:text-white hover:border-white/30 px-5 py-3 font-heading text-[11px] font-black uppercase tracking-[0.22em] transition-colors"
+            >
+              Explore platform
+            </a>
+          </motion.div>
         </div>
 
         {/* FLOATING WORKFLOW PANEL — emotional centerpiece */}
-        <div className="mt-6 sm:mt-8 w-full relative">
+        <div className="mt-10 sm:mt-12 w-full relative">
           <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[80%] h-48 bg-primary/[0.08] rounded-full blur-[140px] pointer-events-none" />
           <div className="absolute -inset-x-10 -top-24 bottom-0 bg-gradient-to-b from-transparent via-background/0 to-background/40 pointer-events-none" />
           <WorkflowPanel />
