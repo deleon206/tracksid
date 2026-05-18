@@ -424,9 +424,9 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-28 sm:pt-32 pb-20">
+      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 pb-24">
         {/* CENTERED EDITORIAL COMPOSITION */}
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto w-full">
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto w-full">
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -439,7 +439,7 @@ const HeroSection = () => {
             </span>
           </motion.div>
 
-          <h1 className="mt-8 font-heading font-black uppercase tracking-[-0.035em] leading-[0.92] text-[clamp(2.5rem,8vw,6.75rem)] text-foreground">
+          <h1 className="mt-6 font-heading font-black uppercase tracking-[-0.03em] leading-[0.95] text-[clamp(2rem,5.2vw,4.25rem)] text-foreground">
             <motion.span
               className="block"
               initial={{ opacity: 0, y: 24 }}
@@ -463,17 +463,16 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45 }}
-            className="mt-7 font-body text-base sm:text-lg text-white/65 max-w-xl leading-relaxed"
+            className="mt-5 font-body text-sm sm:text-base text-white/60 max-w-md leading-relaxed"
           >
-            The hybrid distribution platform engineered for independent labels and artists.
-            Upload, distribute to 180+ stores, and grow your catalog with real record-label infrastructure.
+            Hybrid distribution built for labels and artists who refuse to compromise.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-9 flex flex-wrap items-center justify-center gap-3"
+            className="mt-7 flex flex-wrap items-center justify-center gap-5"
           >
             <a
               href="#plans"
@@ -484,39 +483,18 @@ const HeroSection = () => {
             </a>
             <a
               href="#services"
-              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] backdrop-blur-sm text-white/80 px-6 py-3.5 font-heading text-[11px] font-bold uppercase tracking-[0.2em] hover:border-white/40 hover:text-white transition-all"
+              className="group inline-flex items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55 hover:text-white transition-colors"
             >
-              Explore platform
+              Explore platform <ArrowRight className="w-3 h-3 opacity-60 transition-transform group-hover:translate-x-0.5" />
             </a>
-          </motion.div>
-
-          {/* Trust strip */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.8 }}
-            className="mt-10 flex items-center justify-center gap-8 sm:gap-10"
-          >
-            {[
-              { v: "10K+", l: "Artists" },
-              { v: "1.2K", l: "Labels" },
-              { v: "180+", l: "Stores" },
-            ].map((s, i) => (
-              <div key={s.l} className="flex items-center gap-8 sm:gap-10">
-                {i > 0 && <div className="w-px h-8 bg-white/10" />}
-                <div className="text-center">
-                  <p className="font-heading text-lg sm:text-xl font-black text-white tabular-nums">{s.v}</p>
-                  <p className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase mt-0.5">
-                    {s.l}
-                  </p>
-                </div>
-              </div>
-            ))}
           </motion.div>
         </div>
 
-        {/* FLOATING WORKFLOW PANEL — embedded into the scene */}
-        <div className="mt-16 sm:mt-20 w-full">
+        {/* FLOATING WORKFLOW PANEL — focal point, embedded into the scene */}
+        <div className="mt-8 sm:mt-10 w-full relative">
+          {/* Atmospheric integration glow behind panel */}
+          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[90%] h-40 bg-primary/[0.06] rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute -inset-x-10 -top-20 bottom-0 bg-gradient-to-b from-transparent via-background/0 to-background/40 pointer-events-none" />
           <WorkflowPanel />
         </div>
       </div>
