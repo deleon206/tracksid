@@ -1,11 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Upload, Music, Check, Calendar, ArrowRight, Sparkles } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Upload, Music, Check, Calendar, ArrowRight, Sparkles, X } from "lucide-react";
 import heroBgNew from "@/assets/hero-bg-new.png";
 
-/* ═══════════════════════════════════════════════════════════
-   STORE / PLATFORM CHIPS
-   ═══════════════════════════════════════════════════════════ */
+/* ─── Stores ─── */
 const STORES = [
   { id: "spotify", name: "Spotify", color: "#1DB954" },
   { id: "apple", name: "Apple Music", color: "#FA243C" },
@@ -15,216 +13,314 @@ const STORES = [
   { id: "deezer", name: "Deezer", color: "#A238FF" },
 ];
 
+type Phase = "idle" | "uploading" | "detected" | "stores" | "schedule" | "ready";
+
 /* ═══════════════════════════════════════════════════════════
-   WORKFLOW PANEL — simulated distribution UI
+   WORKFLOW PANEL — cinematic interactive distribution UI
    ═══════════════════════════════════════════════════════════ */
 const WorkflowPanel = () => {
-  const [phase, setPhase] = useState<"idle" | "uploading" | "detected">("idle");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [phase, setPhase] = useState<Phase>("idle");
   const [progress, setProgress] = useState(0);
+  const [fileName, setFileName] = useState<string>("");
+  const [trackTitle, setTrackTitle] = useState<string>("");
   const [selectedStores, setSelectedStores] = useState<string[]>(["spotify", "apple", "tiktok"]);
 
-  // Auto-cycle simulation
-  useEffect(() => {
-    const run = () => {
-      setPhase("idle");
-      setProgress(0);
-      setTimeout(() => setPhase("uploading"), 1200);
-    };
-    run();
-    const interval = setInterval(run, 9000);
-    return () => clearInterval(interval);
-  }, []);
+  const openPicker = () => fileInputRef.current?.click();
 
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    // strictly client-side, never uploaded
+    const raw = f.name.replace(/\.[^.]+$/, "");
+    setFileName(f.name);
+    setTrackTitle(
+      raw
+        .replace(/[_\-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\b\w/g, (c) => c.toUpperCase())
+        .slice(0, 40),
+    );
+    setProgress(0);
+    setPhase("uploading");
+  };
+
+  // Simulated upload progress
   useEffect(() => {
     if (phase !== "uploading") return;
     let p = 0;
     const id = setInterval(() => {
-      p += 4 + Math.random() * 6;
+      p += 3 + Math.random() * 7;
       if (p >= 100) {
         p = 100;
         clearInterval(id);
         setProgress(100);
-        setTimeout(() => setPhase("detected"), 400);
+        setTimeout(() => setPhase("detected"), 500);
       } else {
         setProgress(p);
       }
-    }, 80);
+    }, 90);
     return () => clearInterval(id);
   }, [phase]);
+
+  // Auto-advance: detected → stores
+  useEffect(() => {
+    if (phase === "detected") {
+      const t = setTimeout(() => setPhase("stores"), 1800);
+      return () => clearTimeout(t);
+    }
+  }, [phase]);
+
+  const reset = () => {
+    setPhase("idle");
+    setProgress(0);
+    setFileName("");
+    setTrackTitle("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const toggleStore = (id: string) =>
     setSelectedStores((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
 
+  const hasFile = phase !== "idle";
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.98 }}
+      initial={{ opacity: 0, y: 30, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="relative w-full max-w-[480px] mx-auto"
+      transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      className="relative w-full max-w-[500px] mx-auto"
     >
-      {/* Glow accent behind panel */}
-      <div className="absolute -inset-px bg-gradient-to-br from-primary/30 via-transparent to-primary/10 blur-2xl opacity-60 pointer-events-none" />
-      <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Glassmorphism panel */}
-      <div
-        className="relative backdrop-blur-2xl bg-white/[0.03] border border-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] overflow-hidden"
-        style={{ borderRadius: 0 }}
+      {/* Floating soft glow halo */}
+      <motion.div
+        className="absolute -inset-10 pointer-events-none"
+        animate={{ opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       >
-        {/* Top status bar */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 bg-black/40">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-white/15" />
-              <div className="w-2.5 h-2.5 rounded-full bg-white/15" />
-              <div className="w-2.5 h-2.5 rounded-full bg-primary/80" />
+        <div className="absolute top-0 right-0 w-72 h-72 bg-primary/15 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 left-0 w-60 h-60 bg-primary/[0.06] rounded-full blur-[80px]" />
+      </motion.div>
+
+      {/* Floating layered shadow card */}
+      <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-[28px] bg-primary/5 blur-xl" />
+
+      {/* Main floating panel */}
+      <motion.div
+        className="relative rounded-[28px] overflow-hidden backdrop-blur-2xl bg-white/[0.04] border border-white/10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.9)]"
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      >
+        {/* Inner subtle highlight */}
+        <div className="absolute inset-0 rounded-[28px] pointer-events-none bg-gradient-to-b from-white/[0.06] via-transparent to-transparent" />
+
+        {/* Header */}
+        <div className="relative flex items-center justify-between px-6 py-4 border-b border-white/[0.07]">
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 rounded-full border border-primary/40 flex items-center justify-center bg-primary/10">
+              <span className="font-heading text-[9px] font-black text-primary">T/</span>
             </div>
-            <span className="font-heading text-[9px] tracking-[0.2em] text-white/40 ml-3 uppercase">
-              tracks/id · new release
-            </span>
+            <div>
+              <p className="font-heading text-[10px] font-bold tracking-[0.2em] text-white/80 uppercase">
+                New release
+              </p>
+              <p className="font-body text-[9px] text-white/40 -mt-0.5">tracks/id studio</p>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <motion.div
               className="w-1.5 h-1.5 rounded-full bg-primary"
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.4, repeat: Infinity }}
+              animate={{ opacity: [1, 0.3, 1], scale: [1, 1.2, 1] }}
+              transition={{ duration: 1.6, repeat: Infinity }}
             />
-            <span className="font-heading text-[9px] tracking-[0.2em] text-primary font-bold">LIVE</span>
+            <span className="font-heading text-[9px] tracking-[0.25em] text-primary font-bold">LIVE</span>
           </div>
         </div>
 
         {/* Body */}
-        <div className="p-5 sm:p-6 space-y-5">
-          {/* Step indicator */}
-          <div className="flex items-center gap-2 text-[9px] font-heading tracking-[0.2em] text-white/40 uppercase">
-            <span className="text-primary">01 Upload</span>
-            <span className="flex-1 h-px bg-white/10" />
-            <span className={phase === "detected" ? "text-primary" : ""}>02 Metadata</span>
-            <span className="flex-1 h-px bg-white/10" />
-            <span>03 Distribute</span>
+        <div className="relative p-6 space-y-5">
+          {/* Step rail */}
+          <div className="flex items-center gap-2">
+            {["Upload", "Metadata", "Stores", "Release"].map((s, i) => {
+              const states: Phase[] = ["uploading", "detected", "stores", "schedule"];
+              const reached = states.indexOf(phase) >= i || phase === "ready";
+              return (
+                <div key={s} className="flex items-center gap-2 flex-1">
+                  <div
+                    className={`h-1 flex-1 rounded-full transition-colors duration-500 ${
+                      reached ? "bg-primary" : "bg-white/10"
+                    }`}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex justify-between -mt-3 px-0.5">
+            {["Upload", "Metadata", "Stores", "Release"].map((s) => (
+              <span
+                key={s}
+                className="font-heading text-[8px] tracking-[0.18em] text-white/40 uppercase"
+              >
+                {s}
+              </span>
+            ))}
           </div>
 
           {/* Upload zone */}
-          <div className="relative border border-dashed border-white/15 hover:border-primary/50 transition-colors bg-black/30 px-5 py-6">
-            <div className="flex items-center gap-4">
-              <div className="relative w-12 h-12 shrink-0 border border-white/15 flex items-center justify-center bg-black/40">
-                <AnimatePresence mode="wait">
-                  {phase === "detected" ? (
+          <div className="relative">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="audio/*,.wav,.mp3,.flac,.aiff"
+              onChange={onFileChange}
+              className="hidden"
+            />
+
+            <AnimatePresence mode="wait">
+              {!hasFile && (
+                <motion.button
+                  key="dropzone"
+                  type="button"
+                  onClick={openPicker}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="group w-full rounded-2xl border border-dashed border-white/15 hover:border-primary/60 bg-black/30 hover:bg-primary/[0.03] transition-all px-6 py-7 text-left"
+                >
+                  <div className="flex items-center gap-4">
                     <motion.div
-                      key="check"
-                      initial={{ scale: 0, rotate: -45 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      className="text-primary"
+                      className="w-14 h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-white/70 group-hover:text-primary group-hover:border-primary/40 transition-colors"
+                      animate={{ y: [0, -4, 0] }}
+                      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <Check className="w-5 h-5" strokeWidth={2.5} />
+                      <Upload className="w-5 h-5" strokeWidth={1.8} />
                     </motion.div>
-                  ) : phase === "uploading" ? (
-                    <motion.div
-                      key="music"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-primary"
-                    >
-                      <Music className="w-5 h-5" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="upload"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1, y: [0, -3, 0] }}
-                      transition={{ y: { duration: 1.6, repeat: Infinity } }}
-                      className="text-white/60"
-                    >
-                      <Upload className="w-5 h-5" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                {phase === "uploading" && (
-                  <motion.div
-                    className="absolute inset-0 border border-primary/50"
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{ duration: 1.2, repeat: Infinity }}
-                  />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <AnimatePresence mode="wait">
-                  {phase === "idle" ? (
-                    <motion.div key="i" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <p className="font-heading text-xs font-bold text-white uppercase tracking-wider">
-                        Drop your track
+                    <div>
+                      <p className="font-heading text-sm font-bold text-white tracking-wide">
+                        Upload your track
                       </p>
-                      <p className="font-body text-[11px] text-white/40 mt-0.5">WAV · FLAC · MP3 — up to 1GB</p>
-                    </motion.div>
-                  ) : phase === "uploading" ? (
-                    <motion.div key="u" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <p className="font-heading text-xs font-bold text-white uppercase tracking-wider truncate">
-                        midnight_drive_master.wav
+                      <p className="font-body text-xs text-white/45 mt-1">
+                        WAV · FLAC · MP3 · AIFF — drop a file to start your release
                       </p>
-                      <div className="mt-1.5 h-[3px] bg-white/10 overflow-hidden">
+                    </div>
+                  </div>
+                </motion.button>
+              )}
+
+              {hasFile && (
+                <motion.div
+                  key="file"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="rounded-2xl border border-white/10 bg-black/40 px-5 py-4"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="relative w-12 h-12 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0">
+                      <AnimatePresence mode="wait">
+                        {phase === "uploading" ? (
+                          <motion.div
+                            key="m"
+                            initial={{ scale: 0.6, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.6, opacity: 0 }}
+                          >
+                            <Music className="w-5 h-5 text-primary" />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="c"
+                            initial={{ scale: 0.4, rotate: -30, opacity: 0 }}
+                            animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                          >
+                            <Check className="w-5 h-5 text-primary" strokeWidth={2.5} />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      {phase === "uploading" && (
                         <motion.div
-                          className="h-full bg-primary"
-                          animate={{ width: `${progress}%` }}
-                          transition={{ duration: 0.1 }}
+                          className="absolute inset-0 rounded-xl border border-primary/50"
+                          animate={{ opacity: [0.2, 0.9, 0.2], scale: [1, 1.08, 1] }}
+                          transition={{ duration: 1.4, repeat: Infinity }}
                         />
-                      </div>
-                      <p className="font-body text-[10px] text-white/40 mt-1 tabular-nums">
-                        {Math.round(progress)}% · analyzing waveform
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-heading text-xs font-bold text-white truncate tracking-wide">
+                        {fileName}
                       </p>
-                    </motion.div>
-                  ) : (
-                    <motion.div key="d" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      <p className="font-heading text-xs font-bold text-white uppercase tracking-wider truncate">
-                        midnight_drive_master.wav
-                      </p>
-                      <p className="font-body text-[10px] text-primary mt-0.5 flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" /> Metadata detected automatically
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
+                      {phase === "uploading" ? (
+                        <>
+                          <div className="mt-2 h-[3px] rounded-full bg-white/10 overflow-hidden">
+                            <motion.div
+                              className="h-full bg-primary rounded-full"
+                              animate={{ width: `${progress}%` }}
+                              transition={{ duration: 0.1 }}
+                            />
+                          </div>
+                          <p className="font-body text-[10px] text-white/45 mt-1 tabular-nums">
+                            {Math.round(progress)}% · analyzing waveform
+                          </p>
+                        </>
+                      ) : (
+                        <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="font-body text-[10px] text-primary mt-1 flex items-center gap-1.5"
+                        >
+                          <Sparkles className="w-3 h-3" />
+                          Metadata detected · ready to distribute
+                        </motion.p>
+                      )}
+                    </div>
+                    <button
+                      onClick={reset}
+                      className="p-1.5 rounded-full text-white/30 hover:text-white/80 hover:bg-white/5 transition-colors shrink-0"
+                      aria-label="Remove file"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          {/* Detected metadata fields */}
+          {/* Metadata fields */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="font-heading text-[9px] tracking-[0.2em] text-white/40 uppercase">Track</label>
-              <div className="bg-black/30 border border-white/10 px-3 py-2 font-body text-xs text-white/90 truncate">
+              <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase">
+                Track
+              </label>
+              <div className="rounded-xl bg-white/[0.03] border border-white/10 px-3.5 py-2.5 font-body text-xs text-white/90 truncate min-h-[38px] flex items-center">
                 <AnimatePresence mode="wait">
                   <motion.span
-                    key={phase}
+                    key={trackTitle || "empty"}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: phase === "detected" ? 0.1 : 0 }}
+                    className={trackTitle ? "" : "text-white/30"}
                   >
-                    {phase === "detected" ? "Midnight Drive" : "—"}
+                    {trackTitle || "—"}
                   </motion.span>
                 </AnimatePresence>
               </div>
             </div>
             <div className="space-y-1.5">
-              <label className="font-heading text-[9px] tracking-[0.2em] text-white/40 uppercase">Artist</label>
-              <div className="bg-black/30 border border-white/10 px-3 py-2 font-body text-xs text-white/90 truncate">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={phase}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: phase === "detected" ? 0.2 : 0 }}
-                  >
-                    {phase === "detected" ? "Your Name" : "—"}
-                  </motion.span>
-                </AnimatePresence>
+              <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase">
+                Artist
+              </label>
+              <div className="rounded-xl bg-white/[0.03] border border-white/10 px-3.5 py-2.5 font-body text-xs text-white/90 truncate min-h-[38px] flex items-center">
+                <span className={hasFile ? "" : "text-white/30"}>
+                  {hasFile ? "Your Name" : "—"}
+                </span>
               </div>
             </div>
           </div>
 
           {/* Stores */}
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             <div className="flex items-center justify-between">
-              <label className="font-heading text-[9px] tracking-[0.2em] text-white/40 uppercase">
+              <label className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase">
                 Distribute to
               </label>
               <span className="font-heading text-[9px] tracking-[0.15em] text-primary uppercase">
@@ -238,18 +334,18 @@ const WorkflowPanel = () => {
                   <button
                     key={s.id}
                     onClick={() => toggleStore(s.id)}
-                    className={`group flex items-center gap-1.5 px-2.5 py-1.5 border text-[10px] font-heading tracking-wider uppercase transition-all ${
+                    className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-heading tracking-wider uppercase transition-all ${
                       active
-                        ? "border-primary/60 bg-primary/10 text-white"
-                        : "border-white/10 bg-black/20 text-white/50 hover:border-white/30 hover:text-white/80"
+                        ? "border-primary/50 bg-primary/10 text-white"
+                        : "border-white/10 bg-white/[0.02] text-white/50 hover:border-white/25 hover:text-white/80"
                     }`}
                   >
                     <span
-                      className="w-1.5 h-1.5 rounded-full transition-opacity"
+                      className="w-1.5 h-1.5 rounded-full transition-all"
                       style={{
                         backgroundColor: s.color,
                         opacity: active ? 1 : 0.3,
-                        boxShadow: active ? `0 0 8px ${s.color}80` : "none",
+                        boxShadow: active ? `0 0 8px ${s.color}99` : "none",
                       }}
                     />
                     {s.name}
@@ -260,11 +356,11 @@ const WorkflowPanel = () => {
           </div>
 
           {/* Release date */}
-          <div className="flex items-center justify-between bg-black/30 border border-white/10 px-3 py-2.5">
+          <div className="flex items-center justify-between rounded-xl bg-white/[0.03] border border-white/10 px-4 py-3">
             <div className="flex items-center gap-2.5">
               <Calendar className="w-3.5 h-3.5 text-white/40" />
-              <span className="font-heading text-[10px] tracking-[0.15em] text-white/60 uppercase">
-                Release date
+              <span className="font-heading text-[10px] tracking-[0.18em] text-white/60 uppercase">
+                Release
               </span>
             </div>
             <span className="font-body text-xs text-white tabular-nums">Friday · May 22</span>
@@ -272,24 +368,28 @@ const WorkflowPanel = () => {
 
           {/* CTA */}
           <motion.button
-            whileHover={{ scale: 1.005 }}
+            whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
-            className="group w-full bg-primary text-primary-foreground py-3.5 font-heading text-[11px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 relative overflow-hidden"
+            onClick={openPicker}
+            className="group relative w-full rounded-full bg-primary text-primary-foreground py-3.5 font-heading text-[11px] font-black uppercase tracking-[0.22em] flex items-center justify-center gap-2 overflow-hidden shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)]"
           >
-            <span className="relative z-10">Continue distribution</span>
+            <span className="relative z-10">
+              {phase === "idle" ? "Start your release" : "Continue distribution"}
+            </span>
             <ArrowRight className="w-3.5 h-3.5 relative z-10 transition-transform group-hover:translate-x-1" />
-            <motion.div
-              className="absolute inset-0 bg-white/20"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: "100%" }}
-              transition={{ duration: 0.6 }}
+            <motion.span
+              className="absolute inset-0 bg-white/25"
+              initial={{ x: "-110%" }}
+              whileHover={{ x: "110%" }}
+              transition={{ duration: 0.7 }}
             />
           </motion.button>
-          <p className="text-center font-body text-[10px] text-white/50">
-            Create your free account to publish. <span className="text-primary">No credit card required.</span>
+          <p className="text-center font-body text-[10px] text-white/55">
+            Create your free account to publish.{" "}
+            <span className="text-primary">No credit card required.</span>
           </p>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
@@ -305,95 +405,99 @@ const HeroSection = () => {
         <img
           src={heroBgNew}
           alt=""
-          className="w-full h-full object-cover opacity-50"
-          style={{ filter: "blur(2px) grayscale(40%)" }}
+          className="w-full h-full object-cover opacity-55"
+          style={{ filter: "blur(1.5px) grayscale(35%) contrast(1.05)" }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
+        {/* Cinematic dark gradients keeping image visible */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/55 to-background/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-background/70" />
+        {/* Subtle vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background))_95%)]" />
+        {/* Soft gold glow */}
+        <div className="absolute top-1/4 right-[5%] w-[600px] h-[600px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
         {/* Grain */}
         <div
-          className="absolute inset-0 opacity-[0.06] mix-blend-overlay pointer-events-none"
+          className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
           }}
         />
-        {/* Gold accent glow */}
-        <div className="absolute top-1/3 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       </div>
 
-      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 pb-12">
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-28 sm:pt-32 pb-16">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
           {/* LEFT — Headline */}
-          <div className="lg:col-span-6 xl:col-span-7 flex flex-col gap-6">
+          <div className="lg:col-span-6 xl:col-span-7 flex flex-col gap-7">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 w-fit"
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-3 w-fit rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm px-3.5 py-1.5"
             >
-              <span className="w-8 h-px bg-primary" />
-              <span className="font-heading text-[10px] font-bold tracking-[0.25em] text-primary uppercase">
-                The Modern Record Label
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <span className="font-heading text-[10px] font-bold tracking-[0.25em] text-white/70 uppercase">
+                Hybrid Distribution · Built for Labels
               </span>
             </motion.div>
 
-            <h1 className="font-heading font-black uppercase tracking-[-0.04em] leading-[0.85] text-[clamp(3rem,9vw,7.5rem)]">
+            <h1 className="font-heading font-black uppercase tracking-[-0.035em] leading-[0.9] text-[clamp(2.75rem,7.5vw,6.25rem)] text-foreground">
               <motion.span
-                className="block text-foreground"
-                initial={{ opacity: 0, y: 20 }}
+                className="block"
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+                transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               >
-                Upload.
+                Start your
               </motion.span>
               <motion.span
-                className="block text-foreground"
-                initial={{ opacity: 0, y: 20 }}
+                className="block"
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.25 }}
+                transition={{ duration: 0.7, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
               >
-                Distribute.
+                next release
               </motion.span>
               <motion.span
-                className="block text-primary relative"
-                initial={{ opacity: 0, y: 20 }}
+                className="block text-primary italic font-light normal-case tracking-tight"
+                style={{ fontFamily: "'Inter', serif" }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                transition={{ duration: 0.7, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
               >
-                Get heard.
+                without friction.
               </motion.span>
             </h1>
 
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="font-body text-sm sm:text-base text-white/60 max-w-md leading-relaxed"
+              transition={{ duration: 0.6, delay: 0.55 }}
+              className="font-body text-base text-white/65 max-w-md leading-relaxed"
             >
-              The hybrid music distribution platform for independent labels and artists. Release in 180+ stores,
-              own your masters, scale your catalog.
+              The hybrid distribution platform engineered for independent labels. Upload, distribute to 180+
+              stores, and grow your catalog with a real record-label infrastructure.
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.75 }}
-              className="flex flex-wrap items-center gap-3 mt-2"
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="flex flex-wrap items-center gap-3"
             >
               <a
                 href="#plans"
-                className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-3 font-heading text-[11px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-colors"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-heading text-[11px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)]"
               >
                 Start distributing
                 <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </a>
               <a
                 href="#services"
-                className="group inline-flex items-center gap-2 border border-white/20 text-white/80 px-5 py-3 font-heading text-[11px] font-bold uppercase tracking-[0.2em] hover:border-primary hover:text-primary transition-colors"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] backdrop-blur-sm text-white/80 px-6 py-3.5 font-heading text-[11px] font-bold uppercase tracking-[0.2em] hover:border-white/40 hover:text-white transition-all"
               >
-                Explore services
+                Explore platform
               </a>
             </motion.div>
 
@@ -401,23 +505,24 @@ const HeroSection = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              className="flex items-center gap-6 pt-6 border-t border-white/10 max-w-md mt-2"
+              transition={{ duration: 0.7, delay: 0.95 }}
+              className="flex items-center gap-7 pt-7 border-t border-white/10 max-w-md mt-2"
             >
-              <div>
-                <p className="font-heading text-xl font-black text-white tabular-nums">10K+</p>
-                <p className="font-heading text-[9px] tracking-[0.2em] text-white/40 uppercase mt-0.5">Artists</p>
-              </div>
-              <div className="w-px h-8 bg-white/10" />
-              <div>
-                <p className="font-heading text-xl font-black text-white tabular-nums">1.2K</p>
-                <p className="font-heading text-[9px] tracking-[0.2em] text-white/40 uppercase mt-0.5">Labels</p>
-              </div>
-              <div className="w-px h-8 bg-white/10" />
-              <div>
-                <p className="font-heading text-xl font-black text-white tabular-nums">180+</p>
-                <p className="font-heading text-[9px] tracking-[0.2em] text-white/40 uppercase mt-0.5">Stores</p>
-              </div>
+              {[
+                { v: "10K+", l: "Artists" },
+                { v: "1.2K", l: "Labels" },
+                { v: "180+", l: "Stores" },
+              ].map((s, i) => (
+                <div key={s.l} className="flex items-center gap-7">
+                  {i > 0 && <div className="w-px h-8 bg-white/10" />}
+                  <div>
+                    <p className="font-heading text-xl font-black text-white tabular-nums">{s.v}</p>
+                    <p className="font-heading text-[9px] tracking-[0.22em] text-white/40 uppercase mt-0.5">
+                      {s.l}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </motion.div>
           </div>
 
@@ -428,7 +533,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* SEO-friendly hidden long-form context (visible to crawlers) */}
+      {/* SEO long-form */}
       <p className="sr-only">
         TRACKS/ID is the leading hybrid music distribution platform for independent record labels and artists.
         Upload your music, distribute to Spotify, Apple Music, TikTok, YouTube and over 180 stores, and grow your
