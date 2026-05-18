@@ -419,6 +419,30 @@ const WorkflowPanel = () => {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Step navigation — manual next */}
+          {(phase === "detected" || phase === "stores") && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="flex items-center justify-between pt-1"
+            >
+              <span className="font-body text-[10px] text-white/45">
+                {phase === "detected"
+                  ? "Review metadata and continue"
+                  : "Confirm stores to finalize"}
+              </span>
+              <button
+                type="button"
+                onClick={goNext}
+                className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2 font-heading text-[10px] font-black uppercase tracking-[0.22em] shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.6)] hover:bg-primary/90 transition-colors"
+              >
+                Next
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </motion.div>
+          )}
         </div>
       </motion.div>
     </motion.div>
