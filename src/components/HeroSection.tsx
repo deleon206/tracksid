@@ -100,7 +100,7 @@ const WorkflowPanel = () => {
       initial={{ opacity: 0, y: 30, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-    className="relative w-full max-w-[1080px] mx-auto"
+    className="relative w-full max-w-[920px] mx-auto"
     >
       {/* Floating soft glow halo */}
       <motion.div
