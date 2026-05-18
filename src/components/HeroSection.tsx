@@ -13,7 +13,7 @@ const STORES = [
   { id: "deezer", name: "Deezer", color: "#A238FF" },
 ];
 
-type Phase = "idle" | "uploading" | "detected" | "stores" | "schedule" | "ready";
+type Phase = "idle" | "uploading" | "detected" | "stores" | "ready";
 
 /* ═══════════════════════════════════════════════════════════
    WORKFLOW PANEL — cinematic interactive distribution UI
@@ -64,17 +64,11 @@ const WorkflowPanel = () => {
     return () => clearInterval(id);
   }, [phase]);
 
-  // Auto-advance: detected → stores
-  useEffect(() => {
-    if (phase === "detected") {
-      const t = setTimeout(() => setPhase("stores"), 1600);
-      return () => clearTimeout(t);
-    }
-    if (phase === "stores") {
-      const t = setTimeout(() => setPhase("ready"), 2600);
-      return () => clearTimeout(t);
-    }
-  }, [phase]);
+  // Step-by-step: user advances manually via "Next" after upload completes.
+
+  const goNext = () => {
+    setPhase((p) => (p === "detected" ? "stores" : p === "stores" ? "ready" : p));
+  };
 
   const reset = () => {
     setPhase("idle");
@@ -88,9 +82,18 @@ const WorkflowPanel = () => {
     setSelectedStores((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
 
   const hasFile = phase !== "idle";
-  const showMeta = phase === "detected" || phase === "stores" || phase === "ready";
-  const showStores = phase === "stores" || phase === "ready";
+  const showMeta = phase === "detected";
+  const showStores = phase === "stores";
   const showReady = phase === "ready";
+
+  const stepIndex =
+    phase === "idle" || phase === "uploading"
+      ? 0
+      : phase === "detected"
+        ? 1
+        : phase === "stores"
+          ? 2
+          : 3;
 
   return (
     <motion.div
@@ -134,14 +137,9 @@ const WorkflowPanel = () => {
               <p className="font-body text-[9px] text-white/40 -mt-0.5">tracks/id studio</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <motion.div
-              className="w-1.5 h-1.5 rounded-full bg-primary"
-              animate={{ opacity: [1, 0.3, 1], scale: [1, 1.2, 1] }}
-              transition={{ duration: 1.6, repeat: Infinity }}
-            />
-            <span className="font-heading text-[9px] tracking-[0.25em] text-primary font-bold">LIVE</span>
-          </div>
+          <span className="font-heading text-[9px] tracking-[0.25em] text-white/40 font-bold uppercase">
+            Step {String(stepIndex + 1).padStart(2, "0")} / 04
+          </span>
         </div>
 
         {/* Body */}
@@ -149,8 +147,7 @@ const WorkflowPanel = () => {
           {/* Step rail */}
           <div className="flex items-center gap-2">
             {["Upload", "Metadata", "Stores", "Release"].map((s, i) => {
-              const states: Phase[] = ["uploading", "detected", "stores", "schedule"];
-              const reached = states.indexOf(phase) >= i || phase === "ready";
+              const reached = stepIndex >= i;
               return (
                 <div key={s} className="flex items-center gap-2 flex-1">
                   <div
@@ -163,10 +160,12 @@ const WorkflowPanel = () => {
             })}
           </div>
           <div className="flex justify-between -mt-3 px-0.5">
-            {["Upload", "Metadata", "Stores", "Release"].map((s) => (
+            {["Upload", "Metadata", "Stores", "Release"].map((s, i) => (
               <span
                 key={s}
-                className="font-heading text-[8px] tracking-[0.18em] text-white/40 uppercase"
+                className={`font-heading text-[8px] tracking-[0.18em] uppercase transition-colors ${
+                  stepIndex === i ? "text-primary" : "text-white/40"
+                }`}
               >
                 {s}
               </span>
@@ -200,17 +199,6 @@ const WorkflowPanel = () => {
                     animate={{ opacity: [0.35, 0.75, 0.35] }}
                     transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
                   />
-                  {/* subtle waveform */}
-                  <div className="absolute inset-x-7 bottom-4 flex items-end justify-center gap-[3px] h-8 opacity-60 pointer-events-none">
-                    {Array.from({ length: 56 }).map((_, i) => (
-                      <motion.span
-                        key={i}
-                        className="w-[2px] rounded-full bg-primary/50"
-                        animate={{ height: [`${20 + ((i * 13) % 60)}%`, `${40 + ((i * 7) % 50)}%`, `${20 + ((i * 13) % 60)}%`] }}
-                        transition={{ duration: 1.6 + (i % 5) * 0.18, repeat: Infinity, ease: "easeInOut", delay: i * 0.02 }}
-                      />
-                    ))}
-                  </div>
                   <div className="relative flex items-center gap-5">
                     <motion.div
                       className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-white/80 group-hover:text-primary group-hover:border-primary/40 transition-colors shadow-[0_0_40px_-10px_hsl(var(--primary)/0.4)]"
