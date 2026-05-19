@@ -662,9 +662,15 @@ const HeroSection = () => {
               </a>
               <a
                 href="/distribution"
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] text-white/80 hover:text-white hover:border-white/30 px-5 py-3 font-heading text-[11px] font-black uppercase tracking-[0.22em] transition-colors"
+                className="group inline-flex items-center gap-3 font-heading text-[11px] font-black uppercase tracking-[0.22em] text-white/70 hover:text-primary transition-colors"
               >
-                Explore platform
+                <span className="relative">
+                  Explore platform
+                  <span className="absolute left-0 -bottom-1 h-px w-full bg-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
+                </span>
+                <span className="relative flex items-center justify-center w-7 h-7 rounded-full border border-primary/40 bg-primary/5 group-hover:bg-primary group-hover:border-primary transition-colors">
+                  <ArrowRight className="w-3 h-3 text-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:translate-x-0.5" />
+                </span>
               </a>
             </motion.div>
           </div>
