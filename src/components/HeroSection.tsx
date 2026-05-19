@@ -118,22 +118,15 @@ const WorkflowPanel = () => {
       transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
       className="relative w-full max-w-[920px] mx-auto"
     >
-      <motion.div
-        className="absolute -inset-10 pointer-events-none"
-        animate={{ opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      >
+      {/* Static glow halo — no animation to keep paints cheap */}
+      <div className="absolute -inset-10 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 right-0 w-[28rem] h-[28rem] bg-primary/15 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary/[0.06] rounded-full blur-[100px]" />
-      </motion.div>
+      </div>
 
-      <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-[28px] bg-black/40 blur-xl" />
+      <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-[28px] bg-black/40 blur-xl" aria-hidden="true" />
 
-      <motion.div
-        className="relative rounded-[28px] overflow-hidden bg-white text-zinc-900 border border-zinc-200 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.9)]"
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      >
+      <div className="relative rounded-[28px] overflow-hidden bg-white text-zinc-900 border border-zinc-200 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.9)] will-change-transform">
         <div className="absolute inset-0 rounded-[28px] pointer-events-none bg-gradient-to-b from-zinc-50 via-transparent to-transparent" />
 
         {/* Header */}
@@ -220,19 +213,14 @@ const WorkflowPanel = () => {
                   exit={{ opacity: 0 }}
                   className="group relative w-full rounded-2xl border border-dashed border-zinc-300 hover:border-primary bg-zinc-50 hover:bg-primary/[0.05] transition-all px-7 py-10 text-left overflow-hidden"
                 >
-                  <motion.div
-                    className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.10),transparent_70%)]"
-                    animate={{ opacity: [0.35, 0.75, 0.35] }}
-                    transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
+                  <div
+                    className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.10),transparent_70%)] opacity-60"
+                    aria-hidden="true"
                   />
                   <div className="relative flex items-center gap-5">
-                    <motion.div
-                      className="w-16 h-16 rounded-2xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-700 group-hover:text-zinc-900 group-hover:border-primary transition-colors shadow-[0_0_40px_-10px_hsl(var(--primary)/0.4)]"
-                      animate={{ y: [0, -4, 0] }}
-                      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-                    >
+                    <div className="w-16 h-16 rounded-2xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-700 group-hover:text-zinc-900 group-hover:border-primary transition-colors shadow-[0_0_40px_-10px_hsl(var(--primary)/0.4)]">
                       <Upload className="w-6 h-6" strokeWidth={1.6} />
-                    </motion.div>
+                    </div>
                     <div className="flex-1">
                       <p className="font-heading text-base font-bold text-zinc-900 tracking-wide uppercase">
                         Drop your track to begin
@@ -524,7 +512,7 @@ const WorkflowPanel = () => {
             </motion.div>
           )}
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 };
