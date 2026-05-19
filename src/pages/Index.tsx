@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import PricingSection from "@/components/PricingSection";
 import TrustBar from "@/components/TrustBar";
 import LatestMagSection from "@/components/LatestMagSection";
 import HybridPlatformSection from "@/components/HybridPlatformSection";
@@ -13,6 +14,7 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <HybridPlatformSection />
+      <PricingSection />
       <TrustBar />
       <TestimonialsSection />
       <FaqSection />
