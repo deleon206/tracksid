@@ -529,6 +529,63 @@ const WorkflowPanel = () => {
   );
 };
 
+/* ═══════════════════════════════════════════════════════════
+   PROMO STRIP — yellow urgency band with countdown
+   ═══════════════════════════════════════════════════════════ */
+const PromoStrip = () => {
+  const [timeLeft, setTimeLeft] = useState({ h: 23, m: 59, s: 59 });
+
+  useEffect(() => {
+    // Reset target to ~24h from now, recalculated each mount/day-cycle
+    const target = new Date();
+    target.setHours(target.getHours() + 24);
+
+    const tick = () => {
+      const diff = Math.max(0, target.getTime() - Date.now());
+      if (diff <= 0) {
+        // soft reset — gives a "paulatino" rolling countdown feel
+        target.setHours(target.getHours() + 24);
+      }
+      const total = Math.floor(diff / 1000);
+      const h = Math.floor(total / 3600);
+      const m = Math.floor((total % 3600) / 60);
+      const s = total % 60;
+      setTimeLeft({ h, m, s });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  return (
+    <div className="relative z-10 w-full bg-primary text-primary-foreground overflow-hidden">
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,hsl(var(--primary-foreground)/0.08),transparent)] animate-[shimmer_6s_linear_infinite]" />
+      <div className="container px-4 sm:px-6 md:px-8 py-2.5 flex items-center justify-center gap-3 sm:gap-5 flex-wrap text-center">
+        <span className="font-heading text-[10px] sm:text-[11px] font-black uppercase tracking-[0.22em]">
+          🎁 Get 7-day free trial + 5 free credits
+        </span>
+        <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-primary-foreground/50" />
+        <span className="font-heading text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] inline-flex items-center gap-2">
+          Offer ends in
+          <span className="inline-flex items-center gap-1 rounded-md bg-primary-foreground/10 border border-primary-foreground/20 px-2 py-0.5 font-mono tabular-nums text-[11px] sm:text-[12px] font-black">
+            {pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}
+          </span>
+        </span>
+        <a
+          href="https://app.tracks.id/signup"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-heading text-[10px] sm:text-[11px] font-black uppercase tracking-[0.22em] underline underline-offset-4 hover:no-underline"
+        >
+          Claim now →
+        </a>
+      </div>
+    </div>
+  );
+};
+
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden bg-background">
