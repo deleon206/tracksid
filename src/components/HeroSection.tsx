@@ -1,10 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Upload, Music, Check, ArrowRight, Sparkles, X, Radio, Zap, Link2 } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
-import Hls from "hls.js";
 
-const HERO_VIDEO_SRC = "https://stream.mux.com/jPyJ2YM6Nlly7U6EyfxM01tz4D4uPE3gyJ4PYuvY62Wg.m3u8";
+const HERO_VIDEO_SRC = "https://veulvgnxunfnkjwzdxxu.supabase.co/storage/v1/object/public/magazine-media/other/download.mp4";
 
 const HeroVideoBg = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -12,17 +10,7 @@ const HeroVideoBg = () => {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = HERO_VIDEO_SRC;
-    } else if (Hls.isSupported()) {
-      const hls = new Hls({ enableWorker: true, lowLatencyMode: false });
-      hls.loadSource(HERO_VIDEO_SRC);
-      hls.attachMedia(video);
-      return () => hls.destroy();
-    } else {
-      video.src = HERO_VIDEO_SRC;
-    }
+    video.src = HERO_VIDEO_SRC;
   }, []);
 
   return (
@@ -33,7 +21,6 @@ const HeroVideoBg = () => {
       loop
       playsInline
       preload="auto"
-      poster={heroBg}
       aria-hidden="true"
       className="absolute inset-0 w-full h-full object-cover"
     />
