@@ -573,22 +573,135 @@ const PromoStrip = () => {
   );
 };
 
+/* ═══════════════════════════════════════════════════════════
+   MUSIC ICON BLOCKS — colored cutout tiles (reference style)
+   ═══════════════════════════════════════════════════════════ */
+type IconShape = "circle" | "square" | "arrow";
+type IconKey = "note" | "vinyl" | "headphones" | "play" | "mic";
+
+const ICON_BLOCKS: {
+  key: IconKey;
+  shape: IconShape;
+  color: string;
+  label: string;
+  svg: JSX.Element;
+}[] = [
+  {
+    key: "note",
+    shape: "circle",
+    color: "hsl(var(--block-purple))",
+    label: "Upload music — note",
+    svg: (
+      <svg viewBox="0 0 64 64" className="w-1/2 h-1/2" fill="currentColor" aria-hidden="true">
+        <path d="M44 8 22 14v30.2A10 10 0 1 0 28 53.6V24l16-4.4V38a10 10 0 1 0 6 9.1V8z" />
+      </svg>
+    ),
+  },
+  {
+    key: "vinyl",
+    shape: "square",
+    color: "hsl(var(--block-green))",
+    label: "Distribute vinyl & digital catalog",
+    svg: (
+      <svg viewBox="0 0 64 64" className="w-[58%] h-[58%]" fill="currentColor" aria-hidden="true">
+        <circle cx="32" cy="32" r="26" />
+        <circle cx="32" cy="32" r="18" fill="hsl(var(--block-green))" />
+        <circle cx="32" cy="32" r="12" />
+        <circle cx="32" cy="32" r="4" fill="hsl(var(--block-green))" />
+      </svg>
+    ),
+  },
+  {
+    key: "play",
+    shape: "arrow",
+    color: "hsl(var(--block-orange))",
+    label: "Stream and pre-save",
+    svg: (
+      <svg viewBox="0 0 64 64" className="w-1/2 h-1/2" fill="currentColor" aria-hidden="true">
+        <path d="M16 10v44l38-22z" />
+      </svg>
+    ),
+  },
+  {
+    key: "headphones",
+    shape: "square",
+    color: "hsl(var(--block-yellow))",
+    label: "Studio mastering headphones",
+    svg: (
+      <svg viewBox="0 0 64 64" className="w-[58%] h-[58%]" fill="currentColor" aria-hidden="true">
+        <path d="M32 8a22 22 0 0 0-22 22v18a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V36a4 4 0 0 0-4-4h-6v-2a18 18 0 0 1 36 0v2h-6a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V30A22 22 0 0 0 32 8z" />
+      </svg>
+    ),
+  },
+  {
+    key: "mic",
+    shape: "circle",
+    color: "hsl(var(--block-blue))",
+    label: "Recording microphone",
+    svg: (
+      <svg viewBox="0 0 64 64" className="w-[55%] h-[55%]" fill="currentColor" aria-hidden="true">
+        <rect x="24" y="6" width="16" height="30" rx="8" />
+        <path d="M16 30a16 16 0 0 0 32 0h-4a12 12 0 0 1-24 0h-4z" />
+        <rect x="30" y="46" width="4" height="10" />
+        <rect x="22" y="54" width="20" height="4" rx="2" />
+      </svg>
+    ),
+  },
+];
+
+const shapeClass = (shape: IconShape) => {
+  switch (shape) {
+    case "circle":
+      return "rounded-full";
+    case "arrow":
+      return "rounded-[28%] [clip-path:polygon(0_0,75%_0,100%_50%,75%_100%,0_100%)]";
+    default:
+      return "rounded-[28%]";
+  }
+};
+
+const IconBlocks = ({ onPick }: { onPick: () => void }) => (
+  <div
+    className="grid grid-cols-5 gap-3 sm:gap-5 md:gap-7 w-full max-w-6xl mx-auto px-2"
+    role="list"
+    aria-label="Music distribution services"
+  >
+    {ICON_BLOCKS.map((b, i) => (
+      <motion.button
+        key={b.key}
+        type="button"
+        role="listitem"
+        aria-label={b.label}
+        onClick={onPick}
+        initial={{ opacity: 0, y: 40, scale: 0.85 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.7, delay: 0.4 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+        whileHover={{ y: -6, scale: 1.03 }}
+        whileTap={{ scale: 0.96 }}
+        className={`relative aspect-square w-full flex items-center justify-center text-black overflow-hidden ${shapeClass(b.shape)} shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)] transition-shadow hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]`}
+        style={{ backgroundColor: b.color }}
+      >
+        {b.svg}
+      </motion.button>
+    ))}
+  </div>
+);
+
+/* ═══════════════════════════════════════════════════════════
+   HERO — reference-style massive centered headline
+   ═══════════════════════════════════════════════════════════ */
 const HeroSection = () => {
+  const [showWorkflow, setShowWorkflow] = useState(false);
+  const open = () => setShowWorkflow(true);
+  const close = () => setShowWorkflow(false);
+
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden bg-background">
-      <div className="absolute inset-0 z-0">
-        <img
-          src={heroBgNew}
-          alt=""
-          className="w-full h-full object-cover opacity-40"
-          style={{ filter: "blur(2px) grayscale(45%) contrast(1.05)" }}
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/40 to-background" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,hsl(var(--background))_85%)]" />
-        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/[0.07] rounded-full blur-[160px] pointer-events-none" />
+    <section className="relative min-h-screen flex flex-col overflow-hidden bg-[#0a0a0a]">
+      {/* Ambient background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[hsl(var(--lime)/0.08)] rounded-full blur-[160px]" />
         <div
-          className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none"
+          className="absolute inset-0 opacity-[0.04] mix-blend-overlay"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
@@ -596,90 +709,112 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 pb-24 lg:pb-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center w-full max-w-7xl mx-auto flex-1">
-          {/* LEFT — Editorial copy */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl mx-auto lg:mx-0 w-full">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
+      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-28 sm:pt-32 pb-10">
+        {/* Headline + sub + CTA */}
+        <div className="flex-1 flex flex-col items-center justify-center text-center max-w-6xl mx-auto w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] backdrop-blur-md px-3 py-1.5 mb-6"
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-[hsl(var(--lime))] opacity-75 animate-ping" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(var(--lime))]" />
+            </span>
+            <span className="font-heading text-[10px] font-bold uppercase tracking-[0.22em] text-white/80">
+              Hybrid music distribution
+            </span>
+          </motion.div>
+
+          <h1 className="font-heading font-black tracking-[-0.04em] leading-[0.9] text-white text-[clamp(2.8rem,9vw,8.5rem)] normal-case">
+            <motion.span
+              className="block"
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.05 }}
-              className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 mb-5 shadow-[0_0_30px_-8px_hsl(var(--primary)/0.5)]"
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 animate-ping" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+              Your sound
+            </motion.span>
+            <motion.span
+              className="block"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            >
+              runs the world
+            </motion.span>
+          </h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-6 font-body text-sm sm:text-base text-white/55 max-w-md leading-relaxed"
+          >
+            Distribute, master and grow your catalog with the hybrid infrastructure built for labels and independent artists.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="mt-8 flex flex-col sm:flex-row items-center gap-4"
+          >
+            <button
+              type="button"
+              onClick={open}
+              className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-heading text-[12px] font-black uppercase tracking-[0.22em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:brightness-110 transition-all shadow-[0_15px_50px_-10px_hsl(var(--lime)/0.65)]"
+            >
+              Upload your music
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </button>
+            <a
+              href="/distribution"
+              className="group inline-flex items-center gap-2 font-heading text-[11px] font-bold uppercase tracking-[0.22em] text-white/60 hover:text-white transition-colors"
+            >
+              <span className="relative">
+                Explore the platform
+                <span className="absolute left-0 -bottom-1 h-px w-full bg-[hsl(var(--lime))] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
               </span>
-              <span className="font-heading text-[10px] font-black uppercase tracking-[0.22em] text-primary">
-                New · Create your first release free
-              </span>
-            </motion.div>
+            </a>
+          </motion.div>
+        </div>
 
-            <h1 className="font-heading font-black uppercase tracking-[-0.03em] leading-[0.95] text-[clamp(2.4rem,5.2vw,4.5rem)] text-foreground">
-              <motion.span
-                className="block"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        {/* Icon blocks row */}
+        <div className="mt-12 sm:mt-16 lg:mt-10 relative min-h-[120px]">
+          <AnimatePresence mode="wait">
+            {!showWorkflow && (
+              <motion.div
+                key="blocks"
+                exit={{ opacity: 0, scale: 0.6, y: 60, filter: "blur(8px)" }}
+                transition={{ duration: 0.55, ease: [0.7, 0, 0.84, 0] }}
               >
-                Start your next release
-              </motion.span>
-              <motion.span
-                className="block text-primary italic font-light normal-case tracking-tight mt-2"
-                style={{ fontFamily: "'Inter', serif" }}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              >
-                without friction.
-              </motion.span>
-            </h1>
+                <IconBlocks onPick={open} />
+              </motion.div>
+            )}
 
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45 }}
-              className="mt-5 font-body text-base sm:text-[17px] text-white/65 max-w-lg leading-relaxed mx-auto lg:mx-0"
-            >
-              Hybrid distribution built for labels and artists who refuse to compromise.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="mt-7 flex items-center gap-3 flex-wrap justify-center lg:justify-start"
-            >
-              <a
-                href="https://app.tracks.id/signup"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 font-heading text-[11px] font-black uppercase tracking-[0.22em] shadow-[0_10px_40px_-12px_hsl(var(--primary)/0.6)] hover:bg-primary/90 transition-colors"
+            {showWorkflow && (
+              <motion.div
+                key="workflow"
+                initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: 40 }}
+                transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="relative"
               >
-                Start distributing
-                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-              </a>
-              <a
-                href="/distribution"
-                className="group inline-flex items-center gap-3 font-heading text-[11px] font-black uppercase tracking-[0.22em] text-white/70 hover:text-primary transition-colors"
-              >
-                <span className="relative">
-                  Explore platform
-                  <span className="absolute left-0 -bottom-1 h-px w-full bg-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
-                </span>
-                <span className="relative flex items-center justify-center w-7 h-7 rounded-full border border-primary/40 bg-primary/5 group-hover:bg-primary group-hover:border-primary transition-colors">
-                  <ArrowRight className="w-3 h-3 text-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:translate-x-0.5" />
-                </span>
-              </a>
-            </motion.div>
-          </div>
-
-          {/* RIGHT — Workflow panel */}
-          <div className="w-full relative max-w-[560px] mx-auto lg:mx-0 lg:ml-auto">
-            <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[80%] h-48 bg-primary/[0.08] rounded-full blur-[140px] pointer-events-none" />
-            <div className="absolute -inset-x-10 -top-24 bottom-0 bg-gradient-to-b from-transparent via-background/0 to-background/40 pointer-events-none" />
-            <WorkflowPanel />
-          </div>
+                <button
+                  type="button"
+                  onClick={close}
+                  className="absolute -top-4 right-2 sm:right-4 z-10 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors backdrop-blur-md border border-white/10"
+                  aria-label="Close upload workflow"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+                <WorkflowPanel />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
