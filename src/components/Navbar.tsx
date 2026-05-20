@@ -60,6 +60,14 @@ const Navbar = () => {
           >
             <CircleHelp className="w-4 h-4" />
           </a>
+          <a
+            href="https://app.tracks.id/signup"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-1 inline-flex items-center justify-center rounded-full px-5 py-2 font-heading text-[11px] font-black uppercase tracking-[0.18em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:brightness-110 transition-all shadow-[0_8px_24px_-8px_hsl(var(--lime)/0.65)]"
+          >
+            Sign Up
+          </a>
         </div>
 
         {/* Mobile toggle */}
