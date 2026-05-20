@@ -23,6 +23,7 @@ const Navbar = () => {
         {/* Logo */}
         <a
           href="/"
+          aria-label="TRACKS/ID — Hybrid music distribution platform home"
           className="flex items-center justify-center w-9 h-9 rounded-full bg-primary text-primary-foreground font-heading text-sm font-black tracking-tight shrink-0"
         >
           T
@@ -64,7 +65,7 @@ const Navbar = () => {
             href="https://app.tracks.id/signup"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-1 inline-flex items-center justify-center rounded-full px-5 py-2 font-heading text-[11px] font-black uppercase tracking-[0.18em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:brightness-110 transition-all shadow-[0_8px_24px_-8px_hsl(var(--lime)/0.65)]"
+            className="ml-1 inline-flex items-center justify-center rounded-full px-5 py-2 font-heading text-[11px] font-black uppercase tracking-[0.18em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:-translate-y-0.5 hover:brightness-105 transition-all duration-200 ring-1 ring-black/10"
           >
             Sign Up
           </a>
