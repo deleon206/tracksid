@@ -590,7 +590,7 @@ const ICON_BLOCKS: {
     key: "note",
     shape: "circle",
     color: "hsl(var(--block-purple))",
-    label: "Upload music — note",
+    label: "Music distribution icon — upload your songs to streaming platforms",
     svg: (
       <svg viewBox="0 0 64 64" className="w-1/2 h-1/2" fill="currentColor" aria-hidden="true">
         <path d="M44 8 22 14v30.2A10 10 0 1 0 28 53.6V24l16-4.4V38a10 10 0 1 0 6 9.1V8z" />
@@ -601,7 +601,7 @@ const ICON_BLOCKS: {
     key: "vinyl",
     shape: "square",
     color: "hsl(var(--block-green))",
-    label: "Distribute vinyl & digital catalog",
+    label: "Vinyl and digital catalog distribution for record labels",
     svg: (
       <svg viewBox="0 0 64 64" className="w-[58%] h-[58%]" fill="currentColor" aria-hidden="true">
         <circle cx="32" cy="32" r="26" />
@@ -615,7 +615,7 @@ const ICON_BLOCKS: {
     key: "play",
     shape: "arrow",
     color: "hsl(var(--block-orange))",
-    label: "Stream and pre-save",
+    label: "Streaming and pre-save links for Spotify and Apple Music",
     svg: (
       <svg viewBox="0 0 64 64" className="w-1/2 h-1/2" fill="currentColor" aria-hidden="true">
         <path d="M16 10v44l38-22z" />
@@ -626,7 +626,7 @@ const ICON_BLOCKS: {
     key: "headphones",
     shape: "square",
     color: "hsl(var(--block-yellow))",
-    label: "Studio mastering headphones",
+    label: "Studio mastering and audio engineering for independent artists",
     svg: (
       <svg viewBox="0 0 64 64" className="w-[58%] h-[58%]" fill="currentColor" aria-hidden="true">
         <path d="M32 8a22 22 0 0 0-22 22v18a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V36a4 4 0 0 0-4-4h-6v-2a18 18 0 0 1 36 0v2h-6a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V30A22 22 0 0 0 32 8z" />
@@ -637,7 +637,7 @@ const ICON_BLOCKS: {
     key: "mic",
     shape: "circle",
     color: "hsl(var(--block-blue))",
-    label: "Recording microphone",
+    label: "Recording studio microphone for music production",
     svg: (
       <svg viewBox="0 0 64 64" className="w-[55%] h-[55%]" fill="currentColor" aria-hidden="true">
         <rect x="24" y="6" width="16" height="30" rx="8" />
