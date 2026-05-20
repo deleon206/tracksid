@@ -679,7 +679,7 @@ const shapeClass = (shape: IconShape) => {
 
 const IconBlocks = ({ onPick }: { onPick: () => void }) => (
   <div
-    className="grid grid-cols-5 gap-3 sm:gap-5 md:gap-7 w-full max-w-6xl mx-auto px-2"
+    className="grid grid-cols-5 gap-3 sm:gap-4 md:gap-5 w-full max-w-3xl mx-auto px-2"
     role="list"
     aria-label="Music distribution services"
   >
