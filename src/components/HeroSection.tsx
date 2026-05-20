@@ -2,6 +2,43 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Upload, Music, Check, ArrowRight, Sparkles, X, Radio, Zap, Link2 } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import Hls from "hls.js";
+
+const HERO_VIDEO_SRC = "https://stream.mux.com/jPyJ2YM6Nlly7U6EyfxM01tz4D4uPE3gyJ4PYuvY62Wg.m3u8";
+
+const HeroVideoBg = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = HERO_VIDEO_SRC;
+    } else if (Hls.isSupported()) {
+      const hls = new Hls({ enableWorker: true, lowLatencyMode: false });
+      hls.loadSource(HERO_VIDEO_SRC);
+      hls.attachMedia(video);
+      return () => hls.destroy();
+    } else {
+      video.src = HERO_VIDEO_SRC;
+    }
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      poster={heroBg}
+      aria-hidden="true"
+      className="absolute inset-0 w-full h-full object-cover"
+    />
+  );
+};
 
 /* ─── Stores ─── */
 const STORES = [
@@ -700,14 +737,9 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex flex-col overflow-hidden bg-[#0a0a0a]">
       {/* Ambient background — gold-tinted music visual + overlays */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <img
-          src={heroBg}
-          alt=""
-          aria-hidden="true"
-          width={1920}
-          height={1080}
-          className="absolute inset-0 w-full h-full object-cover opacity-60"
-        />
+        <HeroVideoBg />
+        {/* Readability overlay so video doesn't compete with hero content */}
+        <div className="absolute inset-0 bg-black/55" />
         {/* Vignette + readability overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_55%,#0a0a0a_100%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/70 via-transparent to-[#0a0a0a]" />
