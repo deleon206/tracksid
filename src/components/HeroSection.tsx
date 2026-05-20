@@ -712,21 +712,6 @@ const HeroSection = () => {
       <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-28 sm:pt-32 pb-10">
         {/* Headline + sub + CTA */}
         <div className="flex-1 flex flex-col items-center justify-center text-center max-w-6xl mx-auto w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] backdrop-blur-md px-3 py-1.5 mb-6"
-          >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-[hsl(var(--lime))] opacity-75 animate-ping" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(var(--lime))]" />
-            </span>
-            <span className="font-heading text-[10px] font-bold uppercase tracking-[0.22em] text-white/80">
-              Hybrid music distribution
-            </span>
-          </motion.div>
-
           <h1 className="font-heading font-black tracking-[-0.04em] leading-[0.9] text-white text-[clamp(2.8rem,9vw,8.5rem)] normal-case">
             <motion.span
               className="block"
@@ -737,7 +722,8 @@ const HeroSection = () => {
               Your sound
             </motion.span>
             <motion.span
-              className="block"
+              className="block italic font-normal tracking-[-0.02em]"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
@@ -746,14 +732,14 @@ const HeroSection = () => {
             </motion.span>
           </h1>
 
-          <motion.p
+          <motion.h2
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-6 font-body text-sm sm:text-base text-white/55 max-w-md leading-relaxed"
+            className="mt-6 font-body normal-case font-normal tracking-normal text-sm sm:text-base text-white/60 max-w-xl leading-relaxed"
           >
-            Distribute, master and grow your catalog with the hybrid infrastructure built for labels and independent artists.
-          </motion.p>
+            Music distribution platform for independent artists and record labels. Upload your music to Spotify, Apple Music, TikTok and 180+ stores in minutes.
+          </motion.h2>
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -764,7 +750,8 @@ const HeroSection = () => {
             <button
               type="button"
               onClick={open}
-              className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-heading text-[12px] font-black uppercase tracking-[0.22em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:brightness-110 transition-all shadow-[0_15px_50px_-10px_hsl(var(--lime)/0.65)]"
+              aria-label="Upload your music to all major streaming platforms"
+              className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-heading text-[12px] font-black uppercase tracking-[0.22em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 transition-all duration-200 ring-1 ring-black/10"
             >
               Upload your music
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
