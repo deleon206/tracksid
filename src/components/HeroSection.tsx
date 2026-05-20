@@ -762,7 +762,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex flex-col overflow-hidden bg-[#0a0a0a]">
       {/* Ambient background — gold-tinted music visual + overlays */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <HeroVideoBg />
+        <HeroImageBg />
         {/* Readability overlay so video doesn't compete with hero content */}
         <div className="absolute inset-0 bg-black/55" />
         {/* Vignette + readability overlay */}
