@@ -679,7 +679,7 @@ const shapeClass = (shape: IconShape) => {
 
 const IconBlocks = ({ onPick }: { onPick: () => void }) => (
   <div
-    className="grid grid-cols-5 gap-3 sm:gap-5 md:gap-7 w-full max-w-6xl mx-auto px-2"
+    className="grid grid-cols-5 gap-3 sm:gap-4 md:gap-5 w-full max-w-3xl mx-auto px-2"
     role="list"
     aria-label="Music distribution services"
   >
@@ -734,7 +734,7 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-28 sm:pt-32 pb-10">
+      <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 pb-8">
         {/* Headline + sub + CTA (hidden once workflow opens) */}
         <AnimatePresence mode="wait">
         {!showWorkflow ? (
@@ -745,9 +745,8 @@ const HeroSection = () => {
           transition={{ duration: 0.55, ease: [0.7, 0, 0.84, 0] }}
           className="flex-1 flex flex-col items-center justify-center text-center max-w-6xl mx-auto w-full"
         >
-          {/* Shadow/glow backdrop behind title and CTAs for contrast against video */}
-          <div className="relative px-6 py-10 sm:px-12 sm:py-14 rounded-[32px] bg-black/35 backdrop-blur-md border border-white/5 shadow-[0_0_80px_-20px_rgba(0,0,0,0.8)]">
-            <h1 className="font-heading font-black tracking-[-0.04em] leading-[0.9] text-white text-[clamp(2.8rem,9vw,8.5rem)] normal-case">
+          <div className="relative px-2 sm:px-6 py-4 sm:py-6">
+            <h1 className="font-heading font-black tracking-[-0.04em] leading-[0.9] text-white text-[clamp(2.2rem,6.5vw,5.5rem)] normal-case drop-shadow-[0_4px_30px_rgba(0,0,0,0.85)]">
               <motion.span
                 className="block"
                 initial={{ opacity: 0, y: 30 }}
@@ -771,7 +770,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-6 font-body normal-case font-normal tracking-normal text-sm sm:text-base text-white/60 max-w-xl leading-relaxed mx-auto"
+              className="mt-5 font-body normal-case font-normal tracking-normal text-xs sm:text-sm text-white/65 max-w-lg leading-relaxed mx-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
             >
               Music distribution platform for independent artists and record labels. Upload your music to Spotify, Apple Music, TikTok and 180+ stores in minutes.
             </motion.h2>
@@ -780,16 +779,16 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.55 }}
-              className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+              className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <button
                 type="button"
                 onClick={open}
                 aria-label="Upload your music to all major streaming platforms"
-                className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-heading text-[12px] font-black uppercase tracking-[0.22em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 transition-all duration-200 ring-1 ring-black/10"
+                className="group relative inline-flex items-center gap-2 rounded-full px-6 py-3 font-heading text-[11px] font-black uppercase tracking-[0.22em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 transition-all duration-200 ring-1 ring-black/10 shadow-[0_10px_40px_-10px_rgba(246,201,25,0.55)]"
               >
                 Upload your music
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </button>
               <a
                 href="/distribution"
@@ -826,7 +825,7 @@ const HeroSection = () => {
         </AnimatePresence>
 
         {/* Icon blocks row */}
-        <div className="mt-8 sm:mt-12 lg:mt-8 relative min-h-[120px]">
+        <div className="mt-6 sm:mt-8 relative min-h-[100px]">
           <AnimatePresence mode="wait">
             {!showWorkflow && (
               <motion.div
