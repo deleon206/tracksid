@@ -734,7 +734,7 @@ const HeroSection = () => {
           transition={{ duration: 0.55, ease: [0.7, 0, 0.84, 0] }}
           className="flex-1 flex flex-col items-center justify-center text-center max-w-6xl mx-auto w-full"
         >
-          <h1 className="font-heading font-black tracking-[-0.04em] leading-[0.9] text-white text-[clamp(2.8rem,9vw,8.5rem)] normal-case">
+          <h1 className="font-heading font-black tracking-[-0.04em] leading-[0.95] text-white text-[clamp(2.2rem,6vw,5rem)] normal-case">
             <motion.span
               className="block"
               initial={{ opacity: 0, y: 30 }}
@@ -758,7 +758,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-6 font-body normal-case font-normal tracking-normal text-sm sm:text-base text-white/60 max-w-xl leading-relaxed"
+            className="mt-5 font-body normal-case font-normal tracking-normal text-xs sm:text-sm text-white/55 max-w-md leading-relaxed"
           >
             Music distribution platform for independent artists and record labels. Upload your music to Spotify, Apple Music, TikTok and 180+ stores in minutes.
           </motion.h2>
@@ -767,16 +767,16 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.55 }}
-            className="mt-8 flex flex-col sm:flex-row items-center gap-4"
+            className="mt-7 flex flex-col sm:flex-row items-center gap-5"
           >
             <button
               type="button"
               onClick={open}
               aria-label="Upload your music to all major streaming platforms"
-              className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-heading text-[12px] font-black uppercase tracking-[0.22em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 transition-all duration-200 ring-1 ring-black/10"
+              className="group relative inline-flex items-center gap-2 rounded-full px-6 py-3 font-heading text-[11px] font-black uppercase tracking-[0.2em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 transition-all duration-200 ring-1 ring-black/10"
             >
               Upload your music
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
             </button>
             <a
               href="/distribution"
