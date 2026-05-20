@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Upload, Music, Check, ArrowRight, Sparkles, X, Radio, Zap, Link2 } from "lucide-react";
-import heroBgNew from "@/assets/hero-bg-new.png";
 
 /* ─── Stores ─── */
 const STORES = [
