@@ -52,17 +52,13 @@ const IndustryNetworkSlider = () => {
   );
 };
 
-const HERO_VIDEO_SRC = "https://veulvgnxunfnkjwzdxxu.supabase.co/storage/v1/object/public/magazine-media/other/download.mp4";
+const HERO_BG_SRC = "https://veulvgnxunfnkjwzdxxu.supabase.co/storage/v1/object/public/magazine-media/other/background2.jpg";
 
-const HeroVideoBg = () => {
+const HeroImageBg = () => {
   return (
-    <video
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="auto"
-      src={HERO_VIDEO_SRC}
+    <img
+      src={HERO_BG_SRC}
+      alt=""
       aria-hidden="true"
       className="absolute inset-0 w-full h-full object-cover"
     />
