@@ -5,22 +5,14 @@ import { Upload, Music, Check, ArrowRight, Sparkles, X, Radio, Zap, Link2 } from
 const HERO_VIDEO_SRC = "https://veulvgnxunfnkjwzdxxu.supabase.co/storage/v1/object/public/magazine-media/other/download.mp4";
 
 const HeroVideoBg = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.src = HERO_VIDEO_SRC;
-  }, []);
-
   return (
     <video
-      ref={videoRef}
       autoPlay
       muted
       loop
       playsInline
       preload="auto"
+      src={HERO_VIDEO_SRC}
       aria-hidden="true"
       className="absolute inset-0 w-full h-full object-cover"
     />
