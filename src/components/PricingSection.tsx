@@ -164,7 +164,7 @@ const PricingSection = () => {
     <>
     <section
       id="pricing"
-      className="relative overflow-hidden bg-[#f5f5f3] text-black py-28"
+      className="relative overflow-hidden bg-white text-black py-28"
       aria-labelledby="pricing-heading"
     >
       {/* Background — micro dot grid + grain */}
