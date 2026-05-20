@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Upload, Music, Check, ArrowRight, Sparkles, X, Radio, Zap, Link2 } from "lucide-react";
+import heroBg from "@/assets/hero-bg.jpg";
 
 /* ─── Stores ─── */
 const STORES = [
@@ -697,11 +698,24 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden bg-[#0a0a0a]">
-      {/* Ambient background */}
+      {/* Ambient background — gold-tinted music visual + overlays */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[hsl(var(--lime)/0.08)] rounded-full blur-[160px]" />
+        <img
+          src={heroBg}
+          alt=""
+          aria-hidden="true"
+          width={1920}
+          height={1080}
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+        />
+        {/* Vignette + readability overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_55%,#0a0a0a_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/70 via-transparent to-[#0a0a0a]" />
+        {/* Gold glow halo */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[hsl(var(--lime)/0.10)] rounded-full blur-[160px]" />
+        {/* Subtle grain */}
         <div
-          className="absolute inset-0 opacity-[0.04] mix-blend-overlay"
+          className="absolute inset-0 opacity-[0.05] mix-blend-overlay"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
@@ -710,8 +724,16 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col container px-4 sm:px-6 md:px-8 pt-28 sm:pt-32 pb-10">
-        {/* Headline + sub + CTA */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center max-w-6xl mx-auto w-full">
+        {/* Headline + sub + CTA (hidden once workflow opens) */}
+        <AnimatePresence mode="wait">
+        {!showWorkflow ? (
+        <motion.div
+          key="intro"
+          initial={false}
+          exit={{ opacity: 0, y: -30, filter: "blur(10px)", scale: 0.96 }}
+          transition={{ duration: 0.55, ease: [0.7, 0, 0.84, 0] }}
+          className="flex-1 flex flex-col items-center justify-center text-center max-w-6xl mx-auto w-full"
+        >
           <h1 className="font-heading font-black tracking-[-0.04em] leading-[0.9] text-white text-[clamp(2.8rem,9vw,8.5rem)] normal-case">
             <motion.span
               className="block"
@@ -722,7 +744,7 @@ const HeroSection = () => {
               Your sound
             </motion.span>
             <motion.span
-              className="block italic font-normal tracking-[-0.02em]"
+              className="block italic font-normal tracking-[-0.02em] text-[hsl(var(--lime))]"
               style={{ fontFamily: "'Instrument Serif', serif" }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -766,10 +788,31 @@ const HeroSection = () => {
               </span>
             </a>
           </motion.div>
-        </div>
+        </motion.div>
+        ) : (
+          <motion.div
+            key="workflow-title"
+            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="pt-4 pb-2 text-center max-w-3xl mx-auto"
+          >
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[hsl(var(--lime)/0.35)] bg-[hsl(var(--lime)/0.08)] font-heading text-[10px] font-bold uppercase tracking-[0.22em] text-[hsl(var(--lime))]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--lime))] animate-pulse" />
+              Live session
+            </span>
+            <h2 className="mt-4 font-heading font-black tracking-[-0.03em] leading-[0.95] text-white text-[clamp(1.6rem,4vw,2.6rem)] normal-case">
+              Start the <span className="italic font-normal text-[hsl(var(--lime))]" style={{ fontFamily: "'Instrument Serif', serif" }}>distribution</span>
+            </h2>
+            <p className="mt-2 font-body text-xs sm:text-sm text-white/55 max-w-md mx-auto">
+              Upload your track, set the metadata, and ship to 180+ stores in minutes.
+            </p>
+          </motion.div>
+        )}
+        </AnimatePresence>
 
         {/* Icon blocks row */}
-        <div className="mt-12 sm:mt-16 lg:mt-10 relative min-h-[120px]">
+        <div className="mt-8 sm:mt-12 lg:mt-8 relative min-h-[120px]">
           <AnimatePresence mode="wait">
             {!showWorkflow && (
               <motion.div
