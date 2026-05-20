@@ -914,7 +914,7 @@ const HeroSection = () => {
                 exit={{ opacity: 0, scale: 0.6, y: 60, filter: "blur(8px)" }}
                 transition={{ duration: 0.55, ease: [0.7, 0, 0.84, 0] }}
               >
-                <IconBlocks onPick={open} />
+                <IndustryNetworkSlider />
               </motion.div>
             )}
 
