@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -48,8 +48,8 @@
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Inter', sans-serif;
 
-    /* Hero accent — neon lime (per reference) */
-    --lime: 78 100% 60%;
+    /* Hero accent — vibrant electric yellow (#E2FF00) */
+    --lime: 67 100% 50%;
     --lime-foreground: 0 0% 0%;
 
     /* Hero icon-block palette */
