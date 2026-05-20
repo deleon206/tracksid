@@ -753,60 +753,63 @@ const HeroSection = () => {
           transition={{ duration: 0.55, ease: [0.7, 0, 0.84, 0] }}
           className="flex-1 flex flex-col items-center justify-center text-center max-w-6xl mx-auto w-full"
         >
-          <h1 className="font-heading font-black tracking-[-0.04em] leading-[0.9] text-white text-[clamp(2.8rem,9vw,8.5rem)] normal-case">
-            <motion.span
-              className="block"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            >
-              Your sound
-            </motion.span>
-            <motion.span
-              className="block italic font-normal tracking-[-0.02em] text-[hsl(var(--lime))]"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            >
-              runs the world
-            </motion.span>
-          </h1>
+          {/* Shadow/glow backdrop behind title and CTAs for contrast against video */}
+          <div className="relative px-6 py-10 sm:px-12 sm:py-14 rounded-[32px] bg-black/35 backdrop-blur-md border border-white/5 shadow-[0_0_80px_-20px_rgba(0,0,0,0.8)]">
+            <h1 className="font-heading font-black tracking-[-0.04em] leading-[0.9] text-white text-[clamp(2.8rem,9vw,8.5rem)] normal-case">
+              <motion.span
+                className="block"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Your sound
+              </motion.span>
+              <motion.span
+                className="block italic font-normal tracking-[-0.02em] text-[hsl(var(--lime))]"
+                style={{ fontFamily: "'Instrument Serif', serif" }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              >
+                runs the world
+              </motion.span>
+            </h1>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-6 font-body normal-case font-normal tracking-normal text-sm sm:text-base text-white/60 max-w-xl leading-relaxed"
-          >
-            Music distribution platform for independent artists and record labels. Upload your music to Spotify, Apple Music, TikTok and 180+ stores in minutes.
-          </motion.h2>
+            <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mt-6 font-body normal-case font-normal tracking-normal text-sm sm:text-base text-white/60 max-w-xl leading-relaxed mx-auto"
+            >
+              Music distribution platform for independent artists and record labels. Upload your music to Spotify, Apple Music, TikTok and 180+ stores in minutes.
+            </motion.h2>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.55 }}
-            className="mt-8 flex flex-col sm:flex-row items-center gap-4"
-          >
-            <button
-              type="button"
-              onClick={open}
-              aria-label="Upload your music to all major streaming platforms"
-              className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-heading text-[12px] font-black uppercase tracking-[0.22em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 transition-all duration-200 ring-1 ring-black/10"
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+              className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              Upload your music
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
-            <a
-              href="/distribution"
-              className="group inline-flex items-center gap-2 font-heading text-[11px] font-bold uppercase tracking-[0.22em] text-white/60 hover:text-white transition-colors"
-            >
-              <span className="relative">
-                Explore the platform
-                <span className="absolute left-0 -bottom-1 h-px w-full bg-[hsl(var(--lime))] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
-              </span>
-            </a>
-          </motion.div>
+              <button
+                type="button"
+                onClick={open}
+                aria-label="Upload your music to all major streaming platforms"
+                className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-heading text-[12px] font-black uppercase tracking-[0.22em] text-[hsl(var(--lime-foreground))] bg-[hsl(var(--lime))] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 transition-all duration-200 ring-1 ring-black/10"
+              >
+                Upload your music
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </button>
+              <a
+                href="/distribution"
+                className="group inline-flex items-center gap-2 font-heading text-[11px] font-bold uppercase tracking-[0.22em] text-white/60 hover:text-white transition-colors"
+              >
+                <span className="relative">
+                  Explore the platform
+                  <span className="absolute left-0 -bottom-1 h-px w-full bg-[hsl(var(--lime))] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
+                </span>
+              </a>
+            </motion.div>
+          </div>
         </motion.div>
         ) : (
           <motion.div
