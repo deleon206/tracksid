@@ -2,6 +2,87 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Upload, Music, Check, ArrowRight, Sparkles, X, Radio, Zap, Link2 } from "lucide-react";
 
+import youtubeImg from "@/assets/partners/youtube.png";
+import appleMastersImg from "@/assets/partners/apple-masters.png";
+import appleMusicImg from "@/assets/partners/apple-music.png";
+import beatportImg from "@/assets/partners/beatport.png";
+import djmagImg from "@/assets/partners/djmag.png";
+import dolbyImg from "@/assets/partners/dolby.png";
+import nextGenImg from "@/assets/partners/next-gen-catalunya.png";
+import spotifyImg from "@/assets/partners/spotify.png";
+
+const HERO_PARTNERS = [
+  { src: spotifyImg, alt: "Spotify" },
+  { src: appleMusicImg, alt: "Apple Music" },
+  { src: beatportImg, alt: "Beatport" },
+  { src: djmagImg, alt: "DJ Mag" },
+  { src: youtubeImg, alt: "YouTube" },
+  { src: dolbyImg, alt: "Dolby" },
+  { src: appleMastersImg, alt: "Apple Digital Masters" },
+  { src: nextGenImg, alt: "Next Generation Catalunya" },
+];
+
+const IndustryNetworkSlider = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const animRef = useRef<number>(0);
+  const offset = useRef(0);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const speed = 0.5;
+    const tick = () => {
+      offset.current += speed;
+      const halfWidth = el.scrollWidth / 2;
+      if (offset.current >= halfWidth) offset.current = 0;
+      el.style.transform = `translateX(-${offset.current}px)`;
+      animRef.current = requestAnimationFrame(tick);
+    };
+    animRef.current = requestAnimationFrame(tick);
+    const pause = () => cancelAnimationFrame(animRef.current);
+    const resume = () => { animRef.current = requestAnimationFrame(tick); };
+    el.addEventListener("mouseenter", pause);
+    el.addEventListener("mouseleave", resume);
+    return () => {
+      cancelAnimationFrame(animRef.current);
+      el.removeEventListener("mouseenter", pause);
+      el.removeEventListener("mouseleave", resume);
+    };
+  }, []);
+
+  const allItems = [...HERO_PARTNERS, ...HERO_PARTNERS];
+
+  return (
+    <div
+      className="relative w-full max-w-5xl mx-auto overflow-hidden py-2"
+      aria-label="Industry partners and platforms"
+    >
+      <div className="absolute inset-y-0 left-0 w-32 z-10 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
+      <div className="flex items-center gap-4 px-4">
+        <p className="font-heading text-[10px] tracking-[0.3em] text-white/40 shrink-0 uppercase">
+          // Industry Network
+        </p>
+        <div className="overflow-hidden flex-1">
+          <div ref={scrollRef} className="flex items-center gap-12 will-change-transform">
+            {allItems.map((p, i) => (
+              <img
+                key={`${p.alt}-${i}`}
+                src={p.src}
+                alt={p.alt}
+                loading="lazy"
+                decoding="async"
+                className="h-5 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 shrink-0 invert brightness-0 contrast-200"
+                style={{ filter: "invert(1) brightness(2)" }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const HERO_VIDEO_SRC = "https://veulvgnxunfnkjwzdxxu.supabase.co/storage/v1/object/public/magazine-media/other/download.mp4";
 
 const HeroVideoBg = () => {
