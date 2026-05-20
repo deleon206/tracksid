@@ -52,17 +52,13 @@ const IndustryNetworkSlider = () => {
   );
 };
 
-const HERO_VIDEO_SRC = "https://veulvgnxunfnkjwzdxxu.supabase.co/storage/v1/object/public/magazine-media/other/download.mp4";
+const HERO_BG_SRC = "https://veulvgnxunfnkjwzdxxu.supabase.co/storage/v1/object/public/magazine-media/other/background2.jpg";
 
-const HeroVideoBg = () => {
+const HeroImageBg = () => {
   return (
-    <video
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="auto"
-      src={HERO_VIDEO_SRC}
+    <img
+      src={HERO_BG_SRC}
+      alt=""
       aria-hidden="true"
       className="absolute inset-0 w-full h-full object-cover"
     />
@@ -766,7 +762,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex flex-col overflow-hidden bg-[#0a0a0a]">
       {/* Ambient background — gold-tinted music visual + overlays */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <HeroVideoBg />
+        <HeroImageBg />
         {/* Readability overlay so video doesn't compete with hero content */}
         <div className="absolute inset-0 bg-black/55" />
         {/* Vignette + readability overlay */}
