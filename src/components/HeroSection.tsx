@@ -57,13 +57,13 @@ const IndustryNetworkSlider = () => {
       className="relative w-full max-w-5xl mx-auto overflow-hidden py-2"
       aria-label="Industry partners and platforms"
     >
-      <div className="absolute inset-y-0 left-0 w-32 z-10 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
-      <div className="flex items-center gap-4 px-4">
-        <p className="font-heading text-[10px] tracking-[0.3em] text-white/40 shrink-0 uppercase">
+      <div className="flex items-center gap-4 px-4 relative">
+        <p className="font-heading text-[10px] tracking-[0.3em] text-white/70 shrink-0 uppercase relative z-30 bg-[#0a0a0a] pr-3">
           // Industry Network
         </p>
-        <div className="overflow-hidden flex-1">
+        <div className="overflow-hidden flex-1 relative">
+          <div className="absolute inset-y-0 left-0 w-24 z-20 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 z-20 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent pointer-events-none" />
           <div ref={scrollRef} className="flex items-center gap-12 will-change-transform">
             {allItems.map((p, i) => (
               <img
@@ -72,8 +72,8 @@ const IndustryNetworkSlider = () => {
                 alt={p.alt}
                 loading="lazy"
                 decoding="async"
-                className="h-5 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 shrink-0 invert brightness-0 contrast-200"
-                style={{ filter: "invert(1) brightness(2)" }}
+                className="h-5 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300 shrink-0"
+                style={{ filter: "brightness(0) invert(1)" }}
               />
             ))}
           </div>
