@@ -23,56 +23,25 @@ const HERO_PARTNERS = [
 ];
 
 const IndustryNetworkSlider = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const animRef = useRef<number>(0);
-  const offset = useRef(0);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const speed = 0.5;
-    const tick = () => {
-      offset.current += speed;
-      const halfWidth = el.scrollWidth / 2;
-      if (offset.current >= halfWidth) offset.current = 0;
-      el.style.transform = `translateX(-${offset.current}px)`;
-      animRef.current = requestAnimationFrame(tick);
-    };
-    animRef.current = requestAnimationFrame(tick);
-    const pause = () => cancelAnimationFrame(animRef.current);
-    const resume = () => { animRef.current = requestAnimationFrame(tick); };
-    el.addEventListener("mouseenter", pause);
-    el.addEventListener("mouseleave", resume);
-    return () => {
-      cancelAnimationFrame(animRef.current);
-      el.removeEventListener("mouseenter", pause);
-      el.removeEventListener("mouseleave", resume);
-    };
-  }, []);
-
-  const allItems = [...HERO_PARTNERS, ...HERO_PARTNERS];
-
   return (
     <div
       className="relative w-full max-w-5xl mx-auto overflow-hidden py-2"
       aria-label="Industry partners and platforms"
     >
-      <div className="flex items-center gap-4 px-4 relative">
-        <p className="font-heading text-[10px] tracking-[0.3em] text-white/70 shrink-0 uppercase relative z-30 bg-[#0a0a0a] pr-3">
+      <div className="flex items-center gap-4 px-4">
+        <p className="font-heading text-[10px] tracking-[0.3em] text-white/70 shrink-0 uppercase">
           // Industry Network
         </p>
-        <div className="overflow-hidden flex-1 relative">
-          <div className="absolute inset-y-0 left-0 w-24 z-20 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-24 z-20 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent pointer-events-none" />
-          <div ref={scrollRef} className="flex items-center gap-12 will-change-transform">
-            {allItems.map((p, i) => (
+        <div className="overflow-hidden flex-1 group">
+          <div className="flex w-max items-center animate-[scroll_40s_linear_infinite] group-hover:[animation-play-state:paused]">
+            {[...HERO_PARTNERS, ...HERO_PARTNERS].map((p, i) => (
               <img
                 key={`${p.alt}-${i}`}
                 src={p.src}
                 alt={p.alt}
                 loading="lazy"
                 decoding="async"
-                className="h-5 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300 shrink-0"
+                className="h-5 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300 shrink-0 mx-6"
                 style={{ filter: "brightness(0) invert(1)" }}
               />
             ))}
